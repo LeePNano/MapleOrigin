@@ -4,8 +4,8 @@
 worlds:
     #Properties for Scania 0
   - flag: 0
-    server_message: MapleOrigin Beta Build 5 - Join us on discord! Please post bugs in the discord bug channel! Pink Bean is currently being fixed. Blackhole marbles are being added to every boss drop table. 
-    event_message: MapleOrigin Beta
+    server_message: MapleOrigin Beta Build 6 - Join us on discord! Please post bugs in the discord bug channel! Pink Bean is currently being fixed. Blackhole marbles are being added to every boss drop table. 
+    event_message: MapleOrigin Beta Build 6
     why_am_i_recommended: Welcome to MapleOrigin!!
     channels: 4
     exp_rate: 1
@@ -14,7 +14,7 @@ worlds:
     boss_drop_rate: 2                      #NOTE: Boss drop rate OVERRIDES common drop rate, for bosses-only.
     quest_rate: 1                           #Multiplier for Exp & Meso gains when completing a quest. Only available when USE_QUEST_RATE is true. Stacks with server Exp & Meso rates.
     fishing_rate: 2                        #Multiplier for success likelihood on meso thrown during fishing.
-    travel_rate: 1                         #Means of transportation rides/departs using 1/N of the default time.
+    travel_rate: 2                         #Means of transportation rides/departs using 1/N of the default time.
 
     #Properties for Bera 1
   - flag: 0
@@ -183,7 +183,7 @@ server:
     ENABLE_PIC: true              #Pick true/false to enable or disable Pic. Delete character requires PIC available.
     ENABLE_PIN: false               #Pick true/false to enable or disable Pin.
 
-    BYPASS_PIC_EXPIRATION: 3           #Enables PIC bypass, which will remain active for that account by that client machine for N minutes. Set 0 to disable.
+    BYPASS_PIC_EXPIRATION: 0           #Enables PIC bypass, which will remain active for that account by that client machine for N minutes. Set 0 to disable.
     BYPASS_PIN_EXPIRATION: 15           #Enables PIN bypass, which will remain active for that account by that client machine for N minutes. Set 0 to disable.
 
     AUTOMATIC_REGISTER: false        #Automatically register players when they login with a nonexistent username.
@@ -242,7 +242,7 @@ server:
     USE_ENFORCE_NOVICE_EXPRATE: true    #Hardsets experience rate 1x for beginners level 10 or under. Ideal for roaming on novice areas without caring too much about losing some stats.
     USE_ENFORCE_HPMP_SWAP: false        #Forces players to reuse stats (via AP Resetting) located on HP/MP pool only inside the HP/MP stats.
     USE_ENFORCE_MOB_LEVEL_RANGE: true   #Players N levels below the killed mob will gain no experience from defeating it.
-    USE_ENFORCE_JOB_LEVEL_RANGE: true  #Caps the player level on the minimum required to advance their current jobs.
+    USE_ENFORCE_JOB_LEVEL_RANGE: false  #Caps the player level on the minimum required to advance their current jobs.
     USE_ENFORCE_JOB_SP_RANGE: true     #Caps the player SP level on the total obtainable by their current jobs. After changing jobs, missing SP will be retrieved.
     USE_ENFORCE_ITEM_SUGGESTION: false  #Forces the Owl of Minerva and the Cash Shop to always display the defined item array instead of those featured by the players.
     USE_ENFORCE_UNMERCHABLE_CASH: false  #Forces players to not sell CASH items via merchants, drops of it disappears.
@@ -273,7 +273,7 @@ server:
     USE_ENABLE_RECALL_EVENT: true        #Enables a disconnected player to reaccess the last event instance they were in before logging out. Recall only works if the event isn't cleared or disposed yet. Suggestion thanks to Alisson (Goukken).
 
     #Announcement Configuration
-    USE_ANNOUNCE_SHOPITEMSOLD: false    #Automatic message sent to owner when an item from the Player Shop or Hired Merchant is sold.
+    USE_ANNOUNCE_SHOPITEMSOLD: true    #Automatic message sent to owner when an item from the Player Shop or Hired Merchant is sold.
     USE_ANNOUNCE_CHANGEJOB: true       #Automatic message sent to acquantainces when changing jobs.
 
     #Cash Shop Configuration
@@ -294,10 +294,10 @@ server:
     BLOCK_GENERATE_CASH_ITEM: false     #Prevents creation of cash items with the item/drop command.
     USE_WHOLE_SERVER_RANKING: false     #Enables a ranking pool made from every character registered on the server for the "ranks" command, instead of separated by worlds.
 
-    EQUIP_EXP_RATE: 0.5                  #Rate for equipment exp gain, grows linearly. Set 1.0 for default (about 100~200 same-level range mobs killed to pass equip from level 1 to 2).
-    PQ_BONUS_EXP_RATE: 0.5               #Rate for the PQ exp reward.
+    EQUIP_EXP_RATE: 0.25                  #Rate for equipment exp gain, grows linearly. Set 1.0 for default (about 100~200 same-level range mobs killed to pass equip from level 1 to 2).
+    PQ_BONUS_EXP_RATE: 2.0               #Rate for the PQ exp reward.
 
-    EXP_SPLIT_LEVEL_INTERVAL: 10            #Non-contributing players must be within N level between the mob to receive EXP.
+    EXP_SPLIT_LEVEL_INTERVAL: 20            #Non-contributing players must be within N level between the mob to receive EXP.
     EXP_SPLIT_LEECH_INTERVAL: 20            #Non-contributing players must be within N level between any contributing party member to receive EXP.
     EXP_SPLIT_MVP_MOD: 0.2
     EXP_SPLIT_COMMON_MOD: 0.8
@@ -311,7 +311,7 @@ server:
     MAX_AP: 32767                               #Max AP allotted on the auto-assigner.
     MAX_EVENT_LEVELS: 8                         #Event has different levels of rewarding system.
     BLOCK_NPC_RACE_CONDT: 500   # (0.5 * 1000) Time the player client must wait before reopening a conversation with an NPC.
-    TOT_MOB_QUEST_REQUIREMENT: 100               #Overwrites old 999-mobs requirement for the ToT questline with new requirement value, set 0 for default.
+    TOT_MOB_QUEST_REQUIREMENT: 333               #Overwrites old 999-mobs requirement for the ToT questline with new requirement value, set 0 for default.
     MOB_REACTOR_REFRESH_TIME: 30000         # (30 * 1000) Overwrites refresh time for those reactors oriented to inflict damage to bosses (Ice Queen, Riche), set 0 for default.
     PARTY_SEARCH_REENTRY_LIMIT: 10              #Max amount of times a party leader is allowed to persist on the Party Search before entry expiration (thus needing to manually restart the Party Search to be able to search for members).
     NAME_CHANGE_COOLDOWN: 2592000000      # (30*24*60*60*1000) Cooldown for name changes, default (GMS) is 30 days.
@@ -341,7 +341,7 @@ server:
     USE_PERFECT_GM_SCROLL: true     #Scrolls from GMs never uses up slots nor fails.
     USE_PERFECT_SCROLLING: false     #Scrolls doesn't use slots upon failure.
     USE_ENHANCED_CHSCROLL: false     #Equips even more powerful with chaos upgrade.
-    USE_ENHANCED_CRAFTING: true     #Apply chaos scroll on every equip crafted.
+    USE_ENHANCED_CRAFTING: false     #Apply chaos scroll on every equip crafted.
     USE_ENHANCED_CLNSLATE: false     #Clean slates can be applied to recover successfully used slots as well.
     SCROLL_CHANCE_ROLLS: 1         #Number of rolls for success on a scroll, set 1 for default.
     CHSCROLL_STAT_RATE: 1               #Number of rolls of stat upgrade on a successfully applied chaos scroll, set 1 for default.
@@ -395,7 +395,7 @@ server:
     USE_SPIKES_AVOID_BANISH: true   #Shoes equipped with spikes prevents mobs from banishing wearer.
     MAX_EQUIPMNT_LVLUP_STAT_UP: 5   #Max stat upgrade an equipment can have on a levelup.
     MAX_EQUIPMNT_STAT: 32767            #Max stat on an equipment by leveling up.
-    USE_EQUIPMNT_LVLUP: 7               #All equips lvlup at max level of N, set 1 to disable.
+    USE_EQUIPMNT_LVLUP: 5               #All equips lvlup at max level of N, set 1 to disable.
 
     #Map-Chair Configuration
     USE_CHAIR_EXTRAHEAL: true       #Enable map chairs to further recover player's HP and MP (player must have the Chair Mastery skill).

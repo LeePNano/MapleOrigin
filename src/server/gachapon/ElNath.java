@@ -54,7 +54,7 @@ public class ElNath extends GachaponItems {
 
 	@Override
 	public int[] getUncommonItems() {
-		return new int [] {2022439, 2040804, 2040805, 2340000};
+		return new int [] {2022439, 2040804, 2040805};
 	}
 
 	@Override

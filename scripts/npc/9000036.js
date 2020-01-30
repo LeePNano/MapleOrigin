@@ -47,7 +47,7 @@ function start() {
     
     cm.getPlayer().setCS(true);
     var selStr = "Hello, I am the #bAccessory Crafter#k of MapleOrigin! I can provide you with a wide variety of accesory items via crafting! Please take a look around and let me know if you see anything you like and I'll tell you the required materials! Everything I can craft requires 'ingredients' to make, if you can collect the required items I can craft your choice! What kind of equipment are you interested in?#b";
-    var options = ["Pendants","Face accessories","Eye accessories","Belts & medals","Rings"/*,"#t4032496#"*/];
+    var options = ["Pendants","Face accessories","Eye accessories","Rings"/*,"#t4032496#"*/];
     for (var i = 0; i < options.length; i++)
         selStr += "\r\n#L" + i + "# " + options[i] + "#l";
     cm.sendSimple(selStr);
@@ -75,7 +75,7 @@ function action(mode, type, selection) {
             items = [1022073, 1022088, 1022103, 1022089, 1022082];
             for (var i = 0; i < items.length; i++)
                 selStr += "\r\n#L" + i + "##t" + items[i] + "##b";
-        }else if (selection == 3) { //belt & medal
+        }else if (selection == 4) { //belt & medal
             var selStr = "Hmm... For these, things get a little tricky. Since these items are too short and too similar one another, I don't really know what item will emerge when I finish the synthesis. Still wanna try for something?";
             items = [];
             maxEqp = 0;
@@ -93,7 +93,7 @@ function action(mode, type, selection) {
                 items[maxEqp] = x;		
             selStr += "\r\n#L" + i + "##bTry it!#b";
             
-        }else if (selection == 4) { //ring refine
+        }else if (selection == 3) { //ring refine
             var selStr = "Here are my available Rings!#b";
             items = [1112407, 1112408, 1112401, 1112413, 1112414, 1112405, 1112402, 1112585, 1112586, 1112663];
             

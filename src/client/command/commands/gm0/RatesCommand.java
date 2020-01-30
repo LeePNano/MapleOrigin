@@ -38,7 +38,7 @@ public class RatesCommand extends Command {
         MapleCharacter player = c.getPlayer();
         
         // travel rates not applicable since it's intrinsically a server/environment rate rather than a character rate
-        String showMsg_ = "#eServer Rates#n" + "\r\n\r\n";
+        String showMsg_ = "#eMapleOrigin Rates#n" + "\r\n\r\n";
         showMsg_ += "EXP Rate: #e#b" + player.getExpRate() + "x#k#n" + (player.hasNoviceExpRate() ? " - novice rate" : "") + "\r\n";
         showMsg_ += "MESO Rate: #e#b" + player.getMesoRate() + "x#k#n" + "\r\n";
         showMsg_ += "DROP Rate: #e#b" + player.getDropRate() + "x#k#n" + "\r\n";

@@ -49,7 +49,7 @@ function action(mode, type, selection) {
                 
 		if (selectedType == 0){ //mineral refine
 			var selStr = "Which mineral would you like to refine?#b";
-			var minerals = new Array ("Bronze Plate","Steel Plate","Mithril Plate","Adamantium Plate","Silver Plate","Orihalcon Plate","Gold Plate","Lithium");
+			var minerals = new Array ("Bronze Plate","Steel Plate","Mithril Plate","Adamantium Plate","Silver Plate","Orihalcon Plate","Gold Plate","Lidium");
 			for (var i = 0; i < minerals.length; i++){
 				selStr += "\r\n#L" + i + "# " + minerals[i] + "#l";
 			}

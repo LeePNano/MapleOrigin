@@ -87,6 +87,10 @@ function action (m,t,s) {
                        cm.gainItem(leaf, -10);
 					   cm.gainItem(items[s], 1);
                     }
+					else if(items[s] == 1082223 || items[s] == 1082230 || items[s] == 1032048 || items[s] == 1002675 || items[s] == 1002676 || items[s] == 1072344 || items[s] == 1402045 || items[s] == 1472064 || items[s] == 1422028 || items[s] == 2070016 || items[s] == 1102165 || items[s] == 1092052 || items[s] == 1102145 || items[s] == 1442057 || items[s] == 2070018 || items[s] == 1002553){
+                       cm.gainItem(leaf, -3);
+					   cm.gainItem(items[s], 1);
+                    }
 					/*else if(items[s] == 2290084 || items[s] == 2290085 || items[s] == 2290010 || items[s] == 2290011 || items[s] == 2290022 || items[s] == 2290023 || items[s] == 2290032 || items[s] == 2290033 || items[s] == 2290030 || items[s] == 2290031 || items[s] == 2290050 || items[s] == 2290051 || items[s] == 2290090 || items[s] == 2290091 || items[s] == 2290074 || items[s] == 2290075 || items[s] == 2290136 || items[s] == 2290137 || items[s] == 2290012 || items[s] == 2290013 || items[s] == 2290096 || items[s] == 2290125){
                         cm.gainItem(leaf, -15);
 						cm.gainItem(items[s], 1);
