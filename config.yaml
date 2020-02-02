@@ -3,9 +3,9 @@
 #Recommended to use only up to 15 worlds
 worlds:
     #Properties for Scania 0
-  - flag: 0
-    server_message: MapleOrigin Beta Build 6 - Join us on discord! Please post bugs in the discord bug channel! Pink Bean is currently being fixed. Blackhole marbles are being added to every boss drop table. 
-    event_message: MapleOrigin Beta Build 6
+  - flag: 3
+    server_message: Welcome to MapleOrigin! Please join our discord to stay up to date with all news and event announcements. If you find any bugs that we may have missed please post them in bug-reports on discord. Any suggestions for the staff may be posted in the suggestions channel on discord. @tele - Lost Memories is the home hubmap! Enjoy the server!
+    event_message: MapleOrigin Launch 
     why_am_i_recommended: Welcome to MapleOrigin!!
     channels: 4
     exp_rate: 1
@@ -14,7 +14,7 @@ worlds:
     boss_drop_rate: 2                      #NOTE: Boss drop rate OVERRIDES common drop rate, for bosses-only.
     quest_rate: 1                           #Multiplier for Exp & Meso gains when completing a quest. Only available when USE_QUEST_RATE is true. Stacks with server Exp & Meso rates.
     fishing_rate: 2                        #Multiplier for success likelihood on meso thrown during fishing.
-    travel_rate: 2                         #Means of transportation rides/departs using 1/N of the default time.
+    travel_rate: 0.5                         #Means of transportation rides/departs using 1/N of the default time.
 
     #Properties for Bera 1
   - flag: 0
@@ -233,13 +233,13 @@ server:
     USE_AUTOASSIGN_STARTERS_AP: false   #Beginners level 10 or below have their AP autoassigned (they can't choose to levelup a stat). Set true ONLY if the localhost doesn't support AP assigning for beginners level 10 or below.
     USE_AUTOASSIGN_SECONDARY_CAP: true  #Prevents AP autoassign from spending on secondary stats after the player class' cap (defined on the autoassign handler) has been reached.
     USE_STARTING_AP_4: true             #Use early-GMS 4/4/4/4 starting stats. To overcome AP shortage, this gives 4AP/5AP at 1st/2nd job advancements.
-    USE_AUTOBAN: false                  #Commands the server to detect infractors automatically.
+    USE_AUTOBAN: true                  #Commands the server to detect infractors automatically.
     USE_AUTOBAN_LOG: false               #Log autoban related messages. Still logs even with USE_AUTOBAN disabled.
     USE_AUTOSAVE: true                  #Enables server autosaving feature (saves characters to DB each 1 hour).
     USE_SERVER_AUTOASSIGNER: false       #HeavenMS-builtin autoassigner, uses algorithm based on distributing AP accordingly with required secondary stat on equipments.
     USE_REFRESH_RANK_MOVE: true
     USE_ENFORCE_ADMIN_ACCOUNT: false    #Forces accounts having GM characters to be treated as a "GM account" by the client (localhost). Some of the GM account perks is the ability to FLY, but unable to TRADE.
-    USE_ENFORCE_NOVICE_EXPRATE: true    #Hardsets experience rate 1x for beginners level 10 or under. Ideal for roaming on novice areas without caring too much about losing some stats.
+    USE_ENFORCE_NOVICE_EXPRATE: false    #Hardsets experience rate 1x for beginners level 10 or under. Ideal for roaming on novice areas without caring too much about losing some stats.
     USE_ENFORCE_HPMP_SWAP: false        #Forces players to reuse stats (via AP Resetting) located on HP/MP pool only inside the HP/MP stats.
     USE_ENFORCE_MOB_LEVEL_RANGE: true   #Players N levels below the killed mob will gain no experience from defeating it.
     USE_ENFORCE_JOB_LEVEL_RANGE: false  #Caps the player level on the minimum required to advance their current jobs.
@@ -269,7 +269,7 @@ server:
     #Events/PQs Configuration
     USE_OLD_GMS_STYLED_PQ_NPCS: true     #Enables PQ NPCs with similar behaviour to old GMS style, that skips info about the PQs and immediately tries to register the party in.
     USE_ENABLE_SOLO_EXPEDITIONS: true    #Enables start expeditions with any number of players. This will also bypass all the Zakum prequest.
-    USE_ENABLE_DAILY_EXPEDITIONS: false  #Enables daily entry limitations in expeditions.
+    USE_ENABLE_DAILY_EXPEDITIONS: true  #Enables daily entry limitations in expeditions.
     USE_ENABLE_RECALL_EVENT: true        #Enables a disconnected player to reaccess the last event instance they were in before logging out. Recall only works if the event isn't cleared or disposed yet. Suggestion thanks to Alisson (Goukken).
 
     #Announcement Configuration
@@ -298,10 +298,10 @@ server:
     PQ_BONUS_EXP_RATE: 2.0               #Rate for the PQ exp reward.
 
     EXP_SPLIT_LEVEL_INTERVAL: 20            #Non-contributing players must be within N level between the mob to receive EXP.
-    EXP_SPLIT_LEECH_INTERVAL: 20            #Non-contributing players must be within N level between any contributing party member to receive EXP.
+    EXP_SPLIT_LEECH_INTERVAL: 120            #Non-contributing players must be within N level between any contributing party member to receive EXP.
     EXP_SPLIT_MVP_MOD: 0.2
     EXP_SPLIT_COMMON_MOD: 0.8
-    PARTY_BONUS_EXP_RATE: 2.0            #Rate for the party exp bonus reward.
+    PARTY_BONUS_EXP_RATE: 6.0            #Rate for the party exp bonus reward.
 
     #Miscellaneous Configuration
     TIMEZONE: GMT-3
@@ -398,7 +398,7 @@ server:
     USE_EQUIPMNT_LVLUP: 5               #All equips lvlup at max level of N, set 1 to disable.
 
     #Map-Chair Configuration
-    USE_CHAIR_EXTRAHEAL: true       #Enable map chairs to further recover player's HP and MP (player must have the Chair Mastery skill).
+    USE_CHAIR_EXTRAHEAL: false       #Enable map chairs to further recover player's HP and MP (player must have the Chair Mastery skill).
     CHAIR_EXTRA_HEAL_MULTIPLIER: 10    #Due to only being able to be send up-to-255 heal values, values being actually updated is the one displayed times this.
     CHAIR_EXTRA_HEAL_MAX_DELAY: 21      #Players are expected to recover fully after using this skill for N seconds.
 

@@ -27,7 +27,7 @@ importPackage(Packages.server.life);
 
 var isPq = true;
 var minPlayers = 4, maxPlayers = 4;
-var minLevel = 71, maxLevel = 85;
+var minLevel = 71, maxLevel = 250;
 var entryMap = 926110000;
 var exitMap = 926110700;
 var recruitMap = 261000021;

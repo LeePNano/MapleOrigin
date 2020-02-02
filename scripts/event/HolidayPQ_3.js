@@ -30,7 +30,7 @@ importPackage(Packages.server.life);
 
 var isPq = true;
 var minPlayers = 3, maxPlayers = 6;
-var minLevel = 41, maxLevel = 50;
+var minLevel = 41, maxLevel = 250;
 var entryMap = 889100021;
 var exitMap = 889100022;
 var recruitMap = 889100020;

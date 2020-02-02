@@ -1,4 +1,4 @@
-function start() {
+/*function start() {
     cm.sendYesNo("Hey are you an aran? Want me to teach you your hidden skills so you don't have to do quests? If so click yes and I will add them for you.");
 }
 
@@ -22,14 +22,14 @@ function action(mode, type, selection) {
 		cm.teachSkill(21110004,0); // Fenir Phantom
 		cm.teachSkill(21111005,0); // Snow Charge
 		cm.teachSkill(21110006,0); // WhirlWind
-		cm.teachSkill(21111001,0); // Smart Knockback*/
+		cm.teachSkill(21111001,0); // Smart Knockback
 cm.dispose();
 	    }
 
 		
 		
 		
-		/* Coco
+		 Coco
         Refining NPC: 
 	* Chaos scroll SYNTHETIZER (rofl)
         * 
@@ -294,7 +294,7 @@ var facenew = Array();
 var colors = Array(); 
 
 function start() { 
-    cm.sendSimple("Hey #h #! I am one of two of the best #e Hair Stylist#n NPCs of Projectnano ! Which of the category would you like to change?\r\n#L0#Skin#l\r\n\r\n#L1##bMale#k Hair#l                          \r\n#L3##bMale#k Eye#l                           \r\n\r\n#L2#Hair Colour#l                       \r\n#L4#Eye Colour#l\r\n"); 
+    cm.sendSimple("Hey #h #! I am one of two of the best #e Hair Stylist#n NPCs of MapleOrigin ! Which of the category would you like to change?\r\n#L0#Skin#l\r\n\r\n#L1##bMale#k Hair#l                          \r\n#L3##bMale#k Eye#l                           \r\n\r\n#L2#Hair Colour#l                       \r\n#L4#Eye Colour#l\r\n"); 
 } 
 
 function action(mode, type, selection) { 

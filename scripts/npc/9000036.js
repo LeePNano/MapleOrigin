@@ -109,7 +109,7 @@ function action(mode, type, selection) {
         selectedType = selection;
         cm.sendSimple(selStr);
     }else if (status == 1) {
-        if (selectedType != 3) selectedItem = selection;
+        if (selectedType != 4) selectedItem = selection;
         
         if (selectedType == 0) { //pendant refine
             var matSet = [[4003004, 4030012, 4001356, 4000026], [4000026, 4001356, 4000073, 4001006], [4001343, 4011002, 4003004, 4003005], [4001343, 4011006, 4003004, 4003005], [4000091, 4011005, 4003004, 4003005], [4000091, 4011001, 4003004, 4003005], [4000469, 4011000, 4003004, 4003005], [4000469, 4011004, 4003004, 4003005], [1122007, 4003002, 4000413]];
@@ -123,11 +123,11 @@ function action(mode, type, selection) {
             var matSet = [[4001006, 4003002, 4000082, 4031203], [4001005, 4011008], [4001005, 4011008], [4001005, 4011008, 4000082], [4001006, 4003002, 4003000, 4003001]];
             var matQtySet = [[2, 2, 5, 10], [3, 2], [4, 3], [5, 3, 10], [2, 2, 10, 5]];
             var costSet = [250000, 250000, 300000, 400000, 200000];
-        }else if (selectedType == 3) { //belt & medals refine
+        }else if (selectedType == 4) { //belt & medals refine
             var matSet = [[4001006, 4003005, 4003004], [7777, 7777]];
             var matQtySet = [[2, 5, 10], [7777, 7777]];
             var costSet = [15000, 7777];
-        }else if (selectedType == 4) { //ring refine
+        }else if (selectedType == 3) { //ring refine
             var matSet = [[4003001, 4001344, 4006000], [4003001, 4001344, 4006000], [4021004, 4011008], [4011008, 4011007], [4011008, 4021009], [4011008, 4031042], [4011007, 4021009], [4003001, 4001344, 4006000], [1112585], [1112585,1112586, 4032133, 4001094]];
             var matQtySet = [[2, 2, 2], [2, 2, 2], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1],[2, 2, 2], [1], [1,1,1,1]];
             var costSet = [10000, 10000, 10000, 20000, 15000, 15000, 10000, 100000000, 200000000, 400000000];
@@ -137,7 +137,7 @@ function action(mode, type, selection) {
             var costSet = [10000];
         }*/
         
-        if (selectedType == 3) {
+        if (selectedType == 4) {
             selectedItem = Math.floor(Math.random() * maxEqp);
             item = items[selectedItem];
             mats = matSet[0];
@@ -152,7 +152,7 @@ function action(mode, type, selection) {
         }
         
         var prompt = "You want me to make ";
-        if(selectedType != 3) {
+        if(selectedType != 4) {
             if (qty == 1)
                 prompt += "a #b#t" + item + "##k?";
             else

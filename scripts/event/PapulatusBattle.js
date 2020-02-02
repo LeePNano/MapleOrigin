@@ -72,8 +72,8 @@ function setEventRewards(eim) {
         var itemSet, itemQty, evLevel, expStages;
 
         evLevel = 1;    //Rewards at clear PQ
-        itemSet = [];
-        itemQty = [];
+        itemSet = [2340000];
+        itemQty = [1];
         eim.setEventRewards(evLevel, itemSet, itemQty);
         
         expStages = [];    //bonus exp given on CLEAR stage signal

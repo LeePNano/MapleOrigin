@@ -29,7 +29,7 @@ function action(mode, type, selection) {
         else
             status--;
         if (status == 0) {
-            cm.sendSimple("Hello#b #h ##k, you currently have #b#c4000038# #v4000038#.#k \r\nWhat would you like to do?\r\n#k#L1# Buy 5,000 NX for 5mil#l\r\n\#L2# Buy 1 random chair for 5 Trophies#l\r\n\#L3# Trade 1 Trophy for 3 random Maple Weapons #l\r\n#L4#Trade 1 Trophy for a 10 day Hired Merchant#l\r\n#L5#Trade 50 Trophies for a #v4001168# #l#l\r\n#L6#Trade 50 Trophies for one #v4001017# #l#l\r\n#L7#Trade 10 Trophies for one #v1472063# for use in the Happyville raid! #l\r\n#L8#Trade  #v4000492# for one #v1002419# #l");
+            cm.sendSimple("Hello#b #h ##k, you currently have #b#c4000038# #v4000038#.#k \r\nWhat would you like to do?\r\n#k#L1# Buy 5,000 NX for 5mil#l\r\n\#L2# Buy 1 random chair for 5 Trophies#l\r\n\#L3# Trade 1 Trophy for 2 random Maple Weapons #l\r\n#L4#Trade 1 Trophy for a 10 day Hired Merchant#l\r\n#L5#Trade 50 Trophies for a #v4001168# #l#l\r\n#L6#Trade 50 Trophies for one #v4001017# #l#l\r\n#L7#Trade 10 Trophies for one #v1472063# for use in the Happyville raid! #l\r\n#L8#Trade  #v4000492# for one #v1002419# #l");
         } else if (status == 1) {
             if (selection == 1) {
                 if(cm.getMeso() >= 5000000) {
@@ -65,9 +65,9 @@ function action(mode, type, selection) {
 					if(!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.EQUIP).isFull(3)) {
 						cm.gainItem(weapon1, 1, true, true);
 						cm.gainItem(weapon2, 1, true, true);
-						cm.gainItem(weapon3, 1, true, true);
+						//cm.gainItem(weapon3, 1, true, true);
 						cm.gainItem(leaf, -1);
-						cm.sendOk("Here are your 3 random weapons!");
+						cm.sendOk("Here are your 2 random weapons!");
 						cm.logLeaf("Maple Weapons IDs: " + weapon1 + "," + weapon2 + "," + weapon3);
 					} else {
 						cm.sendOk("Please make sure you have enough space to hold these weapons!");
