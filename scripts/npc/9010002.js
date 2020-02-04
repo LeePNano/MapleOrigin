@@ -99,7 +99,7 @@ function action(mode, type, selection) {
 else if (selection == 5) {
                 if(cm.haveItem(leaf, 50)) {
 					var goldenleaf = 4000313;
-					if(!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.EQUIP).isFull(2)){
+					if(!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.ETC).isFull(2)){
 						cm.gainItem(goldenleaf, 1);
 						cm.gainItem(leaf, -50);
 						cm.sendOk("Enjoy your Golden Maple Leaf");
