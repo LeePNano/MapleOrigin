@@ -21,7 +21,7 @@ function action(mode, type, selection) {
                 cm.sendYesNo("Wow really?! Thank you so much! If you're 100% sure lets trade!");
         }else if (status == 2) {
 			cm.gainItem(4001190,-1);
-            cm.gainItem(5072000, 1);
+            cm.gainItem(5570000, 1); //Vicious Hammer
             cm.setBossLog('FreeGift');
             cm.sendOk("Congratulation!! Here is a #v5570000#!! You can use it to hammer your gear!");
             cm.dispose();
