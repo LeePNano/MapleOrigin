@@ -65,6 +65,7 @@ function action(mode, type, selection) {
                                         cm.teachSkill(4120002, 0, 10, -1);
                                         cm.teachSkill(4120005, 0, 10, -1);
                                         cm.teachSkill(4121006, 0, 10, -1);
+										cm.teachSkill(4121007, 0, 10, -1);
                                 } else if(cm.getJobId() == 422) {
                                         cm.teachSkill(4220002, 0, 10, -1);
                                         cm.teachSkill(4220005, 0, 10, -1);

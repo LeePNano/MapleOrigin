@@ -5,7 +5,7 @@ worlds:
     #Properties for Scania 0
   - flag: 3
     server_message: Welcome to MapleOrigin! Please join our discord to stay up to date with all news and event announcements. If you find any bugs that we may have missed please post them in bug-reports on discord. Any suggestions for the staff may be posted in the suggestions channel on discord. @tele - Lost Memories is the home hubmap! Enjoy the server!
-    event_message: MapleOrigin Launch 
+    event_message: Welcome to MO! 
     why_am_i_recommended: Welcome to MapleOrigin!!
     channels: 4
     exp_rate: 1
@@ -14,7 +14,7 @@ worlds:
     boss_drop_rate: 2                      #NOTE: Boss drop rate OVERRIDES common drop rate, for bosses-only.
     quest_rate: 1                           #Multiplier for Exp & Meso gains when completing a quest. Only available when USE_QUEST_RATE is true. Stacks with server Exp & Meso rates.
     fishing_rate: 2                        #Multiplier for success likelihood on meso thrown during fishing.
-    travel_rate: 0.5                         #Means of transportation rides/departs using 1/N of the default time.
+    travel_rate: 4                         #Means of transportation rides/departs using 1/N of the default time.
 
     #Properties for Bera 1
   - flag: 0
@@ -243,7 +243,7 @@ server:
     USE_ENFORCE_HPMP_SWAP: false        #Forces players to reuse stats (via AP Resetting) located on HP/MP pool only inside the HP/MP stats.
     USE_ENFORCE_MOB_LEVEL_RANGE: true   #Players N levels below the killed mob will gain no experience from defeating it.
     USE_ENFORCE_JOB_LEVEL_RANGE: false  #Caps the player level on the minimum required to advance their current jobs.
-    USE_ENFORCE_JOB_SP_RANGE: true     #Caps the player SP level on the total obtainable by their current jobs. After changing jobs, missing SP will be retrieved.
+    USE_ENFORCE_JOB_SP_RANGE: false     #Caps the player SP level on the total obtainable by their current jobs. After changing jobs, missing SP will be retrieved.
     USE_ENFORCE_ITEM_SUGGESTION: false  #Forces the Owl of Minerva and the Cash Shop to always display the defined item array instead of those featured by the players.
     USE_ENFORCE_UNMERCHABLE_CASH: false  #Forces players to not sell CASH items via merchants, drops of it disappears.
     USE_ENFORCE_UNMERCHABLE_PET: true   #Forces players to not sell pets via merchants, drops of it disappears. (since non-named pets gets dirty name and other possible DB-related issues)
@@ -283,7 +283,7 @@ server:
     ALLOW_CASHSHOP_WORLD_TRANSFER: false  #Allows players to buy world transfers in the cash shop.
 
     #Maker Configuration
-    USE_MAKER_PERMISSIVE_ATKUP: true    #Allows players to use attack-based strengthening gems on non-weapon items.
+    USE_MAKER_PERMISSIVE_ATKUP: false    #Allows players to use attack-based strengthening gems on non-weapon items.
     USE_MAKER_FEE_HEURISTICS: true      #Apply compiled values for stimulants and reagents into the Maker fee calculations (max error revolves around 50k mesos). Set false to use basic constant values instead (results are never higher than requested by the client-side).
 
     #Custom Configuration
@@ -298,7 +298,7 @@ server:
     PQ_BONUS_EXP_RATE: 2.0               #Rate for the PQ exp reward.
 
     EXP_SPLIT_LEVEL_INTERVAL: 20            #Non-contributing players must be within N level between the mob to receive EXP.
-    EXP_SPLIT_LEECH_INTERVAL: 120            #Non-contributing players must be within N level between any contributing party member to receive EXP.
+    EXP_SPLIT_LEECH_INTERVAL: 20            #Non-contributing players must be within N level between any contributing party member to receive EXP.
     EXP_SPLIT_MVP_MOD: 0.2
     EXP_SPLIT_COMMON_MOD: 0.8
     PARTY_BONUS_EXP_RATE: 6.0            #Rate for the party exp bonus reward.
