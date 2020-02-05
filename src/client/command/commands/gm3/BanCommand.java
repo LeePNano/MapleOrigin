@@ -24,6 +24,7 @@
 package client.command.commands.gm3;
 
 import client.command.Command;
+import client.command.commands.gm2.DcCommand;
 import client.MapleClient;
 import client.MapleCharacter;
 import net.server.Server;
@@ -50,6 +51,10 @@ public class BanCommand extends Command {
         String ign = params[0];
         String reason = joinStringFrom(params, 1);
         MapleCharacter target = c.getChannelServer().getPlayerStorage().getCharacterByName(ign);
+        if (player.gmLevel() <= target.gmLevel()) {
+            return;
+        }
+        DcCommand.dcPlayer(c, player, ign);
         if (target != null) {
             String readableTargetName = MapleCharacter.makeMapleReadable(target.getName());
             String ip = target.getClient().getSession().getRemoteAddress().toString().split(":")[0];

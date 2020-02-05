@@ -40,11 +40,15 @@ public class DcCommand extends Command {
             return;
         }
 
-        MapleCharacter victim = c.getWorldServer().getPlayerStorage().getCharacterByName(params[0]);
+        dcPlayer(c, player, params[0]);
+    }
+
+    public static void dcPlayer(MapleClient c, MapleCharacter player, String target) {
+        MapleCharacter victim = c.getWorldServer().getPlayerStorage().getCharacterByName(target);
         if (victim == null) {
-            victim = c.getChannelServer().getPlayerStorage().getCharacterByName(params[0]);
+            victim = c.getChannelServer().getPlayerStorage().getCharacterByName(target);
             if (victim == null) {
-                victim = player.getMap().getCharacterByName(params[0]);
+                victim = player.getMap().getCharacterByName(target);
                 if (victim != null) {
                     try {//sometimes bugged because the map = null
                         victim.getClient().disconnect(true, false);
@@ -57,9 +61,10 @@ public class DcCommand extends Command {
                 }
             }
         }
-        if (player.gmLevel() < victim.gmLevel()) {
-            victim = player;
+        if (player.gmLevel() <= victim.gmLevel()) {
+            return;
         }
         victim.getClient().disconnect(false, false);
+
     }
 }
