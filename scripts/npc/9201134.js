@@ -56,11 +56,14 @@ function action(mode, type, selection) {
                         if (status == 0) {
                                 cm.sendNext("You guys defeated both Scarlion and Targa! Wonderful! Take this memento as a prize for your bravery.");
                         } else if (status == 1) {
-                                if(!eim.giveEventReward(cm.getPlayer())) {
-                                        cm.sendNext("Please make room on your inventory first!");
-                                } else {
-                                        cm.warp(551030100, 2);
-                                }
+                                if(!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.ETC).isFull(1)){
+									cm.warp(551030100, 2);
+									cm.gainItem(4000313, 1);
+            cm.dispose();
+        } else {
+            cm.sendOk("Please make space in your inventory");
+            cm.dispose();
+        }
 
                                 cm.dispose();
                         }
