@@ -44,7 +44,7 @@ public final class HealOvertimeHandler extends AbstractMaplePacketHandler {
         short healHP = slea.readShort();
         if (healHP != 0) {
             abm.setTimestamp(8, timestamp, 28);  // thanks Vcoc & Thora for pointing out d/c happening here
-            if ((abm.getLastSpam(0) + 1500) > timestamp) AutobanFactory.FAST_HP_HEALING.addPoint(abm, "Fast hp healing");
+            //if ((abm.getLastSpam(0) + 10000) > timestamp) AutobanFactory.FAST_HP_HEALING.addPoint(abm, "Fast hp healing");
             
             MapleMap map = chr.getMap();
             int abHeal = (int)(77 * map.getRecovery() * 1.5); // thanks Ari for noticing players not getting healed in sauna in certain cases
@@ -60,7 +60,7 @@ public final class HealOvertimeHandler extends AbstractMaplePacketHandler {
         short healMP = slea.readShort();
         if (healMP != 0 && healMP < 1000) {
             abm.setTimestamp(9, timestamp, 28);
-            if ((abm.getLastSpam(1) + 1500) > timestamp) {
+            //if ((abm.getLastSpam(1) + 1500) > timestamp) {
                 AutobanFactory.FAST_MP_HEALING.addPoint(abm, "Fast mp healing");
                 return;     // thanks resinate for noticing mp being gained even after detection
             }
