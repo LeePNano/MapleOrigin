@@ -106,7 +106,7 @@ public final class SummonDamageHandler extends AbstractDealDamageHandler {
             MapleMonster target = player.getMap().getMonsterByOid(attackEntry.getMonsterOid());
             if (target != null) {
                 if (damage > maxDmg) {
-                    AutobanFactory.DAMAGE_HACK.alert(c.getPlayer(), "Possible packet editing summon damage exploit.");
+                    //AutobanFactory.DAMAGE_HACK.alert(c.getPlayer(), "Possible packet editing summon damage exploit.");
 
                     FilePrinter.printError(FilePrinter.EXPLOITS + c.getPlayer().getName() + ".txt", c.getPlayer().getName() + " used a summon of skillid " + summon.getSkill() + " to attack " + MapleMonsterInformationProvider.getInstance().getMobNameFromId(target.getId()) + " with damage " + damage + " (max: " + maxDmg + ")");
                     damage = maxDmg;

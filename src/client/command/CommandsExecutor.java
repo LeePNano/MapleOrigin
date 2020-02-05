@@ -188,6 +188,7 @@ public class CommandsExecutor {
         levelCommandsCursor = new Pair<>((List<String>) new ArrayList<String>(), (List<String>) new ArrayList<String>());
         
        // addCommand(new String[]{"help", "commands"}, HelpCommand.class);
+		addCommand("fm", FMCommand.class);
         addCommand("haste", HasteCommand.class);
         addCommand("tele", PlayerTeleportCommand.class);
         addCommand("droplimit", DropLimitCommand.class);
