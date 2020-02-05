@@ -37,7 +37,7 @@ function action(mode, type, selection) {
     else {
         if(!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.ETC).isFull(1)){
             cm.warp(220080000);
-            cm.gainItem(4000313, 1);
+            //cm.gainItem(4000313, 1);
             cm.dispose();
         } else {
             cm.sendOk("Please make space in your inventory");
