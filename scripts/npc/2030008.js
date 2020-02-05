@@ -116,7 +116,7 @@ function action(mode, type, selection) {
                     } else {
                         cm.completeQuest(100201);
                         cm.gainItem(4031061, -1);
-                        cm.gainItem(4031062, -1);
+                        //cm.gainItem(4031062, -1);
                         cm.gainItem(4000082, -30);
 
                         cm.gainItem(4001017, 5);

@@ -46,7 +46,7 @@ public class Perion extends GachaponItems {
 
 	@Override
 	public int[] getUncommonItems() {
-		return new int [] {1082149, 1002391, 1002419, 1102041};
+		return new int [] {1082149, 1002391, 1102041};
 	}
 
 	@Override

@@ -34,7 +34,7 @@ function enter(pi) {
         return false;
     }
     
-    if (!pi.haveItem(4001017)) {    // thanks Conrad for pointing out missing checks for token item and unused reactor
+    if (!pi.haveItem(4031062)) {    // thanks Conrad for pointing out missing checks for token item and unused reactor
         pi.getPlayer().dropMessage(5,"You do not have the Eye of Fire. You may not face the boss.");
         return false;
     }

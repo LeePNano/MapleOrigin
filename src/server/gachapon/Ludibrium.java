@@ -45,7 +45,7 @@ public class Ludibrium extends GachaponItems {
 
 	@Override
 	public int[] getUncommonItems() {
-		return new int [] {2040805, 1002419, 1442018};
+		return new int [] {2040805, 1442018};
 	}
 
 	@Override

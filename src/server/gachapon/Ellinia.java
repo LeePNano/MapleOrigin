@@ -55,7 +55,7 @@ public class Ellinia extends GachaponItems {
 
 	@Override
 	public int[] getUncommonItems() {
-		return new int [] {1082149, 1002391, 1002419};
+		return new int [] {1082149, 1002391};
 	}
 
 	@Override
