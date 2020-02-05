@@ -36,13 +36,22 @@ public class LevelCommand extends Command {
     @Override
     public void execute(MapleClient c, String[] params) {
         MapleCharacter player = c.getPlayer();
-        if (params.length < 1) {
-            player.yellowMessage("Syntax: !level <newlevel>");
+        if (params.length != 2 && params.length != 3) {
+            player.yellowMessage("Syntax: !level <username> <newlevel>");
             return;
+        } else if (params.length == 2) {
+            levelUpPlayer(player, Integer.parseInt(params[0]));
+        } else if (params.length == 3) {
+            // This should be the default if the other two conditions fail, but just in case.
+            MapleCharacter victim = c.getWorldServer().getPlayerStorage().getCharacterByName(params[0]);
+            levelUpPlayer(victim, Integer.parseInt(params[1]));
         }
 
+    }
+
+    private void levelUpPlayer(MapleCharacter player, int level) {
         player.loseExp(player.getExp(), false, false);
-        player.setLevel(Math.min(Integer.parseInt(params[0]), player.getMaxClassLevel()) - 1);
+        player.setLevel(Math.min(level, player.getMaxClassLevel()) - 1);
 
         player.resetPlayerRates();
         if (YamlConfig.config.server.USE_ADD_RATES_BY_LEVEL) player.setPlayerRates();
