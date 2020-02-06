@@ -21,13 +21,17 @@
 */
 package server.life;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import server.life.MapleLifeFactory.BanishInfo;
 import server.life.MapleLifeFactory.loseItem;
 import server.life.MapleLifeFactory.selfDestruction;
 import tools.Pair;
-
-import java.lang.reflect.Field;
-import java.util.*;
 
 /**
  * @author Frz
@@ -56,7 +60,7 @@ public class MapleMonsterStats {
     public boolean isChangeable() {
         return changeable;
     }
-
+    
     public int getExp() {
         return exp;
     }
@@ -105,20 +109,20 @@ public class MapleMonsterStats {
         this.dropPeriod = dropPeriod;
     }
 
-    public boolean isBoss() {
-        return boss;
-    }
-
     public void setBoss(boolean boss) {
         this.boss = boss;
     }
 
-    public boolean isFfaLoot() {
-        return ffaLoot;
+    public boolean isBoss() {
+        return boss;
     }
 
     public void setFfaLoot(boolean ffaLoot) {
         this.ffaLoot = ffaLoot;
+    }
+
+    public boolean isFfaLoot() {
+        return ffaLoot;
     }
 
     public void setAnimationTime(String name, int delay) {
@@ -145,12 +149,12 @@ public class MapleMonsterStats {
         this.revives = revives;
     }
 
-    public boolean isUndead() {
-        return undead;
-    }
-
     public void setUndead(boolean undead) {
         this.undead = undead;
+    }
+
+    public boolean isUndead() {
+        return undead;
     }
 
     public void setEffectiveness(Element e, ElementalEffectiveness ee) {
@@ -190,18 +194,18 @@ public class MapleMonsterStats {
         this.tagBgColor = (byte) tagBgColor;
     }
 
-    public List<Pair<Integer, Integer>> getSkills() {
-        return Collections.unmodifiableList(this.skills);
-    }
-
     public void setSkills(List<Pair<Integer, Integer>> skills) {
         for (int i = this.skills.size(); i < skills.size(); i++) {
             this.skills.add(null);
         }
-
+        
         for (int i = 0; i < skills.size(); i++) {
             this.skills.set(i, skills.get(i));
         }
+    }
+
+    public List<Pair<Integer, Integer>> getSkills() {
+        return Collections.unmodifiableList(this.skills);
     }
 
     public int getNoSkills() {
@@ -217,20 +221,20 @@ public class MapleMonsterStats {
         return false;
     }
 
-    public boolean isFirstAttack() {
-        return firstAttack;
-    }
-
     public void setFirstAttack(boolean firstAttack) {
         this.firstAttack = firstAttack;
     }
 
-    public int getBuffToGive() {
-        return buffToGive;
+    public boolean isFirstAttack() {
+        return firstAttack;
     }
 
     public void setBuffToGive(int buff) {
         this.buffToGive = buff;
+    }
+
+    public int getBuffToGive() {
+        return buffToGive;
     }
 
     void removeEffectiveness(Element e) {
@@ -279,13 +283,13 @@ public class MapleMonsterStats {
     public void setSelfDestruction(selfDestruction sd) {
         this.selfDestruction = sd;
     }
+    
+    public void setExplosiveReward(boolean isExplosiveReward) {
+        this.isExplosiveReward = isExplosiveReward;
+    }
 
     public boolean isExplosiveReward() {
         return isExplosiveReward;
-    }
-
-    public void setExplosiveReward(boolean isExplosiveReward) {
-        this.isExplosiveReward = isExplosiveReward;
     }
 
     public void setRemoveOnMiss(boolean removeOnMiss) {
@@ -296,54 +300,54 @@ public class MapleMonsterStats {
         return removeOnMiss;
     }
 
-    public Pair<Integer, Integer> getCool() {
-        return cool;
-    }
-
     public void setCool(Pair<Integer, Integer> cool) {
         this.cool = cool;
     }
 
+    public Pair<Integer, Integer> getCool() {
+        return cool;
+    }
+    
     public int getPDDamage() {
         return PDDamage;
     }
-
-    public void setPDDamage(int PDDamage) {
-        this.PDDamage = PDDamage;
-    }
-
+    
     public int getMADamage() {
         return MADamage;
     }
-
-    public void setMADamage(int MADamage) {
-        this.MADamage = MADamage;
-    }
-
+    
     public int getMDDamage() {
         return MDDamage;
     }
-
-    public void setMDDamage(int MDDamage) {
-        this.MDDamage = MDDamage;
-    }
-
+    
     public boolean isFriendly() {
         return friendly;
     }
-
+    
     public void setFriendly(boolean value) {
         this.friendly = value;
     }
-
+    
+    public void setPDDamage(int PDDamage) {
+        this.PDDamage = PDDamage;
+    }
+    
+    public void setMADamage(int MADamage) {
+        this.MADamage = MADamage;
+    }
+    
+    public void setMDDamage(int MDDamage) {
+        this.MDDamage = MDDamage;
+    } 
+    
     public int getFixedStance() {
         return this.fixedStance;
     }
-
+    
     public void setFixedStance(int stance) {
         this.fixedStance = stance;
     }
-
+    
     public MapleMonsterStats copy() {
         MapleMonsterStats copy = new MapleMonsterStats();
         try {
@@ -353,14 +357,14 @@ public class MapleMonsterStats {
             try {
                 Thread.sleep(10000);
             } catch (Exception ex) {
-
+                
             }
-
+            
         }
-
+        
         return copy;
     }
-
+    
     // FieldCopyUtil src: http://www.codesenior.com/en/tutorial/Java-Copy-Fields-From-One-Object-to-Another-Object-with-Reflection
     private static class FieldCopyUtil { // thanks to Codesenior dev team
         private static void setFields(Object from, Object to) {

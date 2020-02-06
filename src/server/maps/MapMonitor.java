@@ -21,9 +21,8 @@
 */
 package server.maps;
 
-import server.TimerManager;
-
 import java.util.concurrent.ScheduledFuture;
+import server.TimerManager;
 
 public class MapMonitor {
     private ScheduledFuture<?> monitorSchedule;
@@ -48,14 +47,14 @@ public class MapMonitor {
             monitorSchedule.cancel(false);
             monitorSchedule = null;
         }
-
+        
         map.killAllMonsters();
         map.clearDrops();
         if (portal != null) {
             portal.setPortalStatus(MaplePortal.OPEN);
         }
         map.resetReactors();
-
+        
         map = null;
         portal = null;
     }

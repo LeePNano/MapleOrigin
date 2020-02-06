@@ -23,8 +23,8 @@
 */
 package client.command.commands.gm0;
 
-import client.MapleClient;
 import client.command.Command;
+import client.MapleClient;
 import net.server.coordinator.login.MapleLoginBypassCoordinator;
 
 public class EnableAuthCommand extends Command {

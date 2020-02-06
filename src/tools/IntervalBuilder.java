@@ -19,6 +19,9 @@
 */
 package tools;
 
+import java.awt.geom.Line2D;
+import java.util.ArrayList;
+import java.util.List;
 import net.server.audit.locks.MonitoredLockType;
 import net.server.audit.locks.MonitoredReadLock;
 import net.server.audit.locks.MonitoredReentrantReadWriteLock;
@@ -26,19 +29,17 @@ import net.server.audit.locks.MonitoredWriteLock;
 import net.server.audit.locks.factory.MonitoredReadLockFactory;
 import net.server.audit.locks.factory.MonitoredWriteLockFactory;
 
-import java.awt.geom.Line2D;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
+ *
  * @author Ronan
  */
 public class IntervalBuilder {
-
+        
+    private List<Line2D> intervalLimits = new ArrayList<>();
+    
     protected MonitoredReadLock intervalRlock;
     protected MonitoredWriteLock intervalWlock;
-    private List<Line2D> intervalLimits = new ArrayList<>();
-
+    
     public IntervalBuilder() {
         MonitoredReentrantReadWriteLock locks = new MonitoredReentrantReadWriteLock(MonitoredLockType.INTERVAL, true);
         intervalRlock = MonitoredReadLockFactory.createLock(locks);
@@ -64,7 +65,7 @@ public class IntervalBuilder {
             newLimitX2 = newTo;
         }
 
-        intervalLimits.add(st, new Line2D.Float(newLimitX1, 0, newLimitX2, 0));
+        intervalLimits.add(st, new Line2D.Float((float) newLimitX1, 0, (float) newLimitX2, 0));
     }
 
     private int bsearchInterval(int point) {
@@ -109,7 +110,7 @@ public class IntervalBuilder {
     public boolean inInterval(int point) {
         return inInterval(point, point);
     }
-
+    
     public boolean inInterval(int from, int to) {
         intervalRlock.lock();
         try {
@@ -128,5 +129,5 @@ public class IntervalBuilder {
             intervalWlock.unlock();
         }
     }
-
+    
 }

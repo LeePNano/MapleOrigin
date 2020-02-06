@@ -22,11 +22,10 @@
    @Author: Arthur L - Refactored command content into modules
 */
 package client.command.commands.gm0;
-
 import client.MapleCharacter;
-import client.MapleClient;
 import client.SkillFactory;
 import client.command.Command;
+import client.MapleClient;
 
 public class HasteCommand extends Command {
     {

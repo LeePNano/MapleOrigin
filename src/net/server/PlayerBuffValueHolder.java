@@ -24,6 +24,7 @@ package net.server;
 import server.MapleStatEffect;
 
 /**
+ *
  * @author Danny
  */
 public class PlayerBuffValueHolder {

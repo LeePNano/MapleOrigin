@@ -23,6 +23,7 @@ import client.MapleClient;
 import client.command.Command;
 
 /**
+ *
  * @author Ronan
  */
 public class GachaListCommand extends Command {

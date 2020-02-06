@@ -1,8 +1,9 @@
 package server.partyquest;
 
-import java.awt.*;
+import java.awt.Point;
 
 /**
+ *
  * @author David
  */
 public class GuardianSpawnPoint {

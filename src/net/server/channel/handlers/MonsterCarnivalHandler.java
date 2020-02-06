@@ -24,6 +24,8 @@ package net.server.channel.handlers;
 import client.MapleCharacter;
 import client.MapleClient;
 import client.MapleDisease;
+import java.awt.Point;
+import java.util.List;
 import net.AbstractMaplePacketHandler;
 import net.server.world.MapleParty;
 import net.server.world.MaplePartyCharacter;
@@ -36,13 +38,10 @@ import tools.MaplePacketCreator;
 import tools.Pair;
 import tools.data.input.SeekableLittleEndianAccessor;
 
-import java.awt.*;
-import java.util.List;
-
 
 /**
- * @author Drago/Dragohe4rt
- */
+    *@author Drago/Dragohe4rt
+*/
 
 public final class MonsterCarnivalHandler extends AbstractMaplePacketHandler {
 
@@ -54,7 +53,7 @@ public final class MonsterCarnivalHandler extends AbstractMaplePacketHandler {
                     int tab = slea.readByte();
                     int num = slea.readByte();
                     int neededCP = 0;
-                    if (tab == 0) {
+                    if (tab == 0) { 
                         final List<Pair<Integer, Integer>> mobs = c.getPlayer().getMap().getMobsToSpawn();
                         if (num >= mobs.size() || c.getPlayer().getCP() < mobs.get(num).right) {
                             c.announce(MaplePacketCreator.CPQMessage((byte) 1));
@@ -70,7 +69,7 @@ public final class MonsterCarnivalHandler extends AbstractMaplePacketHandler {
                                 c.announce(MaplePacketCreator.enableActions());
                                 return;
                             }
-
+                            
                             if (c.getPlayer().getTeam() == 0) {
                                 mcpq.summonR();
                             } else {
@@ -139,7 +138,7 @@ public final class MonsterCarnivalHandler extends AbstractMaplePacketHandler {
                             c.announce(MaplePacketCreator.enableActions());
                             return;
                         }
-
+                        
                         MonsterCarnival mcpq = c.getPlayer().getMonsterCarnival();
                         if (mcpq != null) {
                             if (!mcpq.canGuardianR() && c.getPlayer().getTeam() == 0 || !mcpq.canGuardianB() && c.getPlayer().getTeam() == 1) {
@@ -171,7 +170,7 @@ public final class MonsterCarnivalHandler extends AbstractMaplePacketHandler {
                     }
                     c.getPlayer().gainCP(-neededCP);
                     c.getPlayer().getMap().broadcastMessage(MaplePacketCreator.playerSummoned(c.getPlayer().getName(), tab, num));
-                } catch (Exception e) {
+                }catch (Exception e) {
                     e.printStackTrace();
                 }
             } finally {

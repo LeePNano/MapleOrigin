@@ -26,6 +26,7 @@ import net.AbstractMaplePacketHandler;
 import tools.data.input.SeekableLittleEndianAccessor;
 
 /**
+ *
  * @author BubblesDev
  */
 public final class InnerPortalHandler extends AbstractMaplePacketHandler {

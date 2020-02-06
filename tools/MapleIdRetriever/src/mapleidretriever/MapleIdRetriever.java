@@ -20,7 +20,6 @@
 package mapleidretriever;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -105,7 +104,7 @@ public class MapleIdRetriever {
         String line;
         
         try {
-            fileReader = new InputStreamReader(new FileInputStream(fileObj), StandardCharsets.UTF_8);
+            fileReader = new InputStreamReader(new FileInputStream(fileObj), "UTF-8");
             bufferedReader = new BufferedReader(fileReader);
             
             System.out.println("Parsing file '" + fileObj.getCanonicalPath() + "'.");
@@ -158,10 +157,10 @@ public class MapleIdRetriever {
         String line;
         
         try {
-            fileReader = new InputStreamReader(new FileInputStream(inputName), StandardCharsets.UTF_8);
+            fileReader = new InputStreamReader(new FileInputStream(inputName), "UTF-8");
             bufferedReader = new BufferedReader(fileReader);
             
-            printWriter = new PrintWriter(outputName, StandardCharsets.UTF_8);
+            printWriter = new PrintWriter(outputName, "UTF-8");
             
             while((line = bufferedReader.readLine()) != null) {
                 if(line.isEmpty()) {

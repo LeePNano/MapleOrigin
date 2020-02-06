@@ -21,23 +21,38 @@
 */
 package net.server.channel.handlers;
 
-import client.*;
+import client.BuddyList;
 import client.BuddyList.BuddyAddResult;
 import client.BuddyList.BuddyOperation;
+import static client.BuddyList.BuddyOperation.ADDED;
+import client.BuddylistEntry;
+import client.CharacterNameAndId;
+import client.MapleCharacter;
+import client.MapleClient;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import net.AbstractMaplePacketHandler;
 import net.server.world.World;
 import tools.DatabaseConnection;
 import tools.MaplePacketCreator;
 import tools.data.input.SeekableLittleEndianAccessor;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import static client.BuddyList.BuddyOperation.ADDED;
-
 public class BuddylistModifyHandler extends AbstractMaplePacketHandler {
+    private static class CharacterIdNameBuddyCapacity extends CharacterNameAndId {
+        private int buddyCapacity;
+
+        public CharacterIdNameBuddyCapacity(int id, String name, int buddyCapacity) {
+            super(id, name);
+            this.buddyCapacity = buddyCapacity;
+        }
+
+        public int getBuddyCapacity() {
+            return buddyCapacity;
+        }
+    }
+
     private void nextPendingRequest(MapleClient c) {
         CharacterNameAndId pendingBuddyRequest = c.getPlayer().getBuddylist().pollPendingRequest();
         if (pendingBuddyRequest != null) {
@@ -93,7 +108,7 @@ public class BuddylistModifyHandler extends AbstractMaplePacketHandler {
                     if (charWithId != null) {
                         BuddyAddResult buddyAddResult = null;
                         if (channel != -1) {
-                            buddyAddResult = world.requestBuddyAdd(addName, c.getChannel(), player.getId(), player.getName());
+                           buddyAddResult = world.requestBuddyAdd(addName, c.getChannel(), player.getId(), player.getName());
                         } else {
                             Connection con = DatabaseConnection.getConnection();
                             PreparedStatement ps = con.prepareStatement("SELECT COUNT(*) as buddyCount FROM buddies WHERE characterid = ? AND pending = 0");
@@ -189,19 +204,6 @@ public class BuddylistModifyHandler extends AbstractMaplePacketHandler {
         MapleCharacter player = c.getPlayer();
         if (remoteChannel != -1) {
             c.getWorldServer().buddyChanged(otherCid, player.getId(), player.getName(), c.getChannel(), operation);
-        }
-    }
-
-    private static class CharacterIdNameBuddyCapacity extends CharacterNameAndId {
-        private int buddyCapacity;
-
-        public CharacterIdNameBuddyCapacity(int id, String name, int buddyCapacity) {
-            super(id, name);
-            this.buddyCapacity = buddyCapacity;
-        }
-
-        public int getBuddyCapacity() {
-            return buddyCapacity;
         }
     }
 }

@@ -25,13 +25,13 @@ import net.server.world.World;
  * @author Ronan
  */
 public class FishingTask extends BaseTask implements Runnable {
-
-    public FishingTask(World world) {
-        super(world);
-    }
-
+    
     @Override
     public void run() {
         wserv.runCheckFishingSchedule();
+    }
+    
+    public FishingTask(World world) {
+        super(world);
     }
 }

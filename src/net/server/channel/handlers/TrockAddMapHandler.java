@@ -29,10 +29,11 @@ import tools.MaplePacketCreator;
 import tools.data.input.SeekableLittleEndianAccessor;
 
 /**
+ *
  * @author kevintjuh93
  */
 public final class TrockAddMapHandler extends AbstractMaplePacketHandler {
-
+    
     @Override
     public final void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
         MapleCharacter chr = c.getPlayer();
@@ -52,7 +53,7 @@ public final class TrockAddMapHandler extends AbstractMaplePacketHandler {
                 else
                     chr.addTrockMap();
 
-                c.announce(MaplePacketCreator.trockRefreshMapList(chr, false, vip));
+                 c.announce(MaplePacketCreator.trockRefreshMapList(chr, false, vip));
             } else {
                 chr.message("You may not save this map.");
             }

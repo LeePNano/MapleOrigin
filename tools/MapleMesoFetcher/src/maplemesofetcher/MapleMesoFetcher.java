@@ -22,7 +22,6 @@ package maplemesofetcher;
 import life.MapleLifeFactory;
 import life.MapleMonsterStats;
 
-import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -166,7 +165,7 @@ public class MapleMesoFetcher {
                 }
                 
                 if(!existingMobs.isEmpty()) {
-                    printWriter = new PrintWriter(newFile, StandardCharsets.UTF_8);
+                    printWriter = new PrintWriter(newFile, "UTF-8");
                     printSqlHeader();
                 
                     for(int i = 0; i < existingMobs.size() - 1; i++)

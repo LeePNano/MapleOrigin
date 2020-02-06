@@ -22,29 +22,34 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package scripting.portal;
 
 import client.MapleClient;
+import java.lang.reflect.UndeclaredThrowableException;
+import java.util.HashMap;
+import java.util.Map;
+import javax.script.ScriptEngineFactory;
+import javax.script.ScriptEngineManager;
 import jdk.nashorn.api.scripting.NashornScriptEngine;
 import scripting.AbstractScriptManager;
 import server.maps.MaplePortal;
 import tools.FilePrinter;
-
-import javax.script.ScriptEngineFactory;
-import javax.script.ScriptEngineManager;
-import java.lang.reflect.UndeclaredThrowableException;
-import java.util.HashMap;
-import java.util.Map;
+import scripting.event.EventManager;
+import scripting.event.EventInstanceManager;
 
 public class PortalScriptManager extends AbstractScriptManager {
 
     private static PortalScriptManager instance = new PortalScriptManager();
+    
+    public static PortalScriptManager getInstance() {
+        return instance;
+    }
+    
+
+    
     private Map<String, NashornScriptEngine> scripts = new HashMap<>();
     private ScriptEngineFactory sef;
+
     private PortalScriptManager() {
         ScriptEngineManager sem = new ScriptEngineManager();
         sef = sem.getEngineByName("javascript").getFactory();
-    }
-
-    public static PortalScriptManager getInstance() {
-        return instance;
     }
 
     private NashornScriptEngine getPortalScript(String scriptName) {
@@ -53,12 +58,12 @@ public class PortalScriptManager extends AbstractScriptManager {
         if (iv != null) {
             return iv;
         }
-
+        
         iv = getScriptEngine(scriptPath);
         if (iv == null) {
             return null;
         }
-
+        
         scripts.put(scriptPath, iv);
         return iv;
     }

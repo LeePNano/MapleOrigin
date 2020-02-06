@@ -19,22 +19,22 @@
 */
 package net.server.task;
 
-import net.server.channel.Channel;
 import net.server.world.World;
+import net.server.channel.Channel;
 
 /**
  * @author Ronan
  */
 public class MapOwnershipTask extends BaseTask implements Runnable {
-
-    public MapOwnershipTask(World world) {
-        super(world);
-    }
-
+    
     @Override
     public void run() {
         for (Channel ch : wserv.getChannels()) {
             ch.runCheckOwnedMapsSchedule();
         }
+    }
+    
+    public MapOwnershipTask(World world) {
+        super(world);
     }
 }

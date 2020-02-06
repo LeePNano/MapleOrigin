@@ -22,7 +22,6 @@ package maplereactordropfetcher;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -133,7 +132,7 @@ public class MapleReactorDropFetcher {
             fetchMissingReactorDrops();
             
             con.close();
-            printWriter = new PrintWriter(newFile, StandardCharsets.UTF_8);
+            printWriter = new PrintWriter(newFile, "UTF-8");
             
             // report suspects of missing quest drop data, as well as those drop data that may have incorrect questids.
             System.out.println("Reporting results...");

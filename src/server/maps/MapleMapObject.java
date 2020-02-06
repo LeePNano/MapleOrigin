@@ -21,24 +21,16 @@
 */
 package server.maps;
 
+import java.awt.Point;
 import client.MapleClient;
 
-import java.awt.*;
-
 public interface MapleMapObject {
-    int getObjectId();
-
-    void setObjectId(int id);
-
-    MapleMapObjectType getType();
-
-    Point getPosition();
-
-    void setPosition(Point position);
-
-    void sendSpawnData(MapleClient client);
-
-    void sendDestroyData(MapleClient client);
-
-    void nullifyPosition();
+    public int getObjectId();
+    public void setObjectId(int id);
+    public MapleMapObjectType getType();
+    public Point getPosition();
+    public void setPosition(Point position);
+    public void sendSpawnData(MapleClient client);
+    public void sendDestroyData(MapleClient client);
+    public void nullifyPosition();
 }

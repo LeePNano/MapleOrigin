@@ -22,9 +22,8 @@
 package server;
 
 import client.inventory.Item;
-
-import java.sql.Timestamp;
 import java.util.Calendar;
+import java.sql.Timestamp;
 
 public class DueyPackage {
     private String sender = null;
@@ -62,11 +61,11 @@ public class DueyPackage {
     public void setMesos(int set) {
         mesos = set;
     }
-
+    
     public String getMessage() {
         return message;
     }
-
+    
     public void setMessage(String m) {
         message = m;
     }
@@ -87,7 +86,7 @@ public class DueyPackage {
             return 0;
         }
     }
-
+    
     public boolean isDeliveringTime() {
         Calendar ts = timestamp;
         if (ts != null) {
@@ -100,13 +99,13 @@ public class DueyPackage {
     public void setSentTime(Timestamp ts, boolean quick) {
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(ts.getTime());
-
+        
         if (quick) {
             if (System.currentTimeMillis() - ts.getTime() < 24 * 60 * 60 * 1000) {  // thanks inhyuk for noticing quick delivery packages unavailable to retrieve from the get-go
                 cal.add(Calendar.DATE, -1);
             }
         }
-
+        
         this.timestamp = cal;
     }
 }

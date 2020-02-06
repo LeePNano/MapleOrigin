@@ -30,6 +30,7 @@ import tools.MaplePacketCreator;
 import tools.data.input.SeekableLittleEndianAccessor;
 
 /**
+ *
  * @author Flav
  */
 public class EnterCashShopHandler extends AbstractMaplePacketHandler {
@@ -42,19 +43,19 @@ public class EnterCashShopHandler extends AbstractMaplePacketHandler {
                 c.announce(MaplePacketCreator.enableActions());
                 return;
             }
-
-            if (mc.getEventInstance() != null) {
+            
+            if(mc.getEventInstance() != null) {
                 c.announce(MaplePacketCreator.serverNotice(5, "Entering Cash Shop or MTS are disabled when registered on an event."));
                 c.announce(MaplePacketCreator.enableActions());
                 return;
             }
-
-            if (MapleMiniDungeonInfo.isDungeonMap(mc.getMapId())) {
+            
+            if(MapleMiniDungeonInfo.isDungeonMap(mc.getMapId())) {
                 c.announce(MaplePacketCreator.serverNotice(5, "Changing channels or entering Cash Shop or MTS are disabled when inside a Mini-Dungeon."));
                 c.announce(MaplePacketCreator.enableActions());
                 return;
             }
-
+            
             if (mc.getCashShop().isOpened()) {
                 return;
             }
@@ -74,10 +75,10 @@ public class EnterCashShopHandler extends AbstractMaplePacketHandler {
             mc.cancelDiseaseExpireTask();
             mc.cancelSkillCooldownTask();
             mc.cancelExpirationTask();
-
+            
             mc.forfeitExpirableQuests();
             mc.cancelQuestExpirationTask();
-
+            
             c.announce(MaplePacketCreator.openCashShop(c, false));
             c.announce(MaplePacketCreator.showCashInventory(c));
             c.announce(MaplePacketCreator.showGifts(mc.getCashShop().loadGifts()));

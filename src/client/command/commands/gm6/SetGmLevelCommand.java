@@ -23,9 +23,9 @@
 */
 package client.command.commands.gm6;
 
-import client.MapleCharacter;
-import client.MapleClient;
 import client.command.Command;
+import client.MapleClient;
+import client.MapleCharacter;
 
 public class SetGmLevelCommand extends Command {
     {

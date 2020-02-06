@@ -21,37 +21,41 @@
 */
 package net.mina;
 
-import client.MapleClient;
 import config.YamlConfig;
+import client.MapleClient;
 import constants.net.OpcodeConstants;
 import net.server.coordinator.session.MapleSessionCoordinator;
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.CumulativeProtocolDecoder;
 import org.apache.mina.filter.codec.ProtocolDecoderOutput;
-import tools.FilePrinter;
 import tools.HexTool;
 import tools.MapleAESOFB;
 import tools.data.input.ByteArrayByteStream;
 import tools.data.input.GenericLittleEndianAccessor;
+import tools.FilePrinter;
 
 public class MaplePacketDecoder extends CumulativeProtocolDecoder {
     private static final String DECODER_STATE_KEY = MaplePacketDecoder.class.getName() + ".STATE";
 
+    private static class DecoderState {
+        public int packetlength = -1;
+    }
+
     @Override
     protected boolean doDecode(IoSession session, IoBuffer in, ProtocolDecoderOutput out) throws Exception {
         final MapleClient client = (MapleClient) session.getAttribute(MapleClient.CLIENT_KEY);
-        if (client == null) {
+        if(client == null) {
             MapleSessionCoordinator.getInstance().closeSession(session, true);
             return false;
         }
-
+        
         DecoderState decoderState = (DecoderState) session.getAttribute(DECODER_STATE_KEY);
         if (decoderState == null) {
             decoderState = new DecoderState();
             session.setAttribute(DECODER_STATE_KEY, decoderState);
         }
-
+        
         MapleAESOFB rcvdCrypto = client.getReceiveCrypto();
         if (in.remaining() >= 4 && decoderState.packetlength == -1) {
             int packetHeader = in.getInt();
@@ -64,13 +68,13 @@ public class MaplePacketDecoder extends CumulativeProtocolDecoder {
             return false;
         }
         if (in.remaining() >= decoderState.packetlength) {
-            byte[] decryptedPacket = new byte[decoderState.packetlength];
+            byte decryptedPacket[] = new byte[decoderState.packetlength];
             in.get(decryptedPacket, 0, decoderState.packetlength);
             decoderState.packetlength = -1;
             rcvdCrypto.crypt(decryptedPacket);
             MapleCustomEncryption.decryptData(decryptedPacket);
             out.write(decryptedPacket);
-            if (YamlConfig.config.server.USE_DEBUG_SHOW_PACKET) { // packet traffic log: Atoot's idea, applied using auto-identation thanks to lrenex
+            if (YamlConfig.config.server.USE_DEBUG_SHOW_PACKET){ // packet traffic log: Atoot's idea, applied using auto-identation thanks to lrenex
                 int packetLen = decryptedPacket.length;
                 int pHeader = readFirstShort(decryptedPacket);
                 String pHeaderStr = Integer.toHexString(pHeader).toUpperCase();
@@ -90,16 +94,12 @@ public class MaplePacketDecoder extends CumulativeProtocolDecoder {
         }
         return false;
     }
-
+    
     private String lookupSend(int val) {
         return OpcodeConstants.recvOpcodeNames.get(val);
     }
 
     private int readFirstShort(byte[] arr) {
         return new GenericLittleEndianAccessor(new ByteArrayByteStream(arr)).readShort();
-    }
-
-    private static class DecoderState {
-        public int packetlength = -1;
     }
 }

@@ -23,15 +23,16 @@ package net.server.channel.handlers;
 
 import client.MapleCharacter;
 import client.MapleCharacter.FameStatus;
-import client.MapleClient;
 import client.autoban.AutobanFactory;
+import client.MapleClient;
+import client.MapleStat;
 import net.AbstractMaplePacketHandler;
 import tools.FilePrinter;
 import tools.MaplePacketCreator;
 import tools.data.input.SeekableLittleEndianAccessor;
 
 public final class GiveFameHandler extends AbstractMaplePacketHandler {
-
+    
     @Override
     public final void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
         MapleCharacter target = (MapleCharacter) c.getPlayer().getMap().getMapObject(slea.readInt());
@@ -46,7 +47,7 @@ public final class GiveFameHandler extends AbstractMaplePacketHandler {
             c.disconnect(true, false);
             return;
         }
-
+        
         FameStatus status = player.canGiveFame(target);
         if (status == FameStatus.OK) {
             if (target.gainFame(famechange, player, mode)) {

@@ -1,3 +1,4 @@
+
 /*
     This file is part of the HeavenMS MapleStory Server, commands OdinMS-based
     Copyleft (L) 2016 - 2018 RonanLana
@@ -25,6 +26,7 @@ package client.command.commands.gm0;
 
 import client.MapleClient;
 import client.command.Command;
+import constants.net.ServerConstants;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -35,7 +37,7 @@ public class TimeCommand extends Command {
     {
         setDescription("");
     }
-
+    
     @Override
     public void execute(MapleClient client, String[] params) {
         DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");

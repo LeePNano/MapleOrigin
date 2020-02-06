@@ -23,8 +23,8 @@
 */
 package client.command.commands.gm0;
 
-import client.MapleClient;
 import client.command.Command;
+import client.MapleClient;
 
 public class ToggleExpCommand extends Command {
     {

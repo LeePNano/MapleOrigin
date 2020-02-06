@@ -8,6 +8,7 @@ import tools.MaplePacketCreator;
 import tools.data.input.SeekableLittleEndianAccessor;
 
 /**
+ *
  * @author kevintjuh93
  */
 public class AdminChatHandler extends AbstractMaplePacketHandler {

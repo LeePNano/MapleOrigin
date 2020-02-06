@@ -22,10 +22,11 @@ package net.server.task;
 import net.server.coordinator.world.MapleEventRecallCoordinator;
 
 /**
+ *
  * @author Ronan
  */
 public class EventRecallCoordinatorTask implements Runnable {
-
+    
     @Override
     public void run() {
         MapleEventRecallCoordinator.getInstance().manageEventInstances();

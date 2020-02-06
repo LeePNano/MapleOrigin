@@ -44,7 +44,7 @@ public enum MapleWeaponType {
     WAND(3.6);
     private double damageMultiplier;
 
-    MapleWeaponType(double maxDamageMultiplier) {
+    private MapleWeaponType(double maxDamageMultiplier) {
         this.damageMultiplier = maxDamageMultiplier;
     }
 

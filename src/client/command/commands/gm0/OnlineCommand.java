@@ -24,8 +24,8 @@
 package client.command.commands.gm0;
 
 import client.MapleCharacter;
-import client.MapleClient;
 import client.command.Command;
+import client.MapleClient;
 import net.server.Server;
 import net.server.channel.Channel;
 

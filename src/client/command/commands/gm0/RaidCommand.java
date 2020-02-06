@@ -44,7 +44,7 @@ public class RaidCommand extends Command {
             if (player.getRaid() != null) {
                 for (MapleCharacter chr : player.getRaid().getMembers()) {
                     if (chr.isRaidLeader()) {
-                        player.dropMessage(5, "[Raid Leader] [" + chr.getName() + "]: Level: " + chr.getLevel());
+                    player.dropMessage(5, "[Raid Leader] [" + chr.getName() + "]: Level: " + chr.getLevel());
                     } else {
                         player.dropMessage(5, "[Member] [" + chr.getName() + "]: Level: " + chr.getLevel());
                     }

@@ -31,7 +31,7 @@ public class AwardToMapCommand extends Command {
                     int itemId = Integer.parseInt(params[1]);
                     MapleItemInformationProvider ii = MapleItemInformationProvider.getInstance();
 
-                    if (ii.getName(itemId) == null) {
+                    if(ii.getName(itemId) == null) {
                         player.yellowMessage("Item id '" + params[1] + "' does not exist.");
                         return;
                     }
@@ -55,7 +55,7 @@ public class AwardToMapCommand extends Command {
                     }
 
                     short flag = 0;
-                    if (player.gmLevel() < 3) {
+                    if(player.gmLevel() < 3) {
                         flag |= ItemConstants.ACCOUNT_SHARING;
                         flag |= ItemConstants.UNTRADEABLE;
                     }

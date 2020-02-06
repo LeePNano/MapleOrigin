@@ -21,16 +21,15 @@
 */
 package provider.wz;
 
-import tools.data.input.LittleEndianAccessor;
-import tools.data.input.SeekableLittleEndianAccessor;
-
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
+import tools.data.input.LittleEndianAccessor;
+import tools.data.input.SeekableLittleEndianAccessor;
 
 /*
  * Ported Code, see WZFile.java for more info
@@ -40,17 +39,17 @@ public class WZTool {
 
     static {
         byte[] iv = new byte[]{(byte) 0x4d, (byte) 0x23, (byte) 0xc7, (byte) 0x2b,
-                (byte) 0x4d, (byte) 0x23, (byte) 0xc7, (byte) 0x2b,
-                (byte) 0x4d, (byte) 0x23, (byte) 0xc7, (byte) 0x2b,
-                (byte) 0x4d, (byte) 0x23, (byte) 0xc7, (byte) 0x2b,};
+            (byte) 0x4d, (byte) 0x23, (byte) 0xc7, (byte) 0x2b,
+            (byte) 0x4d, (byte) 0x23, (byte) 0xc7, (byte) 0x2b,
+            (byte) 0x4d, (byte) 0x23, (byte) 0xc7, (byte) 0x2b,};
         byte[] key = new byte[]{(byte) 0x13, 0x00, 0x00, 0x00,
-                (byte) 0x08, 0x00, 0x00, 0x00,
-                (byte) 0x06, 0x00, 0x00, 0x00,
-                (byte) 0xB4, 0x00, 0x00, 0x00,
-                (byte) 0x1B, 0x00, 0x00, 0x00,
-                (byte) 0x0F, 0x00, 0x00, 0x00,
-                (byte) 0x33, 0x00, 0x00, 0x00,
-                (byte) 0x52, 0x00, 0x00, 0x00
+            (byte) 0x08, 0x00, 0x00, 0x00,
+            (byte) 0x06, 0x00, 0x00, 0x00,
+            (byte) 0xB4, 0x00, 0x00, 0x00,
+            (byte) 0x1B, 0x00, 0x00, 0x00,
+            (byte) 0x0F, 0x00, 0x00, 0x00,
+            (byte) 0x33, 0x00, 0x00, 0x00,
+            (byte) 0x52, 0x00, 0x00, 0x00
         };
         Cipher cipher = null;
         SecretKeySpec skeySpec = new SecretKeySpec(key, "AES");
@@ -104,12 +103,12 @@ public class WZTool {
             if (b == 0x7F) {
                 strLength = llea.readInt();
             } else {
-                strLength = b;
+                strLength = (int) b;
             }
             if (strLength < 0) {
                 return "";
             }
-            byte[] str = new byte[strLength * 2];
+            byte str[] = new byte[strLength * 2];
             for (int i = 0; i < strLength * 2; i++) {
                 str[i] = llea.readByte();
             }
@@ -123,7 +122,7 @@ public class WZTool {
             if (strLength < 0) {
                 return "";
             }
-            byte[] str = new byte[strLength];
+            byte str[] = new byte[strLength];
             for (int i = 0; i < strLength; i++) {
                 str[i] = llea.readByte();
             }
@@ -173,7 +172,7 @@ public class WZTool {
         if (b == -128) {
             return lea.readInt();
         } else {
-            return b;
+            return ((int) b);
         }
     }
 

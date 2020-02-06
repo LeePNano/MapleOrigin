@@ -19,7 +19,6 @@
 */
 package mapleskillmakerfetcher;
 
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -132,7 +131,7 @@ public class MapleSkillMakerFetcher {
     }
 
     private static int[] generateRecipeItem() {
-        int[] pair = new int[2];
+        int pair[] = new int[2];
         pair[0] = recipeItem;
         pair[1] = recipeCount;
         
@@ -140,7 +139,7 @@ public class MapleSkillMakerFetcher {
     }
     
     private static int[] generateRandomItem() {
-        int[] tuple = new int[3];
+        int tuple[] = new int[3];
         tuple[0] = recipeItem;
         tuple[1] = recipeCount;
         tuple[2] = recipeProb;
@@ -360,8 +359,8 @@ public class MapleSkillMakerFetcher {
         String line = null;
 
         try {
-            printWriter = new PrintWriter(newFile, StandardCharsets.UTF_8);
-            fileReader = new InputStreamReader(new FileInputStream(fileName), StandardCharsets.UTF_8);
+            printWriter = new PrintWriter(newFile, "UTF-8");
+            fileReader = new InputStreamReader(new FileInputStream(fileName), "UTF-8");
             bufferedReader = new BufferedReader(fileReader);
 
             resetMakerDataFields();

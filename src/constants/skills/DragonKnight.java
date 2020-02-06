@@ -22,6 +22,7 @@
 package constants.skills;
 
 /**
+ * 
  * @author David
  */
 public class DragonKnight {

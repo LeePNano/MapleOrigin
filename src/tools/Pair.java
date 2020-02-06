@@ -22,12 +22,13 @@ package tools;
 
 /**
  * Represents a pair of values.
- *
+ * 
+ * @author Frz
+ * @since Revision 333
+ * @version 1.0
+ * 
  * @param <E> The type of the left value.
  * @param <F> The type of the right value.
- * @author Frz
- * @version 1.0
- * @since Revision 333
  */
 public class Pair<E, F> {
 
@@ -37,7 +38,7 @@ public class Pair<E, F> {
     /**
      * Class constructor - pairs two objects together.
      *
-     * @param left  The left object.
+     * @param left The left object.
      * @param right The right object.
      */
     public Pair(E left, F right) {
@@ -109,7 +110,12 @@ public class Pair<E, F> {
             return false;
         }
         if (right == null) {
-            return other.right == null;
-        } else return right.equals(other.right);
+            if (other.right != null) {
+                return false;
+            }
+        } else if (!right.equals(other.right)) {
+            return false;
+        }
+        return true;
     }
 }
