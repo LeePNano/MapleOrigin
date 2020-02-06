@@ -276,6 +276,7 @@ public class CommandsExecutor {
         addCommand("id", 2, IdCommand.class);
         addCommand("gachalist", GachaListCommand.class);
         addCommand("loot", LootCommand.class);
+        addCommand("awardToMap", 2, AwardToMapCommand.class);
         
         commandsNameDesc.add(levelCommandsCursor);
     }
