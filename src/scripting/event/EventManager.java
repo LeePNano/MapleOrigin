@@ -24,6 +24,7 @@ package scripting.event;
 import config.YamlConfig;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import jdk.nashorn.api.scripting.ScriptUtils;
+import server.expeditions.MapleExpeditionBossLog;
 import tools.exceptions.EventInstanceInProgressException;
 import java.util.Collection;
 import java.util.HashMap;

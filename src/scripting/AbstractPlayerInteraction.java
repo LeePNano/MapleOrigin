@@ -1094,33 +1094,43 @@ public class AbstractPlayerInteraction {
 		getPlayer().getMap().broadcastMessage(MaplePacketCreator.environmentChange(env, mode));
 	}
         
-        public String numberWithCommas(int number) {
-                return GameConstants.numberWithCommas(number);
-        }
+    public String numberWithCommas(int number) {
+            return GameConstants.numberWithCommas(number);
+    }
 
 	public Pyramid getPyramid() {
 		return (Pyramid) getPlayer().getPartyQuest();
 	}
 
-        public int createExpedition(MapleExpeditionType type) {
+	public boolean checkBossEntries(MapleExpeditionType type) { return checkBossEntries(type, false, 0, 0); }
+
+	public boolean checkBossEntries(MapleExpeditionType type, boolean silent, int minPlayers, int maxPlayers) {
+        MapleCharacter player = getPlayer();
+        MapleExpedition exped = new MapleExpedition(player, type, silent, minPlayers, maxPlayers);
+        int channel = player.getMap().getChannelServer().getId();
+
+        return MapleExpeditionBossLog.attemptBoss(player.getId(), channel, exped, false);
+    }
+
+    public int createExpedition(MapleExpeditionType type) {
                 return createExpedition(type, false, 0, 0);
         }
         
-	public int createExpedition(MapleExpeditionType type, boolean silent, int minPlayers, int maxPlayers) {
-                MapleCharacter player = getPlayer();
-                MapleExpedition exped = new MapleExpedition(player, type, silent, minPlayers, maxPlayers);
-                
-                int channel = player.getMap().getChannelServer().getId();
-                if (!MapleExpeditionBossLog.attemptBoss(player.getId(), channel, exped, false)) {    // thanks Conrad for noticing missing expeditions entry limit
-                        return 1;
-                }
-                
-                if (exped.addChannelExpedition(player.getClient().getChannelServer())) {
-                        return 0;
-                } else {
-                        return -1;
-                }
-	}
+    public int createExpedition(MapleExpeditionType type, boolean silent, int minPlayers, int maxPlayers) {
+        MapleCharacter player = getPlayer();
+        MapleExpedition exped = new MapleExpedition(player, type, silent, minPlayers, maxPlayers);
+        int channel = player.getMap().getChannelServer().getId();
+
+        if (!MapleExpeditionBossLog.attemptBoss(player.getId(), channel, exped, false)) {    // thanks Conrad for noticing missing expeditions entry limit
+            return 1;
+        }
+
+        if (exped.addChannelExpedition(player.getClient().getChannelServer())) {
+            return 0;
+        } else {
+            return -1;
+        }
+    }
 
 	public void endExpedition(MapleExpedition exped) {
 		exped.dispose(true);
@@ -1128,42 +1138,42 @@ public class AbstractPlayerInteraction {
 	}
 
 	public MapleExpedition getExpedition(MapleExpeditionType type) {
-                return getPlayer().getClient().getChannelServer().getExpedition(type);
+        return getPlayer().getClient().getChannelServer().getExpedition(type);
 	}
         
-        public String getExpeditionMemberNames(MapleExpeditionType type) {
-                String members = "";
-                MapleExpedition exped = getExpedition(type);
-                for (String memberName : exped.getMembers().values()) {
-                       members += "" + memberName + ", ";
+    public String getExpeditionMemberNames(MapleExpeditionType type) {
+        String members = "";
+        MapleExpedition exped = getExpedition(type);
+        for (String memberName : exped.getMembers().values()) {
+               members += "" + memberName + ", ";
+        }
+        return members;
+    }
+
+    public boolean isLeaderExpedition(MapleExpeditionType type) {
+        MapleExpedition exped = getExpedition(type);
+        return exped.isLeader(getPlayer());
+    }
+
+    public long getJailTimeLeft() {
+            return getPlayer().getJailExpirationTimeLeft();
+    }
+
+    public List<MaplePet> getDriedPets() {
+        List<MaplePet> list = new LinkedList<>();
+
+        long curTime = System.currentTimeMillis();
+        for(Item it : getPlayer().getInventory(MapleInventoryType.CASH).list()) {
+            if(ItemConstants.isPet(it.getItemId()) && it.getExpiration() < curTime) {
+                MaplePet pet = it.getPet();
+                if (pet != null) {
+                        list.add(pet);
                 }
-                return members;
+            }
         }
 
-        public boolean isLeaderExpedition(MapleExpeditionType type) {
-                MapleExpedition exped = getExpedition(type);
-                return exped.isLeader(getPlayer());
-        }
-        
-        public long getJailTimeLeft() {
-                return getPlayer().getJailExpirationTimeLeft();
-        }
-        
-        public List<MaplePet> getDriedPets() {
-                List<MaplePet> list = new LinkedList<>();
-            
-                long curTime = System.currentTimeMillis();
-                for(Item it : getPlayer().getInventory(MapleInventoryType.CASH).list()) {
-                        if(ItemConstants.isPet(it.getItemId()) && it.getExpiration() < curTime) {
-                                MaplePet pet = it.getPet();
-                                if (pet != null) {
-                                        list.add(pet);
-                                }
-                        }
-                }
-                
-                return list;
-        }
+        return list;
+    }
         
         public List<Item> getUnclaimedMarriageGifts() {
             return MapleMarriage.loadGiftItemsFromDb(this.getClient(), this.getPlayer().getId());

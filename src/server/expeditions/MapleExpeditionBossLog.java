@@ -205,4 +205,9 @@ public class MapleExpeditionBossLog {
         }
         return true;
     }
+
+    public static void registerBossEntry(int cid, MapleExpeditionType type) {
+        BossLogEntry boss = BossLogEntry.getBossEntryByName(type.name());
+        insertPlayerEntry(cid, boss);
+    }
 }
