@@ -45,15 +45,19 @@ function action(mode, type, selection) {
         cm.dispose();
         
     else if(!cm.getEventInstance().isEventCleared())
-{
+{  
         cm.warp(211042300);
         //cm.gainItem(4000313, 1);
         cm.dispose();
 }
     else {
-        cm.warp(211042300);
-		cm.gainItem(4000313, 1);
-        cm.dispose();
- 
+        if(!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.ETC).isFull(1)){
+            cm.warp(211042300);
+            cm.gainItem(4000313, 1);
+            cm.dispose();
+        } else {
+            cm.sendOk("Please make space in your inventory");
+            cm.dispose();
+        }
     }
 }
