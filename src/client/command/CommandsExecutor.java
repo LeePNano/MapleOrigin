@@ -375,6 +375,8 @@ public class CommandsExecutor {
         addCommand("pnpcremove", 4, PnpcRemoveCommand.class);
         addCommand("pmob", 4, PmobCommand.class);
         addCommand("pmobremove", 4, PmobRemoveCommand.class);
+        addCommand("disablenpc", 4, DisableNPCCommand.class);
+        addCommand("gmonlynpc", 4, GMOnlyNPCCommand.class);
         
         commandsNameDesc.add(levelCommandsCursor);
     }
