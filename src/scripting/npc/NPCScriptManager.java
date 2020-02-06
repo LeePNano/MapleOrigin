@@ -93,8 +93,8 @@ public class NPCScriptManager extends AbstractScriptManager {
 
     public void start(String filename, MapleClient c, int npc, List<MaplePartyCharacter> chrs) {
         try {
-            if (!disabledNPCs.contains(getCM(c).getNpc())
-                    && !(gmOnlyNPCs.contains(getCM(c).getNpc()) && c.getPlayer().gmLevel() < 1)) {
+            if (!disabledNPCs.contains(npc)
+                    && !(gmOnlyNPCs.contains(npc) && c.getPlayer().gmLevel() < 1)) {
                 NPCConversationManager cm = new NPCConversationManager(c, npc, chrs, true);
                 cm.dispose();
                 if (cms.containsKey(c)) {
@@ -133,8 +133,8 @@ public class NPCScriptManager extends AbstractScriptManager {
                 dispose(c);
             }
             if (c.canClickNPC()
-                    && !disabledNPCs.contains(getCM(c).getNpc())
-                    && !(gmOnlyNPCs.contains(getCM(c).getNpc()) && c.getPlayer().gmLevel() < 1)) {
+                    && !disabledNPCs.contains(npc)
+                    && !(gmOnlyNPCs.contains(npc) && c.getPlayer().gmLevel() < 1)) {
                 cms.put(c, cm);
                 NashornScriptEngine iv = null;
                 if (!itemScript) {
