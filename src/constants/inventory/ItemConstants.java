@@ -161,7 +161,7 @@ public final class ItemConstants {
     
     public static boolean isRateCoupon(int itemId) {
         int itemType = itemId / 1000;
-        return itemType == 5211 || itemType == 5360 || itemType == 5570 || itemType == 5220;
+        return itemType == 5211 || itemType == 5360 || itemType == 5570 || itemType == 5220 || itemType == 5451;
     }
     
     public static boolean isExpCoupon(int couponId) {
