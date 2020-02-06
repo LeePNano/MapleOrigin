@@ -1104,10 +1104,10 @@ public class EventManager {
         instantiateQueuedInstance();    // keep filling the queue until reach threshold.
     }
 
-    public boolean checkBossEntries(MapleExpeditionType type, List<MapleCharacter> party) {
-        for (MapleCharacter mc : party) {
-            int channel = mc.getMap().getChannelServer().getId();
-            boolean pass = MapleExpeditionBossLog.attemptBoss(mc.getId(), channel, type, false);
+    public boolean checkBossEntries(MapleExpeditionType type, MapleParty party) {
+        for (MaplePartyCharacter mpc : party.getMembers()) {
+            int channel = mpc.getPlayer().getMap().getChannelServer().getId();
+            boolean pass = MapleExpeditionBossLog.attemptBoss(mpc.getPlayer().getId(), channel, type, false);
             if (!pass) {
                 return false;
             }
