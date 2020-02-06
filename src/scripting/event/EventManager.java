@@ -25,6 +25,7 @@ import config.YamlConfig;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import jdk.nashorn.api.scripting.ScriptUtils;
 import server.expeditions.MapleExpeditionBossLog;
+import server.expeditions.MapleExpeditionType;
 import tools.exceptions.EventInstanceInProgressException;
 import java.util.Collection;
 import java.util.HashMap;
@@ -1101,6 +1102,17 @@ public class EventManager {
         }
         
         instantiateQueuedInstance();    // keep filling the queue until reach threshold.
+    }
+
+    public boolean checkBossEntries(MapleExpeditionType type, List<MapleCharacter> party) {
+        for (MapleCharacter mc : party) {
+            int channel = mc.getMap().getChannelServer().getId();
+            boolean pass = MapleExpeditionBossLog.attemptBoss(mc.getId(), channel, type, false);
+            if (!pass) {
+                return false;
+            }
+        }
+        return true;
     }
     
     private class EventManagerTask implements Runnable {

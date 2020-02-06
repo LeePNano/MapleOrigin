@@ -22,6 +22,7 @@
  * @author: Ronan
  * @event: Vs Papulatus
 */
+importPackage(Packages.server.expeditions);
 
 var isPq = true;
 var minPlayers = 1, maxPlayers = 6;
@@ -229,6 +230,6 @@ function updateGateState(newState) {    // thanks Conrad for noticing missing ga
 
 function dispose(eim) {
     if (!eim.isEventCleared()) {
-            updateGateState(0);
+        updateGateState(0);
     }
 }

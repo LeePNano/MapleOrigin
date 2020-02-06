@@ -206,6 +206,30 @@ public class MapleExpeditionBossLog {
         return true;
     }
 
+    public static boolean attemptBoss(int cid, int channel, MapleExpeditionType type, boolean log) {
+        if (!YamlConfig.config.server.USE_ENABLE_DAILY_EXPEDITIONS) {
+            return true;
+        }
+
+        BossLogEntry boss = BossLogEntry.getBossEntryByName(type.name());
+        if (boss == null) {
+            return true;
+        }
+
+        if (channel < boss.minChannel || channel > boss.maxChannel) {
+            return false;
+        }
+
+        if (countPlayerEntries(cid, boss) >= boss.entries) {
+            return false;
+        }
+
+        if (log) {
+            insertPlayerEntry(cid, boss);
+        }
+        return true;
+    }
+
     public static void registerBossEntry(int cid, MapleExpeditionType type) {
         BossLogEntry boss = BossLogEntry.getBossEntryByName(type.name());
         insertPlayerEntry(cid, boss);

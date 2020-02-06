@@ -1102,16 +1102,6 @@ public class AbstractPlayerInteraction {
 		return (Pyramid) getPlayer().getPartyQuest();
 	}
 
-	public boolean checkBossEntries(MapleExpeditionType type) { return checkBossEntries(type, false, 0, 0); }
-
-	public boolean checkBossEntries(MapleExpeditionType type, boolean silent, int minPlayers, int maxPlayers) {
-        MapleCharacter player = getPlayer();
-        MapleExpedition exped = new MapleExpedition(player, type, silent, minPlayers, maxPlayers);
-        int channel = player.getMap().getChannelServer().getId();
-
-        return MapleExpeditionBossLog.attemptBoss(player.getId(), channel, exped, false);
-    }
-
     public int createExpedition(MapleExpeditionType type) {
                 return createExpedition(type, false, 0, 0);
         }
