@@ -29,7 +29,7 @@ package client.command.commands.gm0;
 import client.MapleClient;
 import client.command.Command;
 
-public class PlayerTeleportCommand extends Command {
+public class FMCommand extends Command {
     {
         setDescription("Select teleport to FM");
     }

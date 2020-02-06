@@ -68,4 +68,4 @@ public final class HealOvertimeHandler extends AbstractMaplePacketHandler {
             abm.spam(1, timestamp);
         }
     }
-}
+
