@@ -64,7 +64,6 @@ function action(mode, type, selection) {
                                         cm.teachSkill(1121001, 0, 10, -1);
                                         cm.teachSkill(1120004, 0, 10, -1);
                                         cm.teachSkill(1121008, 0, 10, -1);
-										cm.teachSkill(1121003, 0, 10, -1);
                                 } else if(cm.getJobId() == 122) {
                                         cm.teachSkill(1221001, 0, 10, -1);
                                         cm.teachSkill(1220005, 0, 10, -1);
@@ -73,7 +72,6 @@ function action(mode, type, selection) {
                                         cm.teachSkill(1321001, 0, 10, -1);
                                         cm.teachSkill(1320005, 0, 10, -1);
                                         cm.teachSkill(1321007, 0, 10, -1);
-										cm.teachSkill(1321006, 0, 10, -1);
                                 }
                         } else if(mode >= 0 && cm.getJobId() % 100 % 10 == 2) {
                                 // TEMP until I can get the quest fixed...
@@ -84,8 +82,6 @@ function action(mode, type, selection) {
                                                 cm.teachSkill(1120005 , 0, 10, -1);
                                         if(cm.getPlayer().getSkillLevel(1121002) == 0)
                                                 cm.teachSkill(1121002 , 0, 10, -1);
-											if(cm.getPlayer().getSkillLevel(1121003) == 0)
-                                                cm.teachSkill(1121003 , 0, 10, -1);
                                 }  else if(cm.getJobId() == 122) {
                                         if(cm.getPlayer().getSkillLevel(1221002) == 0)
                                                 cm.teachSkill(1221002, 0, 10, -1);
@@ -100,8 +96,6 @@ function action(mode, type, selection) {
                                                 cm.teachSkill(1320008, 0, 10, -1);
                                         if(cm.getPlayer().getSkillLevel(1320009) == 0)
                                                 cm.teachSkill(1320009, 0, 10, -1);
-											if(cm.getPlayer().getSkillLevel(1321006) == 0)
-                                                cm.teachSkill(1321006, 0, 10, -1);
                                 }
                                 cm.sendOk("It is done. Leave me now.");
                         }
