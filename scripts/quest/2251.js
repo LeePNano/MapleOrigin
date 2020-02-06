@@ -22,7 +22,7 @@ function end(mode, type, selection) {
             status--;
         
         if (status == 0) {
-            if(!qm.haveItem(4032399, 20)) {
+            if(!qm.haveItem(4032399) < 20)) {
                 qm.sendOk("Please bring me 20 #b#t4032399##k...  #i4032399#");
             }
             else {
