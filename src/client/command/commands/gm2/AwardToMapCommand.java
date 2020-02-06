@@ -13,7 +13,7 @@ import java.util.List;
 
 public class AwardToMapCommand extends Command {
     {
-        setDescription("");
+        setDescription("Give an item/currency to everyone currently on your map");
     }
 
     @Override
