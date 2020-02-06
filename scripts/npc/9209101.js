@@ -72,27 +72,39 @@ function action (m,t,s) {
                    // cm.getPlayer().setRewardPoints(currentRewardPoints - points[s]);
 				   //cm.gainItem(leaf, - points[s]);
                     if (items[s] == 2049100 || items[s] == 2340000 || items[s] == 2049003) {
-                        if(cm.haveItem(leaf, 1)) {
-                            cm.gainItem(leaf, -1);
-                            cm.gainItem(items[s], 1);
+                        if(!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.USE).isFull(2)) {
+                            if(cm.haveItem(leaf, 1)) {
+                                cm.gainItem(leaf, -1);
+                                cm.gainItem(items[s], 1);
+                            } else {
+                                cm.sendOk("Sorry, you don't have enough leafs!");
+                            }
                         } else {
-                            cm.sendOk("Sorry, you don't have enough leafs!");
+                            cm.sendOk("Please make sure you have at least 3 slots empty in your inventory");
                         }
                     }
                     else if(items[s] == 2044301 || items[s] == 2044401 || items[s] == 2044501 || items[s] == 2044601 || items[s] == 2044701 || items[s] == 2044801 || items[s] == 2044901 || items[s] == 2044201 || items[s] == 2044101 || items[s] == 2044001 || items[s] == 2043001 || items[s] == 2043101 || items[s] == 2043201 || items[s] == 2043801 || items[s] == 2043701 || items[s] == 2043301 || items[s] == 2040914 || items[s] == 2040919){
-                        if(cm.haveItem(leaf, 1)) {
-                            cm.gainItem(leaf, -1);
-                            cm.gainItem(items[s], 3);
+                        if(!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.USE).isFull(2)) {
+                            if(cm.haveItem(leaf, 1)) {
+                                cm.gainItem(leaf, -1);
+                                cm.gainItem(items[s], 3);
+                            } else {
+                                cm.sendOk("Sorry, you don't have enough leafs!");
+                            }
                         } else {
-                            cm.sendOk("Sorry, you don't have enough leafs!");
+                            cm.sendOk("Please make sure you have at least 3 slots empty in your inventory");
                         }
                     }
 					else if(items[s] == 2290084 || items[s] == 2290085 || items[s] == 2290010 || items[s] == 2290011 || items[s] == 2290022 || items[s] == 2290023 || items[s] == 2290032 || items[s] == 2290033 || items[s] == 2290030 || items[s] == 2290031 || items[s] == 2290050 || items[s] == 2290051 || items[s] == 2290090 || items[s] == 2290091 || items[s] == 2290074 || items[s] == 2290075 || items[s] == 2290136 || items[s] == 2290137 || items[s] == 2290012 || items[s] == 2290013 || items[s] == 2290096 || items[s] == 2290125){
-                        if(cm.haveItem(leaf, 15)) {
-                            cm.gainItem(leaf, -15);
-                            cm.gainItem(items[s], 1);
+                        if(!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.USE).isFull(2)) {
+                            if(cm.haveItem(leaf, 15)) {
+                                cm.gainItem(leaf, -15);
+                                cm.gainItem(items[s], 1);
+                            } else {
+                                cm.sendOk("Sorry, you don't have enough leafs!");
+                            }
                         } else {
-                            cm.sendOk("Sorry, you don't have enough leafs!");
+                            cm.sendOk("Please make sure you have at least 3 slots empty in your inventory");
                         }
                     }
                     else if(items[s] == 1302147 || items[s] == 1312062 || items[s] == 1322090 || items[s] == 1332120 || items[s] == 1332125 || items[s] == 1372078 || items[s] == 1382099 || items[s] == 1402090 || items[s] == 1412062 || items[s] == 1422063 || items[s] == 1432081 || items[s] == 1442111 || items[s] == 1452106 || items[s] == 1462091 || items[s] == 1472117 || items[s] == 1482079 || items[s] == 1492079){
