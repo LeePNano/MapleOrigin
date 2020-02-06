@@ -42,20 +42,20 @@ public class SkillMacro {
         return skill1;
     }
 
-    public int getSkill2() {
-        return skill2;
-    }
-
-    public int getSkill3() {
-        return skill3;
-    }
-    
     public void setSkill1(int skill) {
         skill1 = skill;
     }
 
+    public int getSkill2() {
+        return skill2;
+    }
+
     public void setSkill2(int skill) {
         skill2 = skill;
+    }
+
+    public int getSkill3() {
+        return skill3;
     }
 
     public void setSkill3(int skill) {

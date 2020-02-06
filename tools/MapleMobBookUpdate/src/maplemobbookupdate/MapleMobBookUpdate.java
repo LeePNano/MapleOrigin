@@ -19,6 +19,7 @@
 */
 package maplemobbookupdate;
 
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -174,8 +175,8 @@ public class MapleMobBookUpdate {
             Class.forName(driver).newInstance();
             con = DriverManager.getConnection(host, username, password);
 
-            printWriter = new PrintWriter(newFile, "UTF-8");
-            fileReader = new InputStreamReader(new FileInputStream(fileName), "UTF-8");
+            printWriter = new PrintWriter(newFile, StandardCharsets.UTF_8);
+            fileReader = new InputStreamReader(new FileInputStream(fileName), StandardCharsets.UTF_8);
             bufferedReader = new BufferedReader(fileReader);
 
             while((line = bufferedReader.readLine()) != null) {

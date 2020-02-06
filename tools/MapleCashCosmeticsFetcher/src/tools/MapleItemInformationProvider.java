@@ -259,7 +259,7 @@ public class MapleItemInformationProvider {
 
     private MapleData getItemData(int itemId) {
         MapleData ret = null;
-        String idStr = "0" + String.valueOf(itemId);
+        String idStr = "0" + itemId;
         MapleDataDirectoryEntry root = itemData.getRoot();
         for (MapleDataDirectoryEntry topDir : root.getSubdirectories()) {
             for (MapleDataFileEntry iFile : topDir.getFiles()) {
@@ -311,7 +311,7 @@ public class MapleItemInformationProvider {
     public short getSlotMax(int itemId) {
         Short slotMax = slotMaxCache.get(itemId);
         if (slotMax != null) {
-            return (short)(slotMax);
+            return slotMax;
         }
         short ret = 0;
         MapleData item = getItemData(itemId);
@@ -325,7 +325,7 @@ public class MapleItemInformationProvider {
         }
         
         slotMaxCache.put(itemId, ret);
-        return (short)(ret);
+        return ret;
     }
 
     public int getMeso(int itemId) {
@@ -378,7 +378,7 @@ public class MapleItemInformationProvider {
             try {
                 pEntry = MapleDataTool.getDouble(pData);
             } catch (Exception e) {
-                pEntry = (double) MapleDataTool.getInt(pData);
+                pEntry = MapleDataTool.getInt(pData);
             }
         } else {
             pData = item.getChildByPath("info/price");
@@ -386,7 +386,7 @@ public class MapleItemInformationProvider {
                 return -1;
             }
             try {
-                pEntry = (double) MapleDataTool.getInt(pData);
+                pEntry = MapleDataTool.getInt(pData);
             } catch(Exception e) {
                 priceCache.put(itemId, 0.0);
                 return 0;
@@ -564,7 +564,7 @@ public class MapleItemInformationProvider {
         MapleData data = getItemData(itemId);
         int curPetId;
         for (int i = 0; i < data.getChildren().size(); i++) {
-            curPetId = MapleDataTool.getInt("spec/" + Integer.toString(i), data, 0);
+            curPetId = MapleDataTool.getInt("spec/" + i, data, 0);
             if (curPetId == 0) {
                 break;
             }

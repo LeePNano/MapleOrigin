@@ -26,6 +26,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -267,7 +268,7 @@ public class MapleQuestlineFetcher {
     private static void readQuestsWithMissingScripts() throws IOException {
         String line;
         
-        fileReader = new InputStreamReader(new FileInputStream(checkName), "UTF-8");
+        fileReader = new InputStreamReader(new FileInputStream(checkName), StandardCharsets.UTF_8);
         bufferedReader = new BufferedReader(fileReader);
 
         while((line = bufferedReader.readLine()) != null) {
@@ -281,7 +282,7 @@ public class MapleQuestlineFetcher {
     private static void readQuestsWithSkillReward() throws IOException {
         String line;
         
-        fileReader = new InputStreamReader(new FileInputStream(actName), "UTF-8");
+        fileReader = new InputStreamReader(new FileInputStream(actName), StandardCharsets.UTF_8);
         bufferedReader = new BufferedReader(fileReader);
 
         while((line = bufferedReader.readLine()) != null) {
@@ -358,7 +359,7 @@ public class MapleQuestlineFetcher {
             calculateSkillRelatedMissingQuestScripts();
             
             System.out.println("Reporting results...");
-            printWriter = new PrintWriter(newFile, "UTF-8");
+            printWriter = new PrintWriter(newFile, StandardCharsets.UTF_8);
             
             printReportFileHeader();
             printReportFileResults();

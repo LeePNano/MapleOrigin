@@ -23,6 +23,7 @@ package tools.data.output;
 
 import java.awt.Point;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Provides a generic writer of a little-endian sequence of bytes.
@@ -32,7 +33,7 @@ import java.nio.charset.Charset;
  * @since Revision 323
  */
 public class GenericLittleEndianWriter implements LittleEndianWriter {
-    private static Charset ASCII = Charset.forName("US-ASCII");
+    private static Charset ASCII = StandardCharsets.US_ASCII;
     private ByteOutputStream bos;
 
     /**

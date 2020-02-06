@@ -21,45 +21,61 @@
  */
 package net.server.handlers.login;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.Calendar;
-
+import client.MapleClient;
 import config.YamlConfig;
 import net.MaplePacketHandler;
 import net.server.Server;
+import net.server.coordinator.session.MapleSessionCoordinator;
+import org.apache.mina.core.session.IoSession;
 import tools.BCrypt;
 import tools.DatabaseConnection;
 import tools.HexTool;
 import tools.MaplePacketCreator;
 import tools.data.input.SeekableLittleEndianAccessor;
-import client.MapleClient;
-import java.sql.ResultSet;
-import java.sql.Statement;
+
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import net.server.coordinator.session.MapleSessionCoordinator;
-import org.apache.mina.core.session.IoSession;
+import java.sql.*;
+import java.util.Calendar;
 
 public final class LoginPasswordHandler implements MaplePacketHandler {
 
-    @Override
-    public boolean validateState(MapleClient c) {
-        return !c.isLoggedIn();
-    }
-
     private static String hashpwSHA512(String pwd) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         MessageDigest digester = MessageDigest.getInstance("SHA-512");
-        digester.update(pwd.getBytes("UTF-8"), 0, pwd.length());
+        digester.update(pwd.getBytes(StandardCharsets.UTF_8), 0, pwd.length());
         return HexTool.toString(digester.digest()).replace(" ", "").toLowerCase();
     }
 
     private static String getRemoteIp(IoSession session) {
         return MapleSessionCoordinator.getSessionRemoteAddress(session);
     }
-    
+
+    private static void login(MapleClient c) {
+        c.announce(MaplePacketCreator.getAuthSuccess(c));//why the fk did I do c.getAccountName()?
+        Server.getInstance().registerLoginState(c);
+    }
+
+    private static void disposeSql(Connection con, PreparedStatement ps) {
+        try {
+            if (con != null) {
+                con.close();
+            }
+
+            if (ps != null) {
+                ps.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public boolean validateState(MapleClient c) {
+        return !c.isLoggedIn();
+    }
+
     @Override
     public final void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
         String remoteHost = getRemoteIp(c.getSession());
@@ -81,16 +97,16 @@ public final class LoginPasswordHandler implements MaplePacketHandler {
             c.announce(MaplePacketCreator.getLoginFailed(14));          // thanks Alchemist for noting remoteHost could be null
             return;
         }
-        
+
         String login = slea.readMapleAsciiString();
         String pwd = slea.readMapleAsciiString();
         c.setAccountName(login);
-        
+
         slea.skip(6);   // localhost masked the initial part with zeroes...
         byte[] hwidNibbles = slea.read(4);
         String nibbleHwid = HexTool.toCompressedString(hwidNibbles);
         int loginok = c.login(login, pwd, nibbleHwid);
-        
+
         Connection con = null;
         PreparedStatement ps = null;
 
@@ -103,7 +119,7 @@ public final class LoginPasswordHandler implements MaplePacketHandler {
                 ps.setString(3, "2018-06-20"); //Jayd's idea: was added to solve the MySQL 5.7 strict checking (birthday)
                 ps.setString(4, "2018-06-20"); //Jayd's idea: was added to solve the MySQL 5.7 strict checking (tempban)
                 ps.executeUpdate();
-                
+
                 ResultSet rs = ps.getGeneratedKeys();
                 rs.next();
                 c.setAccID(rs.getInt(1));
@@ -155,25 +171,6 @@ public final class LoginPasswordHandler implements MaplePacketHandler {
             login(c);
         } else {
             c.announce(MaplePacketCreator.getLoginFailed(7));
-        }
-    }
-
-    private static void login(MapleClient c){
-        c.announce(MaplePacketCreator.getAuthSuccess(c));//why the fk did I do c.getAccountName()?
-        Server.getInstance().registerLoginState(c);
-    }
-
-    private static void disposeSql(Connection con, PreparedStatement ps) {
-        try {
-            if (con != null) {
-                con.close();
-            }
-
-            if (ps != null) {
-                ps.close();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 }

@@ -45,12 +45,8 @@ public enum MapleStat {
     GACHAEXP(0x200000);
     private final int i;
 
-    private MapleStat(int i) {
+    MapleStat(int i) {
         this.i = i;
-    }
-
-    public int getValue() {
-        return i;
     }
 
     public static MapleStat getByValue(int value) {
@@ -117,5 +113,9 @@ public enum MapleStat {
             return PET;
         }
         return null;
+    }
+
+    public int getValue() {
+        return i;
     }
 }

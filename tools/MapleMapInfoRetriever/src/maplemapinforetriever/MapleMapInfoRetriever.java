@@ -25,6 +25,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -129,7 +130,7 @@ public class MapleMapInfoRetriever {
         String line = null;
 
         try {
-            fileReader = new InputStreamReader(new FileInputStream(file), "UTF-8");
+            fileReader = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8);
             bufferedReader = new BufferedReader(fileReader);
 
             hasInfo = false;
@@ -157,7 +158,7 @@ public class MapleMapInfoRetriever {
 
     private static void writeReport() {
         try {
-            printWriter = new PrintWriter(newFile, "UTF-8");
+            printWriter = new PrintWriter(newFile, StandardCharsets.UTF_8);
 
             if(!missingInfo.isEmpty()) {
                 for(Integer i : missingInfo) {

@@ -21,31 +21,48 @@
  */
 package net.server.channel.handlers;
 
-import client.MapleClient;
 import client.MapleCharacter;
+import client.MapleClient;
 import client.Skill;
 import client.SkillFactory;
-import client.inventory.Equip;
+import client.inventory.*;
 import client.inventory.Equip.ScrollResult;
-import client.inventory.Item;
-import client.inventory.MapleInventory;
-import client.inventory.MapleInventoryType;
-import client.inventory.ModifyInventory;
-import constants.inventory.ItemConstants;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import net.AbstractMaplePacketHandler;
 import client.inventory.manipulator.MapleInventoryManipulator;
+import constants.inventory.ItemConstants;
+import net.AbstractMaplePacketHandler;
 import server.MapleItemInformationProvider;
 import tools.MaplePacketCreator;
 import tools.data.input.SeekableLittleEndianAccessor;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Matze
  * @author Frz
  */
 public final class ScrollHandler extends AbstractMaplePacketHandler {
+
+    private static void announceCannotScroll(MapleClient c, boolean legendarySpirit) {
+        if (legendarySpirit) {
+            c.announce(MaplePacketCreator.getScrollEffect(c.getPlayer().getId(), Equip.ScrollResult.FAIL, false, false));
+        } else {
+            c.announce(MaplePacketCreator.getInventoryFull());
+        }
+    }
+
+    private static boolean canScroll(int scrollid, int itemid) {
+        int sid = scrollid / 100;
+
+        switch (sid) {
+            case 20492: //scroll for accessory (pendant, belt, ring)
+                return canScroll(2041100, itemid) || canScroll(2041200, itemid) || canScroll(2041300, itemid);
+
+            default:
+                return (scrollid / 100) % 100 == (itemid / 10000) % 100;
+        }
+    }
 
     @Override
     public final void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
@@ -81,7 +98,7 @@ public final class ScrollHandler extends AbstractMaplePacketHandler {
                         announceCannotScroll(c, legendarySpirit);
                         return;
                     }
-                } else if (!ItemConstants.isModifierScroll(scroll.getItemId()) && ((Equip) toScroll).getUpgradeSlots() < 1) {
+                } else if (!ItemConstants.isModifierScroll(scroll.getItemId()) && toScroll.getUpgradeSlots() < 1) {
                     announceCannotScroll(c, legendarySpirit);   // thanks onechord for noticing zero upgrade slots freezing Legendary Scroll UI
                     return;
                 }
@@ -117,31 +134,31 @@ public final class ScrollHandler extends AbstractMaplePacketHandler {
                 } else if (scrolled.getLevel() > oldLevel || (ItemConstants.isCleanSlate(scroll.getItemId()) && scrolled.getUpgradeSlots() == oldSlots + 1) || ItemConstants.isFlagModifier(scroll.getItemId(), scrolled.getFlag())) {
                     scrollSuccess = Equip.ScrollResult.SUCCESS;
                 }
-                
+
                 useInventory.lockInventory();
                 try {
                     if (scroll.getQuantity() < 1) {
                         announceCannotScroll(c, legendarySpirit);
                         return;
                     }
-                    
+
                     if (whiteScroll && !ItemConstants.isCleanSlate(scroll.getItemId())) {
                         if (wscroll.getQuantity() < 1) {
                             announceCannotScroll(c, legendarySpirit);
                             return;
                         }
-                        
+
                         MapleInventoryManipulator.removeFromSlot(c, MapleInventoryType.USE, wscroll.getPosition(), (short) 1, false, false);
                     }
-                    
+
                     MapleInventoryManipulator.removeFromSlot(c, MapleInventoryType.USE, scroll.getPosition(), (short) 1, false);
                 } finally {
                     useInventory.unlockInventory();
                 }
-                
+
                 final List<ModifyInventory> mods = new ArrayList<>();
                 if (scrollSuccess == Equip.ScrollResult.CURSE) {
-                    if(!ItemConstants.isWeddingRing(toScroll.getItemId())) {
+                    if (!ItemConstants.isWeddingRing(toScroll.getItemId())) {
                         mods.add(new ModifyInventory(3, toScroll));
                         if (dst < 0) {
                             MapleInventory inv = chr.getInventory(MapleInventoryType.EQUIPPED);
@@ -155,7 +172,7 @@ public final class ScrollHandler extends AbstractMaplePacketHandler {
                             }
                         } else {
                             MapleInventory inv = chr.getInventory(MapleInventoryType.EQUIP);
-                            
+
                             inv.lockInventory();
                             try {
                                 inv.removeItem(toScroll.getPosition());
@@ -182,26 +199,6 @@ public final class ScrollHandler extends AbstractMaplePacketHandler {
             } finally {
                 c.releaseClient();
             }
-        }
-    }
-    
-    private static void announceCannotScroll(MapleClient c, boolean legendarySpirit) {
-        if (legendarySpirit) {
-            c.announce(MaplePacketCreator.getScrollEffect(c.getPlayer().getId(), Equip.ScrollResult.FAIL, false, false));
-        } else {
-            c.announce(MaplePacketCreator.getInventoryFull());
-        }
-    }
-
-    private static boolean canScroll(int scrollid, int itemid) {
-        int sid = scrollid / 100;
-        
-        switch(sid) {
-            case 20492: //scroll for accessory (pendant, belt, ring)
-                return canScroll(2041100, itemid) || canScroll(2041200, itemid) || canScroll(2041300, itemid);
-                
-            default:
-                return (scrollid / 100) % 100 == (itemid / 10000) % 100;
         }
     }
 }

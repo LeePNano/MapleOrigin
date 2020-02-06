@@ -68,7 +68,7 @@ public class XMLDomMapleData implements MapleData {
 
 	@Override
 	public synchronized MapleData getChildByPath(String path) {  // the whole XML reading system seems susceptible to give nulls on strenuous read scenarios
-		String segments[] = path.split("/");
+		String[] segments = path.split("/");
 		if (segments[0].equals("..")) {
 			return ((MapleData) getParent()).getChildByPath(path.substring(path.indexOf("/") + 1));
 		}

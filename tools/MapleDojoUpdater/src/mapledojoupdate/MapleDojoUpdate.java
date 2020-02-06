@@ -26,6 +26,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 
 /**
@@ -146,9 +147,9 @@ public class MapleDojoUpdate {
     }
     
     private static void parseDojoData(File file, String curPath) throws IOException {
-        printWriter = new PrintWriter(outputDirectory + curPath + file.getName(), "UTF-8");
+        printWriter = new PrintWriter(outputDirectory + curPath + file.getName(), StandardCharsets.UTF_8);
         
-        fileReader = new InputStreamReader(new FileInputStream(file), "UTF-8");
+        fileReader = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8);
         bufferedReader = new BufferedReader(fileReader);
         
         status = 0;

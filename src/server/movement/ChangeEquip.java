@@ -21,8 +21,9 @@
 */
 package server.movement;
 
-import java.awt.Point;
 import tools.data.output.LittleEndianWriter;
+
+import java.awt.*;
 
 public class ChangeEquip implements LifeMovementFragment {
     private int wui;

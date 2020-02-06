@@ -25,6 +25,7 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -206,7 +207,7 @@ public class MapleEmptyItemWzChecker {
     }
     
     private static void loadStringWzFile(String filePath, int depth) throws IOException {
-        fileReader = new InputStreamReader(new FileInputStream(filePath), "UTF-8");
+        fileReader = new InputStreamReader(new FileInputStream(filePath), StandardCharsets.UTF_8);
         bufferedReader = new BufferedReader(fileReader);
 
         currentFile = filePath;
@@ -220,7 +221,7 @@ public class MapleEmptyItemWzChecker {
     
     private static void loadStringWz() throws IOException {
         System.out.println("Reading String.wz ...");
-        String stringWzFiles[][] = {{"Cash", "Consume", "Ins", "Pet"}, {"Etc"}, {"Eqp"}};
+        String[][] stringWzFiles = {{"Cash", "Consume", "Ins", "Pet"}, {"Etc"}, {"Eqp"}};
         String stringWzPath = wzPath + "/String.wz/";
         
         for (int i = 0; i < stringWzFiles.length; i++) {
@@ -239,7 +240,7 @@ public class MapleEmptyItemWzChecker {
             if (f.getParentFile().getName().contentEquals("Special")) continue;
             
             //System.out.println("Parsing " + f.getAbsolutePath());
-            fileReader = new InputStreamReader(new FileInputStream(f), "UTF-8");
+            fileReader = new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8);
             bufferedReader = new BufferedReader(fileReader);
             
             currentFile = f.getCanonicalPath();
@@ -314,7 +315,7 @@ public class MapleEmptyItemWzChecker {
         }
         
         for (File f : files) {
-            fileReader = new InputStreamReader(new FileInputStream(f), "UTF-8");
+            fileReader = new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8);
             bufferedReader = new BufferedReader(fileReader);
 
             String line = null;
@@ -375,7 +376,7 @@ public class MapleEmptyItemWzChecker {
     
     private static void reportItemNameDiff(Set<Integer> emptyItemNames, Set<Integer> emptyNameItems) throws IOException {
         System.out.println("Reporting results...");
-        printWriter = new PrintWriter(newFile, "UTF-8");
+        printWriter = new PrintWriter(newFile, StandardCharsets.UTF_8);
         
         printReportFileHeader();
         printReportFileResults(emptyItemNames, emptyNameItems);
@@ -432,9 +433,9 @@ public class MapleEmptyItemWzChecker {
     }
     
     private static void generateStringWzFile(String filePath, int depth) throws IOException {
-        fileReader = new InputStreamReader(new FileInputStream(wzPath + filePath), "UTF-8");
+        fileReader = new InputStreamReader(new FileInputStream(wzPath + filePath), StandardCharsets.UTF_8);
         bufferedReader = new BufferedReader(fileReader);
-        printWriter = new PrintWriter(outputWzPath + filePath, "UTF-8");
+        printWriter = new PrintWriter(outputWzPath + filePath, StandardCharsets.UTF_8);
         currentDepth = 2 + depth;
         
         //System.out.println(filePath + " depth " + depth);
@@ -447,7 +448,7 @@ public class MapleEmptyItemWzChecker {
     
     private static void generateStringWz() throws IOException {
         System.out.println("Generating clean String.wz ...");
-        String stringWzFiles[][] = {{"Cash", "Consume", "Ins", "Pet"}, {"Etc"}, {"Eqp"}};
+        String[][] stringWzFiles = {{"Cash", "Consume", "Ins", "Pet"}, {"Etc"}, {"Eqp"}};
         String stringWzPath = "/String.wz/";
         
         File folder = new File(outputWzPath + "/String.wz/");

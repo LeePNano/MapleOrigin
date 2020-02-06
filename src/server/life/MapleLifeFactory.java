@@ -21,15 +21,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package server.life;
 
-import java.awt.Point;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import provider.MapleData;
 import provider.MapleDataProvider;
 import provider.MapleDataProviderFactory;
@@ -39,10 +30,15 @@ import tools.Pair;
 import tools.Randomizer;
 import tools.StringUtil;
 
+import java.awt.*;
+import java.io.File;
+import java.util.List;
+import java.util.*;
+
 public class MapleLifeFactory {
 
-    private static MapleDataProvider data = MapleDataProviderFactory.getDataProvider(new File(System.getProperty("wzpath") + "/Mob.wz"));
     private final static MapleDataProvider stringDataWZ = MapleDataProviderFactory.getDataProvider(new File(System.getProperty("wzpath") + "/String.wz"));
+    private static MapleDataProvider data = MapleDataProviderFactory.getDataProvider(new File(System.getProperty("wzpath") + "/Mob.wz"));
     private static MapleData mobStringData = stringDataWZ.getData("Mob.img");
     private static MapleData npcStringData = stringDataWZ.getData("Npc.img");
     private static Map<Integer, MapleMonsterStats> monsterStats = new HashMap<>();
@@ -50,15 +46,15 @@ public class MapleLifeFactory {
 
     private static Set<Integer> getHpBarBosses() {
         Set<Integer> ret = new HashSet<>();
-        
+
         MapleDataProvider uiDataWZ = MapleDataProviderFactory.getDataProvider(new File(System.getProperty("wzpath") + "/UI.wz"));
         for (MapleData bossData : uiDataWZ.getData("UIWindow.img").getChildByPath("MobGage/Mob").getChildren()) {
             ret.add(Integer.valueOf(bossData.getName()));
         }
-        
+
         return ret;
     }
-    
+
     public static AbstractLoadedMapleLife getLife(int id, String type) {
         if (type.equalsIgnoreCase("n")) {
             return getNPC(id);
@@ -70,20 +66,6 @@ public class MapleLifeFactory {
         }
     }
 
-    private static class MobAttackInfoHolder {
-        protected int attackPos;
-        protected int mpCon;
-        protected int coolTime;
-        protected int animationTime;
-        
-        protected MobAttackInfoHolder(int attackPos, int mpCon, int coolTime, int animationTime) {
-            this.attackPos = attackPos;
-            this.mpCon = mpCon;
-            this.coolTime = coolTime;
-            this.animationTime = animationTime;
-        }
-    }
-    
     private static void setMonsterAttackInfo(int mid, List<MobAttackInfoHolder> attackInfos) {
         if (!attackInfos.isEmpty()) {
             MapleMonsterInformationProvider mi = MapleMonsterInformationProvider.getInstance();
@@ -94,11 +76,13 @@ public class MapleLifeFactory {
             }
         }
     }
-        private static Pair<MapleMonsterStats, List<MobAttackInfoHolder>> getMonsterStats(int mid) {
+
+    private static Pair<MapleMonsterStats, List<MobAttackInfoHolder>> getMonsterStats(int mid) {
         return getMonsterStats(mid, false);
     }
-     private static Pair<MapleMonsterStats, List<MobAttackInfoHolder>> getMonsterStats(int mid, boolean linked) {
-        MapleData monsterData = data.getData(StringUtil.getLeftPaddedStr(Integer.toString(mid) + ".img", '0', 11));
+
+    private static Pair<MapleMonsterStats, List<MobAttackInfoHolder>> getMonsterStats(int mid, boolean linked) {
+        MapleData monsterData = data.getData(StringUtil.getLeftPaddedStr(mid + ".img", '0', 11));
         if (monsterData == null) {
             return null;
         }
@@ -123,11 +107,11 @@ public class MapleLifeFactory {
         //stats.setLevel(Rank.getMobLevel(mid));
         long HP = (long) Math.pow(stats.getLevel(), Rank.getMobRank(mid) > 0 ? Rank.getMobRank(mid) + 2 : 4);
         //if (mid == 9500317 || mid == 9500318 || mid == 9500319) {
-       //     HP = (long) (Math.pow(stats.getLevel(), 2) * 10);
-       // }
+        //     HP = (long) (Math.pow(stats.getLevel(), 2) * 10);
+        // }
         //if (mid == 9500532) {
         //    HP = (long) (Math.pow(stats.getLevel(), 4) * 10);
-       // }
+        // }
         //stats.setHp((int) Randomizer.MaxLong(HP, Long.MAX_VALUE));
         if (mid == 8510100) {
             stats.setExp(0);
@@ -262,7 +246,7 @@ public class MapleLifeFactory {
 
         return new Pair<>(stats, attackInfos);
     }
-    
+
     public static MapleMonster getMonster(int mid) {
         try {
             MapleMonsterStats stats = monsterStats.get(Integer.valueOf(mid));
@@ -270,24 +254,24 @@ public class MapleLifeFactory {
                 Pair<MapleMonsterStats, List<MobAttackInfoHolder>> mobStats = getMonsterStats(mid);
                 stats = mobStats.getLeft();
                 setMonsterAttackInfo(mid, mobStats.getRight());
-                
+
                 monsterStats.put(Integer.valueOf(mid), stats);
             }
             MapleMonster ret = new MapleMonster(mid, stats);
             return ret;
-        } catch(NullPointerException npe) {
+        } catch (NullPointerException npe) {
             System.out.println("[SEVERE] MOB " + mid + " failed to load. Issue: " + npe.getMessage() + "\n\n");
             npe.printStackTrace();
-            
+
             return null;
         }
     }
-    
+
     public static int getMonsterLevel(int mid) {
         try {
             MapleMonsterStats stats = monsterStats.get(Integer.valueOf(mid));
             if (stats == null) {
-                MapleData monsterData = data.getData(StringUtil.getLeftPaddedStr(Integer.toString(mid) + ".img", '0', 11));
+                MapleData monsterData = data.getData(StringUtil.getLeftPaddedStr(mid + ".img", '0', 11));
                 if (monsterData == null) {
                     return -1;
                 }
@@ -296,11 +280,11 @@ public class MapleLifeFactory {
             } else {
                 return stats.getLevel();
             }
-        } catch(NullPointerException npe) {
+        } catch (NullPointerException npe) {
             System.out.println("[SEVERE] MOB " + mid + " failed to load. Issue: " + npe.getMessage() + "\n\n");
             npe.printStackTrace();
         }
-        
+
         return -1;
     }
 
@@ -313,9 +297,23 @@ public class MapleLifeFactory {
     public static MapleNPC getNPC(int nid) {
         return new MapleNPC(nid, new MapleNPCStats(MapleDataTool.getString(nid + "/name", npcStringData, "MISSINGNO")));
     }
-    
+
     public static String getNPCDefaultTalk(int nid) {
         return MapleDataTool.getString(nid + "/d0", npcStringData, "(...)");
+    }
+
+    private static class MobAttackInfoHolder {
+        protected int attackPos;
+        protected int mpCon;
+        protected int coolTime;
+        protected int animationTime;
+
+        protected MobAttackInfoHolder(int attackPos, int mpCon, int coolTime, int animationTime) {
+            this.attackPos = attackPos;
+            this.mpCon = mpCon;
+            this.coolTime = coolTime;
+            this.animationTime = animationTime;
+        }
     }
 
     public static class BanishInfo {
@@ -381,7 +379,7 @@ public class MapleLifeFactory {
         public int getHp() {
             return hp;
         }
-        
+
         public byte getAction() {
             return action;
         }
