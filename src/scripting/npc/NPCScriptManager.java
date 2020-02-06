@@ -62,9 +62,6 @@ public class NPCScriptManager extends AbstractScriptManager {
         return instance;
     }
 
-    private Map<MapleClient, NPCConversationManager> cms = new HashMap<>();
-    private Map<MapleClient, NashornScriptEngine> scripts = new HashMap<>();
-
     public boolean isNpcScriptAvailable(MapleClient c, String fileName) {
         NashornScriptEngine iv = null;
         if (fileName != null) {
