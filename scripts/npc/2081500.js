@@ -93,6 +93,10 @@ function action(mode, type, selection) {
                                                 cm.teachSkill(5221009, 0, 10, -1);
                                         if(cm.getPlayer().getSkillLevel(5221003) == 0)
                                                 cm.teachSkill(5221003, 0, 10, -1);
+											if(cm.getPlayer().getSkillLevel(5221004) == 0)
+                                                cm.teachSkill(5221004, 0, 10, -1);
+											if(cm.getPlayer().getSkillLevel(5221011) == 0)
+                                                cm.teachSkill(5221011, 0, 10, -1);
                                 }
                                 cm.sendOk("It is done. Leave me now.");
                         }

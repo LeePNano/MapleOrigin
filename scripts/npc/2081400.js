@@ -63,6 +63,7 @@ function action(mode, type, selection) {
                                 cm.changeJobById(cm.getJobId() + 1);
                                 if(cm.getJobId() == 412) {
                                         cm.teachSkill(4120002, 0, 10, -1);
+										cm.teachSkill(4121003, 0, 10, -1);
                                         cm.teachSkill(4120005, 0, 10, -1);
                                         cm.teachSkill(4121006, 0, 10, -1);
 										cm.teachSkill(4121007, 0, 10, -1);
@@ -70,6 +71,8 @@ function action(mode, type, selection) {
                                         cm.teachSkill(4220002, 0, 10, -1);
                                         cm.teachSkill(4220005, 0, 10, -1);
                                         cm.teachSkill(4221007, 0, 10, -1);
+										cm.teachSkill(4221003, 0, 10, -1);
+										cm.teachSkill(4221006, 0, 10, -1);
                                 }
                         } else if(mode >= 1 && cm.getJobId() % 100 % 10 == 2) {
                                 if(cm.getJobId() == 412) {
@@ -77,11 +80,23 @@ function action(mode, type, selection) {
                                                 cm.teachSkill(4121008 , 0, 10, -1);
                                         if(cm.getPlayer().getSkillLevel(4121004) == 0)
                                                 cm.teachSkill(4121004 , 0, 10, -1);
+											if(cm.getPlayer().getSkillLevel(4121005) == 0)
+                                                cm.teachSkill(4121005 , 0, 10, -1);
+											if(cm.getPlayer().getSkillLevel(4121006) == 0)
+                                                cm.teachSkill(4121006 , 0, 10, -1);
+											if(cm.getPlayer().getSkillLevel(4121007) == 0)
+                                                cm.teachSkill(4121007 , 0, 10, -1);
                                 } else if(cm.getJobId() == 422) {
                                         if(cm.getPlayer().getSkillLevel(4221004) == 0)
                                                 cm.teachSkill(4221004 , 0, 10, -1);
                                         if(cm.getPlayer().getSkillLevel(4221001) == 0)
                                                 cm.teachSkill(4221001 , 0, 10, -1);
+											if(cm.getPlayer().getSkillLevel(4221007) == 0)
+                                                cm.teachSkill(4221007 , 0, 10, -1);
+											if(cm.getPlayer().getSkillLevel(4221003) == 0)
+                                                cm.teachSkill(4221003 , 0, 10, -1);
+											if(cm.getPlayer().getSkillLevel(4221006) == 0)
+                                                cm.teachSkill(4221006 , 0, 10, -1);
                                 }
                                 cm.sendOk("It is done. Leave me now.");
                         }
