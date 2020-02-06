@@ -44,6 +44,8 @@ import net.server.audit.locks.factory.MonitoredReentrantLockFactory;
 import net.server.audit.locks.factory.MonitoredWriteLockFactory;
 import net.server.world.MapleParty;
 import net.server.world.MaplePartyCharacter;
+import server.expeditions.MapleExpeditionBossLog;
+import server.expeditions.MapleExpeditionType;
 import server.maps.MaplePortal;
 import server.TimerManager;
 import server.MapleStatEffect;
@@ -133,40 +135,40 @@ public class EventInstanceManager {
 		this.mapManager = new MapleMapManager(this, em.getWorldServer().getId(), em.getChannelServer().getId());
 	}
         
-        public void setName(String name) {
+    public void setName(String name) {
                 this.name = name;
         }
 
 	public EventManager getEm() {
-                sL.lock();
-                try {
-                        return em;
-                } finally {
-                        sL.unlock();
-                }
+            sL.lock();
+            try {
+                    return em;
+            } finally {
+                    sL.unlock();
+            }
 	}
         
         public int getEventPlayersJobs() {
-                //Bits -> 0: BEGINNER 1: WARRIOR 2: MAGICIAN
-                //        3: BOWMAN 4: THIEF 5: PIRATE
-            
-                int mask = 0;
-                for(MapleCharacter chr: getPlayers()) {
-                        mask |= (1 << chr.getJob().getJobNiche());
-                }
-                
-                return mask;
+            //Bits -> 0: BEGINNER 1: WARRIOR 2: MAGICIAN
+            //        3: BOWMAN 4: THIEF 5: PIRATE
+
+            int mask = 0;
+            for(MapleCharacter chr: getPlayers()) {
+                    mask |= (1 << chr.getJob().getJobNiche());
+            }
+
+            return mask;
         }
         
         public void applyEventPlayersItemBuff(int itemId) {
-                List<MapleCharacter> players = getPlayerList();
-                MapleStatEffect mse = MapleItemInformationProvider.getInstance().getItemEffect(itemId);
-                
-                if(mse != null) {
-                        for (MapleCharacter player: players) {
-                                mse.applyTo(player);
-                        }
+            List<MapleCharacter> players = getPlayerList();
+            MapleStatEffect mse = MapleItemInformationProvider.getInstance().getItemEffect(itemId);
+
+            if(mse != null) {
+                for (MapleCharacter player: players) {
+                        mse.applyTo(player);
                 }
+            }
         }
         
         public void applyEventPlayersSkillBuff(int skillId) {
@@ -174,17 +176,17 @@ public class EventInstanceManager {
         }
         
         public void applyEventPlayersSkillBuff(int skillId, int skillLv) {
-                List<MapleCharacter> players = getPlayerList();
-                Skill skill = SkillFactory.getSkill(skillId);
-                
-                if(skill != null) {
-                        MapleStatEffect mse = skill.getEffect(Math.min(skillLv, skill.getMaxLevel()));
-                        if(mse != null) {
-                                for (MapleCharacter player: players) {
-                                        mse.applyTo(player);
-                                }
-                        }
+            List<MapleCharacter> players = getPlayerList();
+            Skill skill = SkillFactory.getSkill(skillId);
+
+            if(skill != null) {
+                MapleStatEffect mse = skill.getEffect(Math.min(skillLv, skill.getMaxLevel()));
+                if(mse != null) {
+                    for (MapleCharacter player: players) {
+                            mse.applyTo(player);
+                    }
                 }
+            }
         }
         
         public void giveEventPlayersExp(int gain) {
@@ -192,60 +194,58 @@ public class EventInstanceManager {
         }
         
         public void giveEventPlayersExp(int gain, int mapId) {
-                if(gain == 0) return;
-                
-                List<MapleCharacter> players = getPlayerList();
-            
-                if(mapId == -1) {
-                        for(MapleCharacter mc: players) {
-                                mc.gainExp(gain * mc.getExpRate(), true, true);
-                        }
+            if(gain == 0) return;
+
+            List<MapleCharacter> players = getPlayerList();
+
+            if(mapId == -1) {
+                for(MapleCharacter mc: players) {
+                        mc.gainExp(gain * mc.getExpRate(), true, true);
                 }
-                else {
-                        for(MapleCharacter mc: players) {
-                                if(mc.getMapId() == mapId) mc.gainExp(gain * mc.getExpRate(), true, true);
-                        }
+            }
+            else {
+                for(MapleCharacter mc: players) {
+                        if(mc.getMapId() == mapId) mc.gainExp(gain * mc.getExpRate(), true, true);
                 }
+            }
 	}
         
-        public void giveEventPlayersMeso(int gain) {
-                giveEventPlayersMeso(gain, -1);
-        }
-        public int random(int min, int max) {
+    public void giveEventPlayersMeso(int gain) {
+            giveEventPlayersMeso(gain, -1);
+    }
+    public int random(int min, int max) {
         return Randomizer.random(min, max);
     }
 
     public int randomNextInt(int value) {
         return Randomizer.nextInt(value);
     }
-        
-        public void giveEventPlayersMeso(int gain, int mapId) {
-                if(gain == 0) return;
-                
-                List<MapleCharacter> players = getPlayerList();
-                
-                if(mapId == -1) {
-                        for(MapleCharacter mc: players) {
-                                mc.gainMeso(gain * mc.getMesoRate());
-                        }
-                }
-                else {
-                        for(MapleCharacter mc: players) {
-                                if(mc.getMapId() == mapId) mc.gainMeso(gain * mc.getMesoRate());
-                        }
-                }
-                
+    public void giveEventPlayersMeso(int gain, int mapId) {
+        if(gain == 0) return;
+
+        List<MapleCharacter> players = getPlayerList();
+
+        if(mapId == -1) {
+            for(MapleCharacter mc: players) {
+                    mc.gainMeso(gain * mc.getMesoRate());
+            }
+        }
+        else {
+            for(MapleCharacter mc: players) {
+                    if(mc.getMapId() == mapId) mc.gainMeso(gain * mc.getMesoRate());
+            }
+        }
 	}
         
-        public Object invokeScriptFunction(String name, Object... args) throws ScriptException, NoSuchMethodException {
-                if (!disposed) {
-                        return em.getIv().invokeFunction(name, args);
-                } else {
-                        return null;
-                }
+    public Object invokeScriptFunction(String name, Object... args) throws ScriptException, NoSuchMethodException {
+        if (!disposed) {
+            return em.getIv().invokeFunction(name, args);
+        } else {
+            return null;
         }
+    }
 
-        public synchronized void registerPlayer(final MapleCharacter chr) {
+    public synchronized void registerPlayer(final MapleCharacter chr) {
                 registerPlayer(chr, true);
         }
         
@@ -253,40 +253,39 @@ public class EventInstanceManager {
 		if (chr == null || !chr.isLoggedinWorld() || disposed) {
 			return;
 		}
-                
-                wL.lock();
-                try {
-                        if(chars.containsKey(chr.getId())) {
-                                return;
-                        }
+            wL.lock();
+            try {
+                if(chars.containsKey(chr.getId())) {
+                        return;
+                }
 
-                        chars.put(chr.getId(), chr);
-                        chr.setEventInstance(this);
-                } finally {
-                        wL.unlock();
+                chars.put(chr.getId(), chr);
+                chr.setEventInstance(this);
+            } finally {
+                wL.unlock();
+            }
+
+            if (runEntryScript) {
+                try {
+                    invokeScriptFunction("playerEntry", EventInstanceManager.this, chr);
+                } catch (ScriptException | NoSuchMethodException ex) {
+                    ex.printStackTrace();
                 }
-                
-                if (runEntryScript) {
-                        try {
-                                invokeScriptFunction("playerEntry", EventInstanceManager.this, chr);
-                        } catch (ScriptException | NoSuchMethodException ex) {
-                                ex.printStackTrace();
-                        }
-                }
+            }
 	}  
         
-       public void exitPlayer(final MapleCharacter chr) {
-        if (chr == null || !chr.isLoggedin()) {
-            return;
-        }
+    public void exitPlayer(final MapleCharacter chr) {
+    if (chr == null || !chr.isLoggedin()) {
+        return;
+    }
 
-        this.unregisterPlayer(chr);
+    this.unregisterPlayer(chr);
 
-        try {
-            invokeScriptFunction("playerExit", EventInstanceManager.this, chr);
-        } catch (ScriptException | NoSuchMethodException ex) {
-            ex.printStackTrace();
-        }
+    try {
+        invokeScriptFunction("playerExit", EventInstanceManager.this, chr);
+    } catch (ScriptException | NoSuchMethodException ex) {
+        ex.printStackTrace();
+    }
     }
 
     public void exitPlayer(MapleCharacter chr, int map) {
@@ -309,7 +308,8 @@ public class EventInstanceManager {
             dispose();
         }
     }
- public MapleCharacter getRandomPlayer() {
+
+    public MapleCharacter getRandomPlayer() {
         List<MapleCharacter> players = getPlayerList();
         Collections.shuffle(players);
         MapleCharacter mc = players.get(Randomizer.nextInt());
@@ -1438,66 +1438,72 @@ public class EventInstanceManager {
         
         // registers a player status in an event
         public final void gridInsert(MapleCharacter chr, int newStatus) {
-                wL.lock();
-                try {
-                        playerGrid.put(chr.getId(), newStatus);
-                } finally {
-                        wL.unlock();
-                }
+            wL.lock();
+            try {
+                playerGrid.put(chr.getId(), newStatus);
+            } finally {
+                wL.unlock();
+            }
         }
         
         // unregisters a player status in an event
         public final void gridRemove(MapleCharacter chr) {
-                wL.lock();
-                try {
-                        playerGrid.remove(chr.getId());
-                } finally {
-                        wL.unlock();
-                }
+            wL.lock();
+            try {
+                playerGrid.remove(chr.getId());
+            } finally {
+                wL.unlock();
+            }
         }
         
         // checks a player status
         public final int gridCheck(MapleCharacter chr) {
-                rL.lock();
-                try {
-                        Integer i = playerGrid.get(chr.getId());
-                        return (i != null) ? i : -1;
-                } finally {
-                        rL.unlock();
-                }
+            rL.lock();
+            try {
+                Integer i = playerGrid.get(chr.getId());
+                return (i != null) ? i : -1;
+            } finally {
+                rL.unlock();
+            }
         }
         
         public final int gridSize() {
-                rL.lock();
-                try {
-                        return playerGrid.size();
-                } finally {
-                        rL.unlock();
-                }
+            rL.lock();
+            try {
+                return playerGrid.size();
+            } finally {
+                rL.unlock();
+            }
         }
         
         public final void gridClear() {
-                wL.lock();
-                try {
-                        playerGrid.clear();
-                } finally {
-                        wL.unlock();
-                }
+            wL.lock();
+            try {
+                playerGrid.clear();
+            } finally {
+                wL.unlock();
+            }
         }
         
         public boolean activatedAllReactorsOnMap(int mapId, int minReactorId, int maxReactorId) {
-                return activatedAllReactorsOnMap(this.getMapInstance(mapId), minReactorId, maxReactorId);
+            return activatedAllReactorsOnMap(this.getMapInstance(mapId), minReactorId, maxReactorId);
         }
         
         public boolean activatedAllReactorsOnMap(MapleMap map, int minReactorId, int maxReactorId) {
-                if(map == null) return true;
-            
-                for(MapleReactor mr : map.getReactorsByIdRange(minReactorId, maxReactorId)) {
-                        if(mr.getReactorType() != -1) {
-                                return false;
-                        }
-                }
+            if(map == null) return true;
 
-                return true;
+            for(MapleReactor mr : map.getReactorsByIdRange(minReactorId, maxReactorId)) {
+                if(mr.getReactorType() != -1) {
+                    return false;
+                }
+            }
+
+            return true;
         }
+
+    public boolean registerBossEntry(MapleExpeditionType type) {
+        for (MapleCharacter player : getPlayers()) {
+            MapleExpeditionBossLog.registerBossEntry(player.getId(), type);
+        }
+    }
 }

@@ -37,6 +37,7 @@ var maxMapId = 220080001;
 var eventTime = 45;     // 45 minutes
 
 var lobbyRange = [0, 0];
+var exped = MapleExpeditionType.PAPULATUS;
 
 function init() {
         setEventRequirements();
@@ -81,49 +82,49 @@ function setEventRewards(eim) {
 }
 
 function getEligibleParty(party) {      //selects, from the given party, the team that is allowed to attempt this event
-        var eligible = [];
-        var hasLeader = false;
-        
-        if(party.size() > 0) {
-                var partyList = party.toArray();
+    var eligible = [];
+    var hasLeader = false;
 
-                for(var i = 0; i < party.size(); i++) {
-                        var ch = partyList[i];
+    if(party.size() > 0) {
+        var partyList = party.toArray();
 
-                        if(ch.getMapId() == recruitMap && ch.getLevel() >= minLevel && ch.getLevel() <= maxLevel) {
-                                if(ch.isLeader()) hasLeader = true;
-                                eligible.push(ch);
-                        }
-                }
+        for(var i = 0; i < party.size(); i++) {
+            var ch = partyList[i];
+
+            if(ch.getMapId() == recruitMap && ch.getLevel() >= minLevel && ch.getLevel() <= maxLevel) {
+                if(ch.isLeader()) hasLeader = true;
+                eligible.push(ch);
+            }
         }
-        
-        if(!(hasLeader && eligible.length >= minPlayers && eligible.length <= maxPlayers)) eligible = [];
-        return eligible;
+    }
+
+    if(!(hasLeader && eligible.length >= minPlayers && eligible.length <= maxPlayers)) eligible = [];
+    return eligible;
 }
 
 function setup(level, lobbyid) {
-        var eim = em.newInstance("Papulatus" + lobbyid);
-        eim.setProperty("level", level);
-        eim.setProperty("boss", "0");
-        
-        eim.getInstanceMap(220080001).resetPQ(level);
-        
-        respawnStages(eim);
-        eim.startEventTimer(eventTime * 60000);
-        setEventRewards(eim);
-        setEventExclusives(eim);
-        return eim;
+    var eim = em.newInstance("Papulatus" + lobbyid);
+    eim.setProperty("level", level);
+    eim.setProperty("boss", "0");
+
+    eim.getInstanceMap(220080001).resetPQ(level);
+
+    respawnStages(eim);
+    eim.startEventTimer(eventTime * 60000);
+    setEventRewards(eim);
+    setEventExclusives(eim);
+    return eim;
 }
 
 function afterSetup(eim) {
-        updateGateState(1);
+    updateGateState(1);
 }
 
 function respawnStages(eim) {}
 
 function playerEntry(eim, player) {
-        var map = eim.getMapInstance(entryMap);
-        player.changeMap(map, map.getPortal(0));
+    var map = eim.getMapInstance(entryMap);
+    player.changeMap(map, map.getPortal(0));
 }
 
 function scheduledTimeout(eim) {
@@ -185,34 +186,35 @@ function monsterValue(eim, mobId) {
 }
 
 function end(eim) {
-        var party = eim.getPlayers();
-        
-        for (var i = 0; i < party.size(); i++) {
-                playerExit(eim, party.get(i));
-        }
-        eim.dispose();
+    var party = eim.getPlayers();
+
+    for (var i = 0; i < party.size(); i++) {
+        playerExit(eim, party.get(i));
+    }
+    eim.dispose();
 }
 
 function giveRandomEventReward(eim, player) {
-        eim.giveEventReward(player);
+    eim.giveEventReward(player);
 }
 
 function clearPQ(eim) {
-        eim.stopEventTimer();
-        eim.setEventCleared();
-        updateGateState(0);
+    eim.stopEventTimer();
+    eim.setEventCleared();
+    updateGateState(0);
 }
 
 function isPapulatus(mob) {
-        var mobid = mob.getId();
-        return mobid == 8500002;
+    var mobid = mob.getId();
+    return mobid == 8500002;
 }
 
 function monsterKilled(mob, eim) {
-        if(isPapulatus(mob)) {
-                eim.showClearEffect();
-                eim.clearPQ();
-        }
+    if(isPapulatus(mob)) {
+        eim.showClearEffect();
+        eim.clearPQ();
+        eim.registerBossEntry(exped)
+    }
 }
 
 function allMonstersDead(eim) {}
@@ -220,13 +222,13 @@ function allMonstersDead(eim) {}
 function cancelSchedule() {}
 
 function updateGateState(newState) {    // thanks Conrad for noticing missing gate update
-        em.getChannelServer().getMapFactory().getMap(220080000).getReactorById(2208001).forceHitReactor(newState);
-        em.getChannelServer().getMapFactory().getMap(220080000).getReactorById(2208002).forceHitReactor(newState);
-        em.getChannelServer().getMapFactory().getMap(220080000).getReactorById(2208003).forceHitReactor(newState);
+    em.getChannelServer().getMapFactory().getMap(220080000).getReactorById(2208001).forceHitReactor(newState);
+    em.getChannelServer().getMapFactory().getMap(220080000).getReactorById(2208002).forceHitReactor(newState);
+    em.getChannelServer().getMapFactory().getMap(220080000).getReactorById(2208003).forceHitReactor(newState);
 }
 
 function dispose(eim) {
-        if (!eim.isEventCleared()) {
-                updateGateState(0);
-        }
+    if (!eim.isEventCleared()) {
+            updateGateState(0);
+    }
 }

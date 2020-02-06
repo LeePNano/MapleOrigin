@@ -163,7 +163,7 @@ public class MapleExpedition {
 
 	public void start(){
 		finishRegistration();
-                registerExpeditionAttempt();
+        registerExpeditionAttempt();
 		broadcastExped(MaplePacketCreator.removeClock());
 		if (!silent) broadcastExped(MaplePacketCreator.serverNotice(6, "[Expedition] The expedition has started! Good luck, brave heroes!"));
 		startTime = System.currentTimeMillis();
@@ -210,11 +210,11 @@ public class MapleExpedition {
         }
         
         private void registerExpeditionAttempt(){
-                int channel = this.getRecruitingMap().getChannelServer().getId();
+            int channel = this.getRecruitingMap().getChannelServer().getId();
 
-                for (MapleCharacter chr : getActiveMembers()){
-                        MapleExpeditionBossLog.attemptBoss(chr.getId(), channel, this, true);
-                }
+            for (MapleCharacter chr : getActiveMembers()){
+                MapleExpeditionBossLog.attemptBoss(chr.getId(), channel, this, true);
+            }
         }
         
 	private void broadcastExped(byte[] packet){
