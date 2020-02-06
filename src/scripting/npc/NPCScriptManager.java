@@ -32,6 +32,7 @@ import tools.MaplePacketCreator;
 
 import javax.script.ScriptException;
 import java.lang.reflect.UndeclaredThrowableException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +45,8 @@ public class NPCScriptManager extends AbstractScriptManager {
     private static NPCScriptManager instance = new NPCScriptManager();
     private Map<MapleClient, NPCConversationManager> cms = new HashMap<>();
     private Map<MapleClient, NashornScriptEngine> scripts = new HashMap<>();
+    public List<Integer> disabledNPCs = new ArrayList<>();
+    public List<Integer> gmOnlyNPCs = new ArrayList<>();
 
     public static NPCScriptManager getInstance() {
         return instance;
@@ -167,7 +170,9 @@ public class NPCScriptManager extends AbstractScriptManager {
 
     public void action(MapleClient c, byte mode, byte type, int selection) {
         NashornScriptEngine iv = scripts.get(c);
-        if (iv != null) {
+        if (iv != null
+                && !disabledNPCs.contains(getCM(c).getNpc())
+                && !(gmOnlyNPCs.contains(getCM(c).getNpc()) && c.getPlayer().gmLevel() < 1)) {
             try {
                 c.setClickedNPC();
                 iv.invokeFunction("action", mode, type, selection);
