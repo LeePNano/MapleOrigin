@@ -414,8 +414,8 @@ server:
     #Pet Auto-Pot Configuration
     USE_COMPULSORY_AUTOPOT: false    #Pets will consume as many potions as needed to fulfill the AUTOHP/MP ratio threshold.
     USE_EQUIPS_ON_AUTOPOT: true     #Player MaxHP and MaxMP check values on autopot handler will be updated by the HP/MP bonuses on equipped items.
-    PET_AUTOHP_RATIO: 0.99          #Will automatically consume potions until given ratio of the MaxHP/MaxMP is reached.
-    PET_AUTOMP_RATIO: 0.99
+    PET_AUTOHP_RATIO: 0.95          #Will automatically consume potions until given ratio of the MaxHP/MaxMP is reached.
+    PET_AUTOMP_RATIO: 0.95
 
     #Pet & Mount Configuration
     PET_EXHAUST_COUNT: 3               #Number of proc counts (1 per minute) on the exhaust schedule for fullness.

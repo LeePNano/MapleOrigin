@@ -40,12 +40,9 @@ function action(mode, type, selection) {
                 if (cm.getLevel() >= 51 && cm.getLevel() <= 70) {
                     selStr += "#3# Monster Carnival 2"; 
                 } 
-                if (cm.getLevel() >= 10) {
-                    selStr += "#4# Free Market"; 				
-
-                } 
+                
                 /*
-                if (cm.getLevel() >= 40) { NOT IMPLEMENTED
+                if (cm.getLevel() >= 40) { 
                     selStr += "#5# Nett's Pyramid"; 
                 } 
 
@@ -73,11 +70,8 @@ function action(mode, type, selection) {
                     cm.getPlayer().saveLocation("MONSTER_CARNIVAL"); 
                     cm.warp(980030000, 3); 
                     break; 
-				case 4: 
-                    cm.warp(910000000, 0); 
-                    break; 
                 case 5: 
-                    cm.warp(926010000, 4); 
+                    cm.warp(91000000, 0); 
                     break; 
                 case 6: 
                     cm.warp(910320000, 2);

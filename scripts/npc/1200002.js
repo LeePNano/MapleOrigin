@@ -55,7 +55,7 @@ function action(mode, type, selection) {
     }
 }*/
 function start() {
-    cm.sendYesNo("Hey are you an aran? Want me to teach you your hidden skills so you don't have to do quests? If so click yes and I will add them for you. WARNING DO NOT USE ME IF YOU HAVE ALREADY ADDED 2ND JOB SKILLS");
+    cm.sendYesNo("Hey are you an aran? Want me to teach you your hidden skills so you don't have to do quests? If so click yes and I will add them for you. WARNING DO NOT USE ME IF YOU HAVE ALREADY ADDED 2ND JOB SKILLS ");
 }
 
 function action(mode, type, selection) {
@@ -65,16 +65,15 @@ function action(mode, type, selection) {
  // Combat Step
 		//cm.teachSkill(21001003,0, 20, -1); // Pole Arm Booster
 		// Aran Second job
- // Triple Swing
+
 		cm.teachSkill(21100000,0, 20, -1); // Pole Arm Mastery
 		cm.teachSkill(21100002,0, 30, -1); // Final Charge
- // Body Pressure
 		cm.teachSkill(21100004,0, 20, -1); // Combo Smash
 		cm.teachSkill(21100005,0, 20, -1); // Combo Drain
-		// Aran Thief Job
 		cm.teachSkill(21110000,0, 20, -1); // Critical Combo
 		cm.teachSkill(21110002,0, 20, -1); // Full Swing
-		//cm.teachSkill(4121007, 0, 10, -1);
+		cm.teachSkill(21121000, 0, 10, -1); //MW 10
+		
 		//cm.teachSkill(21110003,0, 10, -10); // Final Toss
 		//cm.teachSkill(21110004,0); // Fenir Phantom
 		//cm.teachSkill(21111005,0); // Snow Charge
