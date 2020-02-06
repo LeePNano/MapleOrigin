@@ -49,7 +49,8 @@ public class AwardToMapCommand extends Command {
                         long expiration = System.currentTimeMillis() + (days * 24 * 60 * 60 * 1000);
                         int petid = MaplePet.createPet(itemId);
 
-                        MapleInventoryManipulator.addById(c, itemId, quantity, player.getName(), petid, expiration);
+                        MapleInventoryManipulator.addById(c, itemId, quantity, p.getName(), petid, expiration);
+                        p.yellowMessage("Received " + quantity + " of " + ii.getName(itemId) " from " + player.getName());
                         return;
                     }
 
@@ -59,7 +60,8 @@ public class AwardToMapCommand extends Command {
                         flag |= ItemConstants.UNTRADEABLE;
                     }
 
-                    MapleInventoryManipulator.addById(c, itemId, quantity, player.getName(), -1, flag, -1);
+                    MapleInventoryManipulator.addById(c, itemId, quantity, p.getName(), -1, flag, -1);
+                    p.yellowMessage("Received " + quantity + " of " + ii.getName(itemId) " from " + player.getName());
                     break;
                 case "ms":
                     long mesos = 0L;
@@ -80,7 +82,7 @@ public class AwardToMapCommand extends Command {
 
                     if (p != null) {
                         p.gainMeso((int) mesos, true);
-                        player.message("MESO given.");
+                        p.yellowMessage("Received " + mesos + " mesos from " + player.getName());
                     } else {
                         // this shouldnt happen
                         player.message("Player '" + p.getName() + "' could not be found.");
@@ -104,6 +106,7 @@ public class AwardToMapCommand extends Command {
                     }
                     if (p != null) {
                         p.getCashShop().gainCash(1, nx);
+                        p.yellowMessage("Received " + nx + " nx from " + player.getName());
                     } else {
                         // this shouldnt happen
                         player.message("Player '" + p.getName() + "' could not be found.");
