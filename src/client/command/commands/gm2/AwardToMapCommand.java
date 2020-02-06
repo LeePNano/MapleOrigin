@@ -50,7 +50,7 @@ public class AwardToMapCommand extends Command {
                         int petid = MaplePet.createPet(itemId);
 
                         MapleInventoryManipulator.addById(c, itemId, quantity, p.getName(), petid, expiration);
-                        p.yellowMessage("Received " + quantity + " of " + ii.getName(itemId) " from " + player.getName());
+                        p.yellowMessage("Received " + quantity + " of " + ii.getName(itemId) + " from " + player.getName());
                         return;
                     }
 
