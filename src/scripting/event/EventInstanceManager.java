@@ -1501,7 +1501,7 @@ public class EventInstanceManager {
             return true;
         }
 
-    public boolean registerBossEntry(MapleExpeditionType type) {
+    public void registerBossEntry(MapleExpeditionType type) {
         for (MapleCharacter player : getPlayers()) {
             MapleExpeditionBossLog.registerBossEntry(player.getId(), type);
         }
