@@ -16,7 +16,7 @@ public class GMOnlyNPCCommand extends Command {
         if (params.length == 2) {
             try {
                 int npcid = Integer.parseInt(params[0]);
-                int index = NPCScriptManager.getInstance().disabledNPCs.indexOf(npcid);
+                int index = NPCScriptManager.getInstance().gmOnlyNPCs.indexOf(npcid);
                 if (params[1].toLowerCase().equals("true")) {
                     if (index != -1) {
                         player.yellowMessage("NPC " + npcid + " already GM only");
