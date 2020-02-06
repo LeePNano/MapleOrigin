@@ -132,7 +132,9 @@ public class NPCScriptManager extends AbstractScriptManager {
             if (cms.containsKey(c)) {
                 dispose(c);
             }
-            if (c.canClickNPC()) {
+            if (c.canClickNPC()
+                    && !disabledNPCs.contains(getCM(c).getNpc())
+                    && !(gmOnlyNPCs.contains(getCM(c).getNpc()) && c.getPlayer().gmLevel() < 1)) {
                 cms.put(c, cm);
                 NashornScriptEngine iv = null;
                 if (!itemScript) {
