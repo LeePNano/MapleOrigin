@@ -211,7 +211,8 @@ public class CommandsExecutor {
         addCommand("whatdropsfrom", WhatDropsFromCommand.class);
         addCommand("whodrops", WhoDropsCommand.class);
         //addCommand("RaidDC", ReEnterRaid.class);
-        addCommand(new String[]{"help", "commands"}, HelpCommand.class);
+        addCommand(new String[]{"help","commands"}, HelpCommand.class);
+        addCommand("svtime", ServerTimeCommand.class);
         commandsNameDesc.add(levelCommandsCursor);
     }
 
