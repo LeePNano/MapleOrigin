@@ -61,7 +61,7 @@ public class AwardToMapCommand extends Command {
                     }
 
                     MapleInventoryManipulator.addById(c, itemId, quantity, p.getName(), -1, flag, -1);
-                    p.yellowMessage("Received " + quantity + " of " + ii.getName(itemId) " from " + player.getName());
+                    p.yellowMessage("Received " + quantity + " of " + ii.getName(itemId) + " from " + player.getName());
                     break;
                 case "ms":
                     long mesos = 0L;
