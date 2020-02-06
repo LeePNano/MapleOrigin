@@ -65,7 +65,7 @@ public class MapleItemInformationProvider {
 
     private MapleData getItemData(int itemId) {
         MapleData ret = null;
-        String idStr = "0" + itemId;
+        String idStr = "0" + String.valueOf(itemId);
         MapleDataDirectoryEntry root = itemData.getRoot();
         for (MapleDataDirectoryEntry topDir : root.getSubdirectories()) {
             for (MapleDataFileEntry iFile : topDir.getFiles()) {

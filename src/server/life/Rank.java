@@ -21,20 +21,19 @@
  */
 package server.life;
 
+import java.io.File;
 import provider.MapleData;
 import provider.MapleDataProvider;
 import provider.MapleDataProviderFactory;
 import provider.MapleDataTool;
 import tools.StringUtil;
 
-import java.io.File;
-
 public class Rank {
 
     private static final MapleDataProvider data = MapleDataProviderFactory.getDataProvider(new File(System.getProperty("wzpath") + "/Mob.wz"));
 
     public static int getMobRank(int id) {
-        MapleData monsterData = data.getData(StringUtil.getLeftPaddedStr(id + ".img", '0', 11));
+        MapleData monsterData = data.getData(StringUtil.getLeftPaddedStr(Integer.toString(id) + ".img", '0', 11));
         MapleData monsterInfoData = monsterData.getChildByPath("info");
         switch (id) {
             case 8850011://Empress - end game
@@ -186,24 +185,24 @@ public class Rank {
     }
 
     public static int getMobLevel(int mid) {
-        MapleData monsterData = data.getData(StringUtil.getLeftPaddedStr(mid + ".img", '0', 11));
+        MapleData monsterData = data.getData(StringUtil.getLeftPaddedStr(Integer.toString(mid) + ".img", '0', 11));
         MapleData monsterInfoData = monsterData.getChildByPath("info");
         int level = MapleDataTool.getIntConvert("level", monsterInfoData);
         switch (mid) {
-            case 8850011://Empress - end game
+           case 8850011://Empress - end game
                 return 250;
-            //return 1;
+                //return 1;
             case 8880000://Magnus - end game
                 return 400;
-            //return 1;
+                //return 1;
             case 9300534://Baby lotus - end game
                 return 300;
-            //return 1;
+                //return 1;
             case 8840000://Von Leon - lion form
                 return 200;
             case 8820114://Pink Bean final form
                 return 200;
-
+                
         }
         if (mid >= 8820200 && mid <= 8820212) { //Chaos Pink Beans
             return (((mid - 8820200) * 5) + 400);

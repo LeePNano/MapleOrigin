@@ -22,6 +22,7 @@
 package constants.skills;
 
 /**
+ *
  * @author BubblesDev
  */
 public class Beginner {

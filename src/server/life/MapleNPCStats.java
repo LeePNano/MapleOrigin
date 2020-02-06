@@ -22,6 +22,7 @@
 package server.life;
 
 /**
+ *
  * @author Matze
  */
 public class MapleNPCStats {

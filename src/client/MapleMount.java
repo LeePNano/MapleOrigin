@@ -47,16 +47,8 @@ public class MapleMount {
         return itemid;
     }
 
-    public void setItemId(int newitemid) {
-        this.itemid = newitemid;
-    }
-
     public int getSkillId() {
         return skillid;
-    }
-
-    public void setSkillId(int newskillid) {
-        this.skillid = newskillid;
     }
 
     /**
@@ -71,7 +63,6 @@ public class MapleMount {
      * 1902010 - Frog
      * 1902011 - Turtle
      * 1902012 - Yeti
-     *
      * @return the id
      */
     public int getId() {
@@ -85,44 +76,52 @@ public class MapleMount {
         return tiredness;
     }
 
-    public void setTiredness(int newtiredness) {
-        this.tiredness = newtiredness;
-        if (tiredness < 0) {
-            tiredness = 0;
-        }
-    }
-
     public int getExp() {
         return exp;
-    }
-
-    public void setExp(int newexp) {
-        this.exp = newexp;
     }
 
     public int getLevel() {
         return level;
     }
 
-    public void setLevel(int newlevel) {
-        this.level = newlevel;
+    public void setTiredness(int newtiredness) {
+        this.tiredness = newtiredness;
+        if (tiredness < 0) {
+            tiredness = 0;
+        }
     }
-
+    
     public int incrementAndGetTiredness() {
         this.tiredness++;
         return this.tiredness;
     }
 
-    public boolean isActive() {
-        return active;
+    public void setExp(int newexp) {
+        this.exp = newexp;
+    }
+
+    public void setLevel(int newlevel) {
+        this.level = newlevel;
+    }
+
+    public void setItemId(int newitemid) {
+        this.itemid = newitemid;
+    }
+    
+    public void setSkillId(int newskillid) {
+        this.skillid = newskillid;
     }
 
     public void setActive(boolean set) {
         this.active = set;
     }
 
-    public void empty() {
-        if (owner != null) owner.getClient().getWorldServer().unregisterMountHunger(owner);
-        this.owner = null;
+    public boolean isActive() {
+        return active;
     }
+    
+    public void empty() {
+        if(owner != null) owner.getClient().getWorldServer().unregisterMountHunger(owner);
+        this.owner = null;
+    }    
 }

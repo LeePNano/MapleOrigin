@@ -1,22 +1,29 @@
 package net.server.world;
 
 import client.MapleCharacter;
+import client.MapleClient;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import net.server.coordinator.MapleInviteCoordinator;
 import server.maps.MapleDoor;
 import tools.MaplePacketCreator;
 import tools.Randomizer;
 
-import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
-
 public class MapleRaid {
 
-    private static AtomicInteger runningraidId = new AtomicInteger();
-    private final List<MapleCharacter> members = new LinkedList<>();
     private int id;
     private boolean invite;
     private MapleCharacter leader;
+    private final List<MapleCharacter> members = new LinkedList<>();
     private List<MapleCharacter> raidmembers = null;
+    private static AtomicInteger runningraidId = new AtomicInteger();
     private Map<Integer, Integer> histMembers = new HashMap<>();
     private int nextEntry = 0;
     private Map<Integer, MapleDoor> doors = new HashMap<>();
@@ -25,6 +32,10 @@ public class MapleRaid {
     public MapleRaid(MapleCharacter leader, int id) {
         this.leader = leader;
         this.id = id;
+    }
+
+    public boolean containsMembers(MapleCharacter member) {
+        return members.contains(member);
     }
 
     public static void createRaid(MapleCharacter leader) {
@@ -39,10 +50,6 @@ public class MapleRaid {
             MapleRaid raid = leader.getRaid();
             leader.announce(MaplePacketCreator.raidCreated(raid, leader.getId()));
         }
-    }
-
-    public boolean containsMembers(MapleCharacter member) {
-        return members.contains(member);
     }
 
     public void invite(MapleCharacter leader, MapleCharacter member) {
@@ -83,6 +90,13 @@ public class MapleRaid {
         raidMessage("[Raid] " + member.getName() + " has left the raid");
     }
 
+    public void setLeader(MapleCharacter member) {
+        if (containsMembers(member) && member != this.leader) {
+            this.leader = member;
+            raidMessage("[Raid] " + member.getName() + " is now the leader of the raid");
+        }
+    }
+
     public void changeLeader(MapleCharacter leader, MapleCharacter member) {
         if ((containsMembers(member) && member != this.leader) && leader == this.leader) {
             if (leader != member) {
@@ -94,13 +108,6 @@ public class MapleRaid {
 
     public MapleCharacter getLeader() {
         return leader;
-    }
-
-    public void setLeader(MapleCharacter member) {
-        if (containsMembers(member) && member != this.leader) {
-            this.leader = member;
-            raidMessage("[Raid] " + member.getName() + " is now the leader of the raid");
-        }
     }
 
     public boolean getLeader(MapleCharacter chr) {
@@ -225,10 +232,9 @@ public class MapleRaid {
     public int getId() {
         return id;
     }
-
-    public boolean isInProgress() {
-        return !registering;
-    }
+		public boolean isInProgress(){
+		return !registering;
+	}
 
     public MapleCharacter getMemberById(int id) {
         for (MapleCharacter chr : members) {

@@ -29,9 +29,10 @@ public class BuddylistEntry {
     private boolean visible;
 
     /**
+     *
      * @param name
      * @param characterId
-     * @param channel     should be -1 if the buddy is offline
+     * @param channel should be -1 if the buddy is offline
      * @param visible
      */
     public BuddylistEntry(String name, String group, int characterId, int channel, boolean visible) {
@@ -69,12 +70,12 @@ public class BuddylistEntry {
         return cid;
     }
 
-    public boolean isVisible() {
-        return visible;
-    }
-
     public void setVisible(boolean visible) {
         this.visible = visible;
+    }
+
+    public boolean isVisible() {
+        return visible;
     }
 
     public void changeGroup(String group) {
@@ -101,6 +102,9 @@ public class BuddylistEntry {
             return false;
         }
         final BuddylistEntry other = (BuddylistEntry) obj;
-        return cid == other.cid;
+        if (cid != other.cid) {
+            return false;
+        }
+        return true;
     }
 }

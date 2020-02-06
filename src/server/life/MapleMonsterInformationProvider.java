@@ -22,6 +22,18 @@ package server.life;
 
 import config.YamlConfig;
 import constants.inventory.ItemConstants;
+import java.io.File;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import provider.MapleData;
 import provider.MapleDataProvider;
 import provider.MapleDataProviderFactory;
@@ -31,52 +43,33 @@ import tools.DatabaseConnection;
 import tools.Pair;
 import tools.Randomizer;
 
-import java.io.File;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.*;
-
 public class MapleMonsterInformationProvider {
     // Author : LightPepsi
 
     private static final MapleMonsterInformationProvider instance = new MapleMonsterInformationProvider();
-    private final Map<Integer, List<MonsterDropEntry>> drops = new HashMap<>();
-    private final List<MonsterGlobalDropEntry> globaldrops = new ArrayList<>();
-    private final Map<Integer, List<MonsterGlobalDropEntry>> continentdrops = new HashMap<>();
-    private final Map<Integer, List<Integer>> dropsChancePool = new HashMap<>();    // thanks to ronan
-    private final Set<Integer> hasNoMultiEquipDrops = new HashSet<>();
-    private final Map<Integer, List<MonsterDropEntry>> extraMultiEquipDrops = new HashMap<>();
-    private final Map<Pair<Integer, Integer>, Integer> mobAttackAnimationTime = new HashMap<>();
-    private final Map<MobSkill, Integer> mobSkillAnimationTime = new HashMap<>();
-    private final Map<Integer, Pair<Integer, Integer>> mobAttackInfo = new HashMap<>();
-    private final Map<Integer, Boolean> mobBossCache = new HashMap<>();
-    private final Map<Integer, String> mobNameCache = new HashMap<>();
-    protected MapleMonsterInformationProvider() {
-        retrieveGlobal();
-    }
 
     public static MapleMonsterInformationProvider getInstance() {
         return instance;
     }
 
-    public static ArrayList<Pair<Integer, String>> getMobsIDsFromName(String search) {
-        MapleDataProvider dataProvider = MapleDataProviderFactory.getDataProvider(new File("wz/String.wz"));
-        ArrayList<Pair<Integer, String>> retMobs = new ArrayList<Pair<Integer, String>>();
-        MapleData data = dataProvider.getData("Mob.img");
-        List<Pair<Integer, String>> mobPairList = new LinkedList<Pair<Integer, String>>();
-        for (MapleData mobIdData : data.getChildren()) {
-            int mobIdFromData = Integer.parseInt(mobIdData.getName());
-            String mobNameFromData = MapleDataTool.getString(mobIdData.getChildByPath("name"), "NO-NAME");
-            mobPairList.add(new Pair<Integer, String>(mobIdFromData, mobNameFromData));
-        }
-        for (Pair<Integer, String> mobPair : mobPairList) {
-            if (mobPair.getRight().toLowerCase().contains(search.toLowerCase())) {
-                retMobs.add(mobPair);
-            }
-        }
-        return retMobs;
+    private final Map<Integer, List<MonsterDropEntry>> drops = new HashMap<>();
+    private final List<MonsterGlobalDropEntry> globaldrops = new ArrayList<>();
+    private final Map<Integer, List<MonsterGlobalDropEntry>> continentdrops = new HashMap<>();
+
+    private final Map<Integer, List<Integer>> dropsChancePool = new HashMap<>();    // thanks to ronan
+    private final Set<Integer> hasNoMultiEquipDrops = new HashSet<>();
+    private final Map<Integer, List<MonsterDropEntry>> extraMultiEquipDrops = new HashMap<>();
+
+    private final Map<Pair<Integer, Integer>, Integer> mobAttackAnimationTime = new HashMap<>();
+    private final Map<MobSkill, Integer> mobSkillAnimationTime = new HashMap<>();
+
+    private final Map<Integer, Pair<Integer, Integer>> mobAttackInfo = new HashMap<>();
+
+    private final Map<Integer, Boolean> mobBossCache = new HashMap<>();
+    private final Map<Integer, String> mobNameCache = new HashMap<>();
+
+    protected MapleMonsterInformationProvider() {
+        retrieveGlobal();
     }
 
     public final List<MonsterGlobalDropEntry> getRelevantGlobalDrops(int mapid) {
@@ -189,7 +182,7 @@ public class MapleMonsterInformationProvider {
             return drops.get(monsterId);
         }
         final List<MonsterDropEntry> ret = new LinkedList<>();
-
+        
         PreparedStatement ps = null;
         ResultSet rs = null;
         Connection con = null;
@@ -280,6 +273,24 @@ public class MapleMonsterInformationProvider {
             return null;
         }
         return mobAttackInfo.get((monsterId << 3) + attackPos);
+    }
+
+    public static ArrayList<Pair<Integer, String>> getMobsIDsFromName(String search) {
+        MapleDataProvider dataProvider = MapleDataProviderFactory.getDataProvider(new File("wz/String.wz"));
+        ArrayList<Pair<Integer, String>> retMobs = new ArrayList<Pair<Integer, String>>();
+        MapleData data = dataProvider.getData("Mob.img");
+        List<Pair<Integer, String>> mobPairList = new LinkedList<Pair<Integer, String>>();
+        for (MapleData mobIdData : data.getChildren()) {
+            int mobIdFromData = Integer.parseInt(mobIdData.getName());
+            String mobNameFromData = MapleDataTool.getString(mobIdData.getChildByPath("name"), "NO-NAME");
+            mobPairList.add(new Pair<Integer, String>(mobIdFromData, mobNameFromData));
+        }
+        for (Pair<Integer, String> mobPair : mobPairList) {
+            if (mobPair.getRight().toLowerCase().contains(search.toLowerCase())) {
+                retMobs.add(mobPair);
+            }
+        }
+        return retMobs;
     }
 
     public boolean isBoss(int id) {

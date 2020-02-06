@@ -80,8 +80,8 @@ function action(mode, type, selection) {
                                                 cm.teachSkill(2121007 , 0, 10, -1);
                                         if(cm.getPlayer().getSkillLevel(2121005) == 0)
                                                 cm.teachSkill(2121005 , 0, 10, -1);
-                                        if(cm.getPlayer().getSkillLevel(2121003) == 0)
-                                                cm.teachSkill(2121003 , 0, 10, -1);
+                                        if(cm.getPlayer().getSkillLevel(2121005) == 0)
+                                                cm.teachSkill(2121005 , 0, 10, -1);
                                 } else if(cm.getJobId() == 222) {
                                         if(cm.getPlayer().getSkillLevel(2221007) == 0)
                                                 cm.teachSkill(2221007 , 0, 10, -1);
@@ -94,8 +94,6 @@ function action(mode, type, selection) {
                                                 cm.teachSkill(2321008, 0, 10,-1); // Genesis 
                                         if (cm.getPlayer().getSkillLevel(2321006) < 1)
                                                 cm.teachSkill(2321006, 0, 10,-1); // res
-											if (cm.getPlayer().getSkillLevel(2321007) < 1)
-                                                cm.teachSkill(2321007, 0, 10,-1); // angel ray
                                 }
                                 cm.sendOk("It is done. Leave me now.");
                         }

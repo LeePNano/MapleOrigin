@@ -23,24 +23,39 @@
 package server.partyquest;
 
 import client.MapleCharacter;
+import java.util.concurrent.ScheduledFuture;
 import net.server.world.MapleParty;
 import server.MapleItemInformationProvider;
 import server.TimerManager;
 import tools.MaplePacketCreator;
 
-import java.util.concurrent.ScheduledFuture;
-
 /**
+ *
  * @author kevintjuh93
  */
 public class Pyramid extends PartyQuest {
+    public enum PyramidMode {
+        EASY(0), NORMAL(1), HARD(2), HELL(3);
+        int mode;
+
+        PyramidMode(int mode) {
+            this.mode = mode;
+        }
+
+        public int getMode() {
+            return mode;
+        }
+    }
+
     int kill = 0, miss = 0, cool = 0, exp = 0, map, count;
     byte coolAdd = 5, missSub = 4, decrease = 1;//hmmm
     short gauge;
     byte rank, skill = 0, stage = 0, buffcount = 0;//buffcount includes buffs + skills
     PyramidMode mode;
+
     ScheduledFuture<?> timer = null;
     ScheduledFuture<?> gaugeSchedule = null;
+
     public Pyramid(MapleParty party, PyramidMode mode, int mapid) {
         super(party);
         this.mode = mode;
@@ -93,7 +108,7 @@ public class Pyramid extends PartyQuest {
         if (gauge >= 100) gauge = 100;
         broadcastInfo("cool", cool);
         checkBuffs();
-
+       
     }
 
     public void miss() {
@@ -111,12 +126,12 @@ public class Pyramid extends PartyQuest {
             value = 120;
 
         timer = TimerManager.getInstance().schedule(new Runnable() {
-            @Override
-            public void run() {
-                stage++;
-                warp(map + (stage * 100));//Should work :D
-            }
-        }, value * 1000);//, 4000
+                @Override
+                public void run() {
+                    stage++;
+                    warp(map + (stage * 100));//Should work :D
+                }
+            }, value * 1000);//, 4000
         broadcastInfo("party", getParticipants().size() > 1 ? 1 : 0);
         broadcastInfo("hit", kill);
         broadcastInfo("miss", miss);
@@ -205,7 +220,7 @@ public class Pyramid extends PartyQuest {
                 if (totalkills >= 3000) rank = 0;
                 else if (totalkills >= 2000) rank = 1;
                 else if (totalkills >= 1500) rank = 2;
-                else if (totalkills >= 500) rank = 3;
+                else if(totalkills >= 500) rank = 3;
                 else rank = 4;
             } else {
                 if (totalkills >= 2000) rank = 3;
@@ -213,7 +228,7 @@ public class Pyramid extends PartyQuest {
             }
 
             if (rank == 0) exp = (60500 + (5500 * mode.getMode()));
-            else if (rank == 1) exp = (55000 + (5000 * mode.getMode()));
+            else if(rank == 1) exp = (55000 + (5000 * mode.getMode()));
             else if (rank == 2) exp = (46750 + (4250 * mode.getMode()));
             else if (rank == 3) exp = (22000 + (2000 * mode.getMode()));
 
@@ -221,19 +236,6 @@ public class Pyramid extends PartyQuest {
         }
         chr.announce(MaplePacketCreator.pyramidScore(rank, exp));
         chr.gainExp(exp, true, true);
-    }
-
-    public enum PyramidMode {
-        EASY(0), NORMAL(1), HARD(2), HELL(3);
-        int mode;
-
-        PyramidMode(int mode) {
-            this.mode = mode;
-        }
-
-        public int getMode() {
-            return mode;
-        }
     }
 }
 

@@ -25,7 +25,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -504,7 +503,7 @@ public class MapleQuestItemFetcher {
             System.out.println("Reading WZs...");
     
             fileName = wzPath + "/Quest.wz/Check.img.xml";
-            fileReader = new InputStreamReader(new FileInputStream(fileName), StandardCharsets.UTF_8);
+            fileReader = new InputStreamReader(new FileInputStream(fileName), "UTF-8");
             bufferedReader = new BufferedReader(fileReader);
 
             while((line = bufferedReader.readLine()) != null) {
@@ -515,7 +514,7 @@ public class MapleQuestItemFetcher {
             fileReader.close();
             
             fileName = wzPath + "/Quest.wz/Act.img.xml";
-            fileReader = new InputStreamReader(new FileInputStream(fileName), StandardCharsets.UTF_8);
+            fileReader = new InputStreamReader(new FileInputStream(fileName), "UTF-8");
             bufferedReader = new BufferedReader(fileReader);
 
             while((line = bufferedReader.readLine()) != null) {
@@ -544,7 +543,7 @@ public class MapleQuestItemFetcher {
             
             System.out.println("Reporting results...");
             // report suspects of missing quest drop data, as well as those drop data that may have incorrect questids.
-            printWriter = new PrintWriter(newFile, StandardCharsets.UTF_8);
+            printWriter = new PrintWriter(newFile, "UTF-8");
             
             printReportFileHeader();
             

@@ -22,14 +22,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package scripting.reactor;
 
 import client.MapleClient;
-import jdk.nashorn.api.scripting.NashornScriptEngine;
-import scripting.AbstractScriptManager;
-import server.maps.MapleReactor;
-import server.maps.ReactorDropEntry;
-import tools.DatabaseConnection;
-import tools.FilePrinter;
-
-import javax.script.ScriptException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -37,6 +29,14 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import javax.script.ScriptException;
+
+import jdk.nashorn.api.scripting.NashornScriptEngine;
+import scripting.AbstractScriptManager;
+import server.maps.MapleReactor;
+import server.maps.ReactorDropEntry;
+import tools.DatabaseConnection;
+import tools.FilePrinter;
 
 /**
  * @author Lerk
@@ -44,24 +44,24 @@ import java.util.Map;
 public class ReactorScriptManager extends AbstractScriptManager {
 
     private static ReactorScriptManager instance = new ReactorScriptManager();
-    private Map<Integer, List<ReactorDropEntry>> drops = new HashMap<>();
-
+    
     public static ReactorScriptManager getInstance() {
         return instance;
     }
-
+    
+    private Map<Integer, List<ReactorDropEntry>> drops = new HashMap<>();
+    
     public void onHit(MapleClient c, MapleReactor reactor) {
         try {
             NashornScriptEngine iv = getScriptEngine("reactor/" + reactor.getId() + ".js", c);
             if (iv == null) return;
-
+            
             ReactorActionManager rm = new ReactorActionManager(c, reactor, iv);
             iv.put("rm", rm);
             iv.invokeFunction("hit");
-        } catch (final NoSuchMethodException e) {
-        } //do nothing, hit is OPTIONAL
-
-        catch (final ScriptException | NullPointerException e) {
+        } catch (final NoSuchMethodException e) {} //do nothing, hit is OPTIONAL
+        
+          catch (final ScriptException | NullPointerException e) {
             FilePrinter.printError(FilePrinter.REACTOR + reactor.getId() + ".txt", e);
         }
     }
@@ -70,7 +70,7 @@ public class ReactorScriptManager extends AbstractScriptManager {
         try {
             NashornScriptEngine iv = getScriptEngine("reactor/" + reactor.getId() + ".js", c);
             if (iv == null) return;
-
+            
             ReactorActionManager rm = new ReactorActionManager(c, reactor, iv);
             iv.put("rm", rm);
             iv.invokeFunction("act");
@@ -93,7 +93,7 @@ public class ReactorScriptManager extends AbstractScriptManager {
                         }
                     }
                 }
-
+                
                 con.close();
             } catch (Throwable e) {
                 FilePrinter.printError(FilePrinter.REACTOR + rid + ".txt", e);
@@ -119,7 +119,7 @@ public class ReactorScriptManager extends AbstractScriptManager {
         try {
             NashornScriptEngine iv = getScriptEngine("reactor/" + reactor.getId() + ".js", c);
             if (iv == null) return;
-
+            
             ReactorActionManager rm = new ReactorActionManager(c, reactor, iv);
             iv.put("rm", rm);
             if (touching) {

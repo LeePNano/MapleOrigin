@@ -21,41 +21,53 @@
 */
 package client;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Deque;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.Map;
 import net.server.PlayerStorage;
 import tools.DatabaseConnection;
 import tools.MaplePacketCreator;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.*;
-
 public class BuddyList {
+    public enum BuddyOperation {
+        ADDED, DELETED
+    }
+
+    public enum BuddyAddResult {
+        BUDDYLIST_FULL, ALREADY_ON_LIST, OK
+    }
     private Map<Integer, BuddylistEntry> buddies = new LinkedHashMap<>();
     private int capacity;
     private Deque<CharacterNameAndId> pendingRequests = new LinkedList<>();
+
     public BuddyList(int capacity) {
         this.capacity = capacity;
     }
 
     public boolean contains(int characterId) {
-        synchronized (buddies) {
+        synchronized(buddies) {
             return buddies.containsKey(Integer.valueOf(characterId));
         }
     }
 
     public boolean containsVisible(int characterId) {
         BuddylistEntry ble;
-        synchronized (buddies) {
+        synchronized(buddies) {
             ble = buddies.get(characterId);
         }
-
+        
         if (ble == null) {
             return false;
         }
         return ble.isVisible();
-
+        
     }
 
     public int getCapacity() {
@@ -67,7 +79,7 @@ public class BuddyList {
     }
 
     public BuddylistEntry get(int characterId) {
-        synchronized (buddies) {
+        synchronized(buddies) {
             return buddies.get(Integer.valueOf(characterId));
         }
     }
@@ -79,37 +91,37 @@ public class BuddyList {
                 return ble;
             }
         }
-
+        
         return null;
     }
 
     public void put(BuddylistEntry entry) {
-        synchronized (buddies) {
+        synchronized(buddies) {
             buddies.put(Integer.valueOf(entry.getCharacterId()), entry);
         }
     }
 
     public void remove(int characterId) {
-        synchronized (buddies) {
+        synchronized(buddies) {
             buddies.remove(Integer.valueOf(characterId));
         }
     }
 
     public Collection<BuddylistEntry> getBuddies() {
-        synchronized (buddies) {
+        synchronized(buddies) {
             return Collections.unmodifiableCollection(buddies.values());
         }
     }
 
     public boolean isFull() {
-        synchronized (buddies) {
+        synchronized(buddies) {
             return buddies.size() >= capacity;
         }
     }
 
     public int[] getBuddyIds() {
-        synchronized (buddies) {
-            int[] buddyIds = new int[buddies.size()];
+        synchronized(buddies) {
+            int buddyIds[] = new int[buddies.size()];
             int i = 0;
             for (BuddylistEntry ble : buddies.values()) {
                 buddyIds[i++] = ble.getCharacterId();
@@ -117,12 +129,12 @@ public class BuddyList {
             return buddyIds;
         }
     }
-
+    
     public void broadcast(byte[] packet, PlayerStorage pstorage) {
-        for (int bid : getBuddyIds()) {
+        for(int bid : getBuddyIds()) {
             MapleCharacter chr = pstorage.getCharacterById(bid);
-
-            if (chr != null && chr.isLoggedinWorld()) {
+            
+            if(chr != null && chr.isLoggedinWorld()) {
                 chr.announce(packet);
             }
         }
@@ -131,7 +143,7 @@ public class BuddyList {
     public void loadFromDb(int characterId) {
         try {
             Connection con = DatabaseConnection.getConnection();
-
+            
             PreparedStatement ps = con.prepareStatement("SELECT b.buddyid, b.pending, b.group, c.name as buddyname FROM buddies as b, characters as c WHERE c.id = b.buddyid AND b.characterid = ?");
             ps.setInt(1, characterId);
             ResultSet rs = ps.executeQuery();
@@ -165,13 +177,5 @@ public class BuddyList {
         } else {
             pendingRequests.push(new CharacterNameAndId(cidFrom, nameFrom));
         }
-    }
-
-    public enum BuddyOperation {
-        ADDED, DELETED
-    }
-
-    public enum BuddyAddResult {
-        BUDDYLIST_FULL, ALREADY_ON_LIST, OK
     }
 }

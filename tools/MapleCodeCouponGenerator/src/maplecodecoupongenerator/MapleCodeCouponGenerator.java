@@ -23,7 +23,6 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -348,7 +347,7 @@ public class MapleCodeCouponGenerator {
     }
     
     private static void generateCodeCoupons(String fileName) throws IOException {
-        fileReader = new InputStreamReader(new FileInputStream(fileName), StandardCharsets.UTF_8);
+        fileReader = new InputStreamReader(new FileInputStream(fileName), "UTF-8");
         bufferedReader = new BufferedReader(fileReader);
         
         resetCouponPackage();

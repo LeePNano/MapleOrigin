@@ -20,7 +20,6 @@
 package maplecouponinstaller;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -234,7 +233,7 @@ public class MapleCouponInstaller {
         String line = null;
 
         try {
-            fileReader = new InputStreamReader(new FileInputStream(fileName), StandardCharsets.UTF_8);
+            fileReader = new InputStreamReader(new FileInputStream(fileName), "UTF-8");
             bufferedReader = new BufferedReader(fileReader);
 
             while((line = bufferedReader.readLine()) != null) {

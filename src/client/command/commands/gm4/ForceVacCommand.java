@@ -23,9 +23,9 @@
 */
 package client.command.commands.gm4;
 
-import client.MapleCharacter;
-import client.MapleClient;
 import client.command.Command;
+import client.MapleClient;
+import client.MapleCharacter;
 import client.inventory.MaplePet;
 import client.inventory.manipulator.MapleInventoryManipulator;
 import server.maps.MapleMapItem;

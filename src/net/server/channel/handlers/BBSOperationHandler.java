@@ -23,17 +23,77 @@ package net.server.channel.handlers;
 
 import client.MapleCharacter;
 import client.MapleClient;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import net.AbstractMaplePacketHandler;
 import tools.DatabaseConnection;
 import tools.MaplePacketCreator;
 import tools.data.input.SeekableLittleEndianAccessor;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 public final class BBSOperationHandler extends AbstractMaplePacketHandler {
+
+    private String correctLength(String in, int maxSize) {
+        return in.length() > maxSize ? in.substring(0, maxSize) : in;
+    }
+
+    @Override
+    public final void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+        if (c.getPlayer().getGuildId() < 1) {
+            return;
+        }
+        byte mode = slea.readByte();
+        int localthreadid = 0;
+        switch (mode) {
+            case 0:
+                boolean bEdit = slea.readByte() == 1;
+                if (bEdit) {
+                    localthreadid = slea.readInt();
+                }
+                boolean bNotice = slea.readByte() == 1;
+                String title = correctLength(slea.readMapleAsciiString(), 25);
+                String text = correctLength(slea.readMapleAsciiString(), 600);
+                int icon = slea.readInt();
+                if (icon >= 0x64 && icon <= 0x6a) {
+                    if (!c.getPlayer().haveItemWithId(5290000 + icon - 0x64, false)) {
+                        return;
+                    }
+                } else if (icon < 0 || icon > 3) {
+                    return;
+                }
+                if (!bEdit) {
+                    newBBSThread(c, title, text, icon, bNotice);
+                } else {
+                    editBBSThread(c, title, text, icon, localthreadid);
+                }
+                break;
+            case 1:
+                localthreadid = slea.readInt();
+                deleteBBSThread(c, localthreadid);
+                break;
+            case 2:
+                int start = slea.readInt();
+                listBBSThreads(c, start * 10);
+                break;
+            case 3: // list thread + reply, followed by id (int)
+                localthreadid = slea.readInt();
+                displayThread(c, localthreadid);
+                break;
+            case 4: // reply
+                localthreadid = slea.readInt();
+                text = correctLength(slea.readMapleAsciiString(), 25);
+                newBBSReply(c, localthreadid, text);
+                break;
+            case 5: // delete reply
+                slea.readInt(); // we don't use this
+                int replyid = slea.readInt();
+                deleteBBSReply(c, replyid);
+                break;
+            default:
+                //System.out.println("Unhandled BBS mode: " + slea.toString());
+        }
+    }
 
     private static void listBBSThreads(MapleClient c, int start) {
         try {
@@ -44,7 +104,7 @@ public final class BBSOperationHandler extends AbstractMaplePacketHandler {
                     c.announce(MaplePacketCreator.BBSThreadList(rs, start));
                 }
             }
-
+            
             con.close();
         } catch (SQLException se) {
             se.printStackTrace();
@@ -263,74 +323,13 @@ public final class BBSOperationHandler extends AbstractMaplePacketHandler {
             if (ps2 != null) {
                 ps2.close();
             }
-
+            
             con.close();
         } catch (SQLException se) {
             se.printStackTrace();
         } catch (RuntimeException re) {//btw we get this everytime for some reason, but replies work!
             re.printStackTrace();
             System.out.println("The number of reply rows does not match the replycount in thread.");
-        }
-    }
-
-    private String correctLength(String in, int maxSize) {
-        return in.length() > maxSize ? in.substring(0, maxSize) : in;
-    }
-
-    @Override
-    public final void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-        if (c.getPlayer().getGuildId() < 1) {
-            return;
-        }
-        byte mode = slea.readByte();
-        int localthreadid = 0;
-        switch (mode) {
-            case 0:
-                boolean bEdit = slea.readByte() == 1;
-                if (bEdit) {
-                    localthreadid = slea.readInt();
-                }
-                boolean bNotice = slea.readByte() == 1;
-                String title = correctLength(slea.readMapleAsciiString(), 25);
-                String text = correctLength(slea.readMapleAsciiString(), 600);
-                int icon = slea.readInt();
-                if (icon >= 0x64 && icon <= 0x6a) {
-                    if (!c.getPlayer().haveItemWithId(5290000 + icon - 0x64, false)) {
-                        return;
-                    }
-                } else if (icon < 0 || icon > 3) {
-                    return;
-                }
-                if (!bEdit) {
-                    newBBSThread(c, title, text, icon, bNotice);
-                } else {
-                    editBBSThread(c, title, text, icon, localthreadid);
-                }
-                break;
-            case 1:
-                localthreadid = slea.readInt();
-                deleteBBSThread(c, localthreadid);
-                break;
-            case 2:
-                int start = slea.readInt();
-                listBBSThreads(c, start * 10);
-                break;
-            case 3: // list thread + reply, followed by id (int)
-                localthreadid = slea.readInt();
-                displayThread(c, localthreadid);
-                break;
-            case 4: // reply
-                localthreadid = slea.readInt();
-                text = correctLength(slea.readMapleAsciiString(), 25);
-                newBBSReply(c, localthreadid, text);
-                break;
-            case 5: // delete reply
-                slea.readInt(); // we don't use this
-                int replyid = slea.readInt();
-                deleteBBSReply(c, replyid);
-                break;
-            default:
-                //System.out.println("Unhandled BBS mode: " + slea.toString());
         }
     }
 }

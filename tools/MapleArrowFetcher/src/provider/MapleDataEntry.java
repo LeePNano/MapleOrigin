@@ -26,8 +26,8 @@ package provider;
  * @author Matze
  */
 public interface MapleDataEntry extends MapleDataEntity {
-    String getName();
-    int getSize();
-    int getChecksum();
-    int getOffset();
+    public String getName();
+    public int getSize();
+    public int getChecksum();
+    public int getOffset();
 }

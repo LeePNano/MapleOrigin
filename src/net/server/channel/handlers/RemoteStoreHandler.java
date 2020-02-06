@@ -30,16 +30,10 @@ import tools.MaplePacketCreator;
 import tools.data.input.SeekableLittleEndianAccessor;
 
 /**
+ *
  * @author kevintjuh93 :3
  */
 public class RemoteStoreHandler extends AbstractMaplePacketHandler {
-    private static MapleHiredMerchant getMerchant(MapleClient c) {
-        if (c.getPlayer().hasMerchant()) {
-            return c.getWorldServer().getHiredMerchant(c.getPlayer().getId());
-        }
-        return null;
-    }
-
     @Override
     public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
         MapleCharacter chr = c.getPlayer();
@@ -52,8 +46,15 @@ public class RemoteStoreHandler extends AbstractMaplePacketHandler {
             }
             return;
         } else {
-            chr.dropMessage(1, "You don't have a Merchant open.");
+           chr.dropMessage(1, "You don't have a Merchant open.");
         }
         c.announce(MaplePacketCreator.enableActions());
+    }
+
+    private static MapleHiredMerchant getMerchant(MapleClient c) {
+        if (c.getPlayer().hasMerchant()) {
+            return c.getWorldServer().getHiredMerchant(c.getPlayer().getId());
+        }
+        return null;
     }
 }

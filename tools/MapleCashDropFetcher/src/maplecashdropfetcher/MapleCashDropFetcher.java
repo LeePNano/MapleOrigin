@@ -23,7 +23,6 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -321,7 +320,7 @@ public class MapleCashDropFetcher {
                     continue;
                 }
                 
-                fileReader = new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8);
+                fileReader = new InputStreamReader(new FileInputStream(f), "UTF-8");
                 bufferedReader = new BufferedReader(fileReader);
 
                 currentItemid = itemid;
@@ -337,7 +336,7 @@ public class MapleCashDropFetcher {
             
             for(File f : files) {
                 //System.out.println("Parsing " + f.getAbsolutePath());
-                fileReader = new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8);
+                fileReader = new InputStreamReader(new FileInputStream(f), "UTF-8");
                 bufferedReader = new BufferedReader(fileReader);
 
                 if(f.getName().length() <= itemFileNameSize) {
@@ -362,7 +361,7 @@ public class MapleCashDropFetcher {
             con = DriverManager.getConnection(host, username, password);
             
             // report suspects of missing quest drop data, as well as those drop data that may have incorrect questids.
-            printWriter = new PrintWriter(newFile, StandardCharsets.UTF_8);
+            printWriter = new PrintWriter(newFile, "UTF-8");
             printReportFileHeader();
             
             reportNxDropResults(true);

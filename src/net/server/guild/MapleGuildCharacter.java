@@ -64,13 +64,13 @@ public class MapleGuildCharacter {
         this.guildid = _gid;
         this.allianceRank = _allianceRank;
     }
-
-    public MapleCharacter getCharacter() {
-        return character;
-    }
-
+    
     public void setCharacter(MapleCharacter ch) {
         this.character = ch;
+    }
+    
+    public MapleCharacter getCharacter() {
+        return character;
     }
 
     public int getLevel() {
@@ -85,12 +85,12 @@ public class MapleGuildCharacter {
         return id;
     }
 
-    public int getChannel() {
-        return channel;
-    }
-
     public void setChannel(int ch) {
         channel = ch;
+    }
+
+    public int getChannel() {
+        return channel;
     }
 
     public int getWorld() {
@@ -113,24 +113,24 @@ public class MapleGuildCharacter {
         guildid = gid;
         character.setGuildId(gid);
     }
-
+    
     public int getGuildRank() {
         return guildrank;
-    }
-
-    public void setGuildRank(int rank) {
-        guildrank = rank;
-        character.setGuildRank(rank);
     }
 
     public void setOfflineGuildRank(int rank) {
         guildrank = rank;
     }
-
+    
+    public void setGuildRank(int rank) {
+        guildrank = rank;
+        character.setGuildRank(rank);
+    }
+    
     public int getAllianceRank() {
         return allianceRank;
     }
-
+    
     public void setAllianceRank(int rank) {
         allianceRank = rank;
         character.setAllianceRank(rank);

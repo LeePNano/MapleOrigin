@@ -23,8 +23,8 @@
 */
 package client.command.commands.gm0;
 
-import client.MapleClient;
 import client.command.Command;
+import client.MapleClient;
 import scripting.npc.NPCScriptManager;
 import scripting.quest.QuestScriptManager;
 import tools.MaplePacketCreator;
@@ -41,5 +41,5 @@ public class DisposeCommand extends Command {
         c.announce(MaplePacketCreator.enableActions());
         c.removeClickedNPC();
         c.getPlayer().message("You've been disposed.");
+        }
     }
-}

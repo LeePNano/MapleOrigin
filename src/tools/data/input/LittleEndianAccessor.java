@@ -21,39 +21,25 @@
 */
 package tools.data.input;
 
-import java.awt.*;
+import java.awt.Point;
 
 /**
  * @author Frz
  */
 public interface LittleEndianAccessor {
     byte readByte();
-
     char readChar();
-
     short readShort();
-
     int readInt();
-
     Point readPos();
-
     long readLong();
-
     void skip(int num);
-
     byte[] read(int num);
-
     float readFloat();
-
     double readDouble();
-
     String readAsciiString(int n);
-
     String readNullTerminatedAsciiString();
-
     String readMapleAsciiString();
-
     long getBytesRead();
-
     long available();
 }

@@ -23,7 +23,7 @@ public class CharsetConstants {
         final byte type;
         final String ascii;
  
-        MapleLanguageType(int type, String ascii) {
+        private MapleLanguageType(int type, String ascii) {
             this.type = (byte) type;
             this.ascii = ascii;
         }

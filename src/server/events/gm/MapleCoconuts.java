@@ -22,10 +22,11 @@
 package server.events.gm;
 
 /**
+ *
  * @author kevintjuh93
  */
 public class MapleCoconuts {
-
+	
     private int id;
     private int hits = 0;
     private boolean hittable = false;

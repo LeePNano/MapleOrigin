@@ -36,25 +36,37 @@ public enum MapleDisease {
     DARKNESS(0x10000000000000L, 121),
     WEAKEN(0x4000000000000000L, 122),
     CURSE(0x8000000000000000L, 124);
-
+    
     private long i;
     private boolean first;
     private int mobskill;
-
-    MapleDisease(long i) {
+    
+    private MapleDisease(long i) {
         this(i, false, 0);
     }
 
-    MapleDisease(long i, int skill) {
+    private MapleDisease(long i, int skill) {
         this(i, false, skill);
     }
-
-    MapleDisease(long i, boolean first, int skill) {
+    
+    private MapleDisease(long i, boolean first, int skill) {
         this.i = i;
         this.first = first;
         this.mobskill = skill;
     }
+    
+    public long getValue() {
+        return i;
+    }
 
+    public boolean isFirst() {
+        return first;
+    }
+    
+    public int getDisease() {
+        return mobskill;
+    }
+    
     public static MapleDisease ordinal(int ord) {
         try {
             return MapleDisease.values()[ord];
@@ -62,12 +74,12 @@ public enum MapleDisease {
             return NULL;
         }
     }
-
+    
     public static final MapleDisease getRandom() {
         MapleDisease[] diseases = GameConstants.CPQ_DISEASES;
         return diseases[(int) (Math.random() * diseases.length)];
     }
-
+    
     public static final MapleDisease getBySkill(final int skill) {
         for (MapleDisease d : MapleDisease.values()) {
             if (d.getDisease() == skill && d.getDisease() != 0) {
@@ -76,17 +88,5 @@ public enum MapleDisease {
         }
         return null;
     }
-
-    public long getValue() {
-        return i;
-    }
-
-    public boolean isFirst() {
-        return first;
-    }
-
-    public int getDisease() {
-        return mobskill;
-    }
-
+    
 }

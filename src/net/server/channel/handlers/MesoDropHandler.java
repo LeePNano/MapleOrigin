@@ -21,47 +21,48 @@
 */
 package net.server.channel.handlers;
 
-import client.MapleCharacter;
-import client.MapleClient;
 import net.AbstractMaplePacketHandler;
 import tools.MaplePacketCreator;
 import tools.data.input.SeekableLittleEndianAccessor;
+import client.MapleCharacter;
+import client.MapleClient;
 
 /**
+ *
  * @author Matze
  * @author Ronan - concurrency protection
  */
 public final class MesoDropHandler extends AbstractMaplePacketHandler {
-    @Override
-    public final void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-        MapleCharacter player = c.getPlayer();
-        if (!player.isAlive()) {
-            c.announce(MaplePacketCreator.enableActions());
-            return;
-        }
-        slea.skip(4);
-        int meso = slea.readInt();
-
-        if (c.tryacquireClient()) {     // thanks imbee for noticing players not being able to throw mesos too fast, dampening gameplay of some classes
-            try {
-                if (meso <= player.getMeso() && meso > 9 && meso < 50001) {
-                    player.gainMeso(-meso, false, true, false);
-                } else {
-                    c.announce(MaplePacketCreator.enableActions());
-                    return;
-                }
-            } finally {
-                c.releaseClient();
+        @Override
+        public final void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+            MapleCharacter player = c.getPlayer();
+            if (!player.isAlive()) {
+                c.announce(MaplePacketCreator.enableActions());
+                return;
             }
-        } else {
-            c.announce(MaplePacketCreator.enableActions());
-            return;
-        }
+            slea.skip(4);
+            int meso = slea.readInt();
 
-        if (player.attemptCatchFish(meso)) {
-            player.getMap().disappearingMesoDrop(meso, player, player, player.getPosition());
-        } else {
-            player.getMap().spawnMesoDrop(meso, player.getPosition(), player, player, true, (byte) 2);
+            if (c.tryacquireClient()) {     // thanks imbee for noticing players not being able to throw mesos too fast, dampening gameplay of some classes
+                try {
+                    if (meso <= player.getMeso() && meso > 9 && meso < 50001) {
+                        player.gainMeso(-meso, false, true, false);
+                    } else {
+                        c.announce(MaplePacketCreator.enableActions());
+                        return;
+                    }
+                } finally {
+                    c.releaseClient();
+                }
+            } else {
+                c.announce(MaplePacketCreator.enableActions());
+                return;
+            }
+
+            if (player.attemptCatchFish(meso)) {
+                player.getMap().disappearingMesoDrop(meso, player, player, player.getPosition());
+            } else {
+                player.getMap().spawnMesoDrop(meso, player.getPosition(), player, player, true, (byte) 2);
+            }
         }
-    }
 }

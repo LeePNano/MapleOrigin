@@ -26,16 +26,19 @@ public enum Element {
 
     private int value;
     private boolean special = false;
-
-    Element(int v) {
-        this.value = v;
+    private Element(int v) {
+	this.value = v;
     }
 
-    Element(int v, boolean special) {
-        this.value = v;
-        this.special = special;
+    private Element(int v, boolean special) {
+	this.value = v;
+	this.special = special;
     }
 
+    public boolean isSpecial() {
+	return special;
+    }
+    
     public static Element getFromChar(char c) {
         switch (Character.toUpperCase(c)) {
             case 'F':
@@ -49,18 +52,14 @@ public enum Element {
             case 'H':
                 return HOLY;
             case 'D':
-                return DARKNESS;
+            	return DARKNESS;
             case 'P':
                 return NEUTRAL;
         }
         throw new IllegalArgumentException("unknown elemnt char " + c);
     }
-
-    public boolean isSpecial() {
-        return special;
-    }
-
+    
     public int getValue() {
-        return value;
+	return value;
     }
 }

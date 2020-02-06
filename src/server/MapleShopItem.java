@@ -22,6 +22,7 @@
 package server;
 
 /**
+ *
  * @author Matze
  */
 public class MapleShopItem {

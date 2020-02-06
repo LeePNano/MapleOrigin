@@ -22,6 +22,7 @@
 package net.server;
 
 /**
+ *
  * @author Danny
  */
 public class PlayerCoolDownValueHolder {

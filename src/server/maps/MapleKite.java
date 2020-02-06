@@ -1,10 +1,9 @@
 package server.maps;
 
+import java.awt.Point;
 import client.MapleCharacter;
 import client.MapleClient;
 import tools.MaplePacketCreator;
-
-import java.awt.*;
 
 public class MapleKite extends AbstractMapleMapObject {
 
@@ -32,13 +31,13 @@ public class MapleKite extends AbstractMapleMapObject {
         return pos.getLocation();
     }
 
+    public MapleCharacter getOwner() {
+        return owner;
+    }
+
     @Override
     public void setPosition(Point position) {
         throw new UnsupportedOperationException();
-    }
-
-    public MapleCharacter getOwner() {
-        return owner;
     }
 
     @Override

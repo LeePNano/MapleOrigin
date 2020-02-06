@@ -27,10 +27,11 @@ import net.AbstractMaplePacketHandler;
 import tools.data.input.SeekableLittleEndianAccessor;
 
 /**
+ *
  * @author Generic, Ronan
  */
 public class AutoAssignHandler extends AbstractMaplePacketHandler {
-
+    
     @Override
     public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
         AssignAPProcessor.APAutoAssignAction(slea, c);

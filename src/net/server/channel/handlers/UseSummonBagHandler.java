@@ -24,15 +24,16 @@ package net.server.channel.handlers;
 import client.MapleClient;
 import client.inventory.Item;
 import client.inventory.MapleInventoryType;
-import client.inventory.manipulator.MapleInventoryManipulator;
+import tools.Randomizer;
 import net.AbstractMaplePacketHandler;
+import client.inventory.manipulator.MapleInventoryManipulator;
 import server.MapleItemInformationProvider;
 import server.life.MapleLifeFactory;
 import tools.MaplePacketCreator;
-import tools.Randomizer;
 import tools.data.input.SeekableLittleEndianAccessor;
 
 /**
+ *
  * @author AngelSL
  */
 public final class UseSummonBagHandler extends AbstractMaplePacketHandler {

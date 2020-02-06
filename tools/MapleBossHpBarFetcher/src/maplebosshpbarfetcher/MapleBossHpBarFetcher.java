@@ -25,7 +25,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.util.LinkedList;
 import java.util.List;
@@ -180,7 +179,7 @@ public class MapleBossHpBarFetcher {
         File folder = new File(mobDirectory);
         for(File file : folder.listFiles()) {
             if (file.isFile()) {
-                fileReader = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8);
+                fileReader = new InputStreamReader(new FileInputStream(file), "UTF-8");
                 bufferedReader = new BufferedReader(fileReader);
 
                 while((line = bufferedReader.readLine()) != null) {
@@ -213,7 +212,7 @@ public class MapleBossHpBarFetcher {
             readBossHpBarData();
             
             System.out.println("Reporting results...");
-            printWriter = new PrintWriter(newFile, StandardCharsets.UTF_8);
+            printWriter = new PrintWriter(newFile, "UTF-8");
             
             printReportFileHeader();
             printReportFileResults();

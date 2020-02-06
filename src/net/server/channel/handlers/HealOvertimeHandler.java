@@ -28,8 +28,8 @@ import client.autoban.AutobanManager;
 import net.AbstractMaplePacketHandler;
 import net.server.Server;
 import server.maps.MapleMap;
-import tools.MaplePacketCreator;
 import tools.data.input.SeekableLittleEndianAccessor;
+import tools.MaplePacketCreator;
 
 public final class HealOvertimeHandler extends AbstractMaplePacketHandler {
     @Override
@@ -61,14 +61,12 @@ public final class HealOvertimeHandler extends AbstractMaplePacketHandler {
         if (healMP != 0 && healMP < 1000) {
             abm.setTimestamp(9, timestamp, 28);
             //if ((abm.getLastSpam(1) + 1500) > timestamp) {
-              //  AutobanFactory.FAST_MP_HEALING.addPoint(abm, "Fast mp healing");
-                return;     // thanks resinate for noticing mp being gained even after detection
-            }
-            chr.addMP(healMP);
-            abm.spam(1, timestamp);
+            //  AutobanFactory.FAST_MP_HEALING.addPoint(abm, "Fast mp healing");
+            return;     // thanks resinate for noticing mp being gained even after detection
         }
-        chr.addMP(healMP);
-        abm.spam(1, timestamp);
+        // chr.addMP(healMP);
+        // abm.spam(1, timestamp);
     }
+//}
 }
 

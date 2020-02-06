@@ -24,6 +24,7 @@ package server.maps;
 import client.inventory.Item;
 
 /**
+ *
  * @author Matze
  */
 public class MaplePlayerShopItem {
@@ -55,11 +56,11 @@ public class MaplePlayerShopItem {
         return bundles;
     }
 
-    public void setBundles(short bundles) {
-        this.bundles = bundles;
-    }
-
     public int getPrice() {
         return price;
+    }
+
+    public void setBundles(short bundles) {
+        this.bundles = bundles;
     }
 }

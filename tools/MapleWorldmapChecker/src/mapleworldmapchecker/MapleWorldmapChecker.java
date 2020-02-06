@@ -26,7 +26,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -174,7 +173,7 @@ public class MapleWorldmapChecker {
     private static void parseWorldmapFile(File worldmapFile) throws IOException {
         String line;
         
-        fileReader = new InputStreamReader(new FileInputStream(worldmapFile), StandardCharsets.UTF_8);
+        fileReader = new InputStreamReader(new FileInputStream(worldmapFile), "UTF-8");
         bufferedReader = new BufferedReader(fileReader);
         
         currentParent = "";
@@ -238,7 +237,7 @@ public class MapleWorldmapChecker {
     
     private static void verifyWorldmapTreeMapids() {
         try {
-            printWriter = new PrintWriter(newFile, StandardCharsets.UTF_8);
+            printWriter = new PrintWriter(newFile, "UTF-8");    
             printReportFileHeader();
             
             if (rootWorldmaps.size() > 1) {

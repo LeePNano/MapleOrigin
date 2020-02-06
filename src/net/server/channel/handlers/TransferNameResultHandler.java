@@ -27,10 +27,11 @@ import tools.MaplePacketCreator;
 import tools.data.input.SeekableLittleEndianAccessor;
 
 /**
+ *
  * @author Ronan
  */
 public final class TransferNameResultHandler extends AbstractMaplePacketHandler {
-
+    
     @Override
     public final void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
         String name = slea.readMapleAsciiString();

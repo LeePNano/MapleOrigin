@@ -20,14 +20,12 @@
 package client;
 
 /**
+ *
  * @author Ronan
  */
 public interface AbstractCharacterListener {
-    void onHpChanged(int oldHp);
-
-    void onHpmpPoolUpdate();
-
-    void onStatUpdate();
-
-    void onAnnounceStatPoolUpdate();
+    public void onHpChanged(int oldHp);
+    public void onHpmpPoolUpdate();
+    public void onStatUpdate();
+    public void onAnnounceStatPoolUpdate();
 }

@@ -21,24 +21,28 @@
  */
 package server.life;
 
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import client.MapleCharacter;
 import client.MapleDisease;
 import client.status.MonsterStatus;
 import constants.game.GameConstants;
-import net.server.services.task.channel.OverallService;
+import java.util.LinkedList;
+import java.util.Map;
 import net.server.services.type.ChannelServices;
+import net.server.services.task.channel.OverallService;
+import tools.Randomizer;
 import server.maps.MapleMap;
 import server.maps.MapleMapObject;
 import server.maps.MapleMapObjectType;
 import server.maps.MapleMist;
 import tools.ArrayMap;
-import tools.Randomizer;
-
-import java.awt.*;
-import java.util.List;
-import java.util.*;
 
 /**
+ *
  * @author Danny (Leifde)
  */
 public class MobSkill {
@@ -56,14 +60,38 @@ public class MobSkill {
         this.skillLevel = level;
     }
 
+    public void setMpCon(int mpCon) {
+        this.mpCon = mpCon;
+    }
+
     public void addSummons(List<Integer> toSummon) {
         for (Integer summon : toSummon) {
             this.toSummon.add(summon);
         }
     }
 
+    public void setSpawnEffect(int spawnEffect) {
+        this.spawnEffect = spawnEffect;
+    }
+
     public void setHp(int hp) {
         this.hp = hp;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public void setDuration(long duration) {
+        this.duration = duration;
+    }
+
+    public void setCoolTime(long cooltime) {
+        this.cooltime = cooltime;
     }
 
     public void setProp(float prop) {
@@ -73,6 +101,10 @@ public class MobSkill {
     public void setLtRb(Point lt, Point rb) {
         this.lt = lt;
         this.rb = rb;
+    }
+
+    public void setLimit(int limit) {
+        this.limit = limit;
     }
 
     public void applyDelayedEffect(final MapleCharacter player, final MapleMonster monster, final boolean skill, int animationTime) {
@@ -225,7 +257,7 @@ public class MobSkill {
                     int summonLimit = monster.countAvailableMobSummons(summons.size(), skillLimit);
                     if (summonLimit >= 1) {
                         boolean bossRushMap = GameConstants.isBossRush(map.getId());
-
+                        
                         Collections.shuffle(summons);
                         for (Integer mobId : summons.subList(0, summonLimit)) {
                             MapleMonster toSpawn = MapleLifeFactory.getMonster(mobId);
@@ -251,7 +283,7 @@ public class MobSkill {
                                     case 8510100: //Pianus bomb
                                         if (Math.ceil(Math.random() * 5) == 1) {
                                             ypos = 78;
-                                            xpos = Randomizer.nextInt(5) + (Randomizer.nextInt(2) == 1 ? 180 : 0);
+                                            xpos = (int) Randomizer.nextInt(5) + (Randomizer.nextInt(2) == 1 ? 180 : 0);
                                         } else {
                                             xpos = (int) (monster.getPosition().getX() + Randomizer.nextInt(1000) - 500);
                                         }
@@ -335,20 +367,12 @@ public class MobSkill {
         return mpCon;
     }
 
-    public void setMpCon(int mpCon) {
-        this.mpCon = mpCon;
-    }
-
     public List<Integer> getSummons() {
         return new ArrayList<>(toSummon);
     }
 
     public int getSpawnEffect() {
         return spawnEffect;
-    }
-
-    public void setSpawnEffect(int spawnEffect) {
-        this.spawnEffect = spawnEffect;
     }
 
     public int getHP() {
@@ -359,32 +383,16 @@ public class MobSkill {
         return x;
     }
 
-    public void setX(int x) {
-        this.x = x;
-    }
-
     public int getY() {
         return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
     }
 
     public long getDuration() {
         return duration;
     }
 
-    public void setDuration(long duration) {
-        this.duration = duration;
-    }
-
     public long getCoolTime() {
         return cooltime;
-    }
-
-    public void setCoolTime(long cooltime) {
-        this.cooltime = cooltime;
     }
 
     public Point getLt() {
@@ -397,10 +405,6 @@ public class MobSkill {
 
     public int getLimit() {
         return limit;
-    }
-
-    public void setLimit(int limit) {
-        this.limit = limit;
     }
 
     public boolean makeChanceResult() {

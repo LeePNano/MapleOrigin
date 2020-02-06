@@ -35,7 +35,7 @@ public enum MapleInventoryType {
     EQUIPPED(-1); //Seems nexon screwed something when removing an item T_T
     final byte type;
 
-    MapleInventoryType(int type) {
+    private MapleInventoryType(int type) {
         this.type = (byte) type;
     }
 

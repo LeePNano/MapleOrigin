@@ -35,8 +35,16 @@ public enum MapleInventoryType {
     EQUIPPED(-1); //Seems nexon screwed something when removing an item T_T
     final byte type;
 
-    MapleInventoryType(int type) {
+    private MapleInventoryType(int type) {
         this.type = (byte) type;
+    }
+
+    public byte getType() {
+        return type;
+    }
+
+    public short getBitfieldEncoding() {
+        return (short) (2 << type);
     }
 
     public static MapleInventoryType getByType(byte type) {
@@ -61,13 +69,5 @@ public enum MapleInventoryType {
             return CASH;
         }
         return UNDEFINED;
-    }
-
-    public byte getType() {
-        return type;
-    }
-
-    public short getBitfieldEncoding() {
-        return (short) (2 << type);
     }
 }

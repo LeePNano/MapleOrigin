@@ -31,7 +31,7 @@ public class AwardToMapCommand extends Command {
                     int itemId = Integer.parseInt(params[1]);
                     MapleItemInformationProvider ii = MapleItemInformationProvider.getInstance();
 
-                    if (ii.getName(itemId) == null) {
+                    if(ii.getName(itemId) == null) {
                         player.yellowMessage("Item id '" + params[1] + "' does not exist.");
                         return;
                     }
@@ -50,18 +50,18 @@ public class AwardToMapCommand extends Command {
                         int petid = MaplePet.createPet(itemId);
 
                         MapleInventoryManipulator.addById(c, itemId, quantity, p.getName(), petid, expiration);
-                        p.yellowMessage("Received " + quantity + " of " + ii.getName(itemId) " from " + player.getName());
+                        p.yellowMessage("Received " + quantity + " of " + ii.getName(itemId) + " from " + player.getName());
                         return;
                     }
 
                     short flag = 0;
-                    if (player.gmLevel() < 3) {
+                    if(player.gmLevel() < 3) {
                         flag |= ItemConstants.ACCOUNT_SHARING;
                         flag |= ItemConstants.UNTRADEABLE;
                     }
 
                     MapleInventoryManipulator.addById(c, itemId, quantity, p.getName(), -1, flag, -1);
-                    p.yellowMessage("Received " + quantity + " of " + ii.getName(itemId) " from " + player.getName());
+                    p.yellowMessage("Received " + quantity + " of " + ii.getName(itemId) + " from " + player.getName());
                     break;
                 case "ms":
                     long mesos = 0L;

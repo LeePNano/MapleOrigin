@@ -21,13 +21,12 @@
 */
 package tools.data.output;
 
-import tools.HexTool;
-
 import java.io.ByteArrayOutputStream;
+import tools.HexTool;
 
 /**
  * Writes a maplestory-packet little-endian stream of bytes.
- *
+ * 
  * @author Frz
  * @version 1.0
  * @since Revision 352

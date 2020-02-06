@@ -23,8 +23,17 @@ package scripting.npc;
 
 import client.MapleCharacter;
 import client.MapleClient;
+
+import java.lang.reflect.UndeclaredThrowableException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.script.ScriptException;
+
 import jdk.nashorn.api.scripting.NashornScriptEngine;
 import net.server.world.MaplePartyCharacter;
+
 import scripting.AbstractScriptManager;
 import server.MapleItemInformationProvider.ScriptedItem;
 import tools.FilePrinter;
@@ -38,6 +47,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ *
  * @author Matze
  */
 public class NPCScriptManager extends AbstractScriptManager {
@@ -51,6 +61,9 @@ public class NPCScriptManager extends AbstractScriptManager {
     public static NPCScriptManager getInstance() {
         return instance;
     }
+
+    private Map<MapleClient, NPCConversationManager> cms = new HashMap<>();
+    private Map<MapleClient, NashornScriptEngine> scripts = new HashMap<>();
 
     public boolean isNpcScriptAvailable(MapleClient c, String fileName) {
         NashornScriptEngine iv = null;
@@ -198,7 +211,7 @@ public class NPCScriptManager extends AbstractScriptManager {
         } else {
             resetContext(scriptFolder + "/" + cm.getNpc() + ".js", c);
         }
-
+        
         c.getPlayer().flushDelayedUpdateQuests();
     }
 

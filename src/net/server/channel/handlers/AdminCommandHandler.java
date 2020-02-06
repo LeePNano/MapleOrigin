@@ -21,11 +21,9 @@
  */
 package net.server.channel.handlers;
 
-import client.MapleCharacter;
-import client.MapleClient;
-import client.inventory.MapleInventory;
-import client.inventory.MapleInventoryType;
-import client.inventory.manipulator.MapleInventoryManipulator;
+import java.util.Arrays;
+import java.util.List;
+
 import net.AbstractMaplePacketHandler;
 import server.MapleItemInformationProvider;
 import server.life.MapleLifeFactory;
@@ -36,9 +34,11 @@ import server.quest.MapleQuest;
 import tools.MaplePacketCreator;
 import tools.Randomizer;
 import tools.data.input.SeekableLittleEndianAccessor;
-
-import java.util.Arrays;
-import java.util.List;
+import client.MapleCharacter;
+import client.MapleClient;
+import client.inventory.MapleInventory;
+import client.inventory.MapleInventoryType;
+import client.inventory.manipulator.MapleInventoryManipulator;
 
 public final class AdminCommandHandler extends AbstractMaplePacketHandler {
 
@@ -76,10 +76,10 @@ public final class AdminCommandHandler extends AbstractMaplePacketHandler {
                 c.getPlayer().setExp(slea.readInt());
                 break;
             case 0x03: // /ban <name>
-                c.getPlayer().yellowMessage("Please use !ban <IGN> <Reason>");
-                break;
+            	c.getPlayer().yellowMessage("Please use !ban <IGN> <Reason>");
+            	break;
             case 0x04: // /block <name> <duration (in days)> <HACK/BOT/AD/HARASS/CURSE/SCAM/MISCONDUCT/SELL/ICASH/TEMP/GM/IPROGRAM/MEGAPHONE>
-                victim = slea.readMapleAsciiString();
+            	victim = slea.readMapleAsciiString();
                 int type = slea.readByte(); //reason
                 int duration = slea.readInt();
                 String description = slea.readMapleAsciiString();

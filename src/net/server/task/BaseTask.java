@@ -26,12 +26,11 @@ import net.server.world.World;
  */
 public abstract class BaseTask implements Runnable {
     protected World wserv;
-
+    
+    @Override
+    public void run() {}
+    
     public BaseTask(World world) {
         wserv = world;
-    }
-
-    @Override
-    public void run() {
     }
 }

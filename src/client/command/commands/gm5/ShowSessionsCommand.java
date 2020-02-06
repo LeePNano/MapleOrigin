@@ -24,6 +24,7 @@ import client.command.Command;
 import net.server.coordinator.session.MapleSessionCoordinator;
 
 /**
+ *
  * @author Ronan
  */
 public class ShowSessionsCommand extends Command {

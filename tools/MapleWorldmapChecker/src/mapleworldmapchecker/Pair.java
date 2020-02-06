@@ -110,7 +110,12 @@ public class Pair<E, F> {
             return false;
         }
         if (right == null) {
-            return other.right == null;
-        } else return right.equals(other.right);
+            if (other.right != null) {
+                return false;
+            }
+        } else if (!right.equals(other.right)) {
+            return false;
+        }
+        return true;
     }
 }

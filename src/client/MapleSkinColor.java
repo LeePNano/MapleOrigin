@@ -25,8 +25,12 @@ public enum MapleSkinColor {
     NORMAL(0), DARK(1), BLACK(2), PALE(3), BLUE(4), GREEN(5), WHITE(9), PINK(10);
     final int id;
 
-    MapleSkinColor(int id) {
+    private MapleSkinColor(int id) {
         this.id = id;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public static MapleSkinColor getById(int id) {
@@ -36,9 +40,5 @@ public enum MapleSkinColor {
             }
         }
         return null;
-    }
-
-    public int getId() {
-        return id;
     }
 }

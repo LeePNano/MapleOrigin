@@ -25,7 +25,6 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -173,7 +172,7 @@ public class MapleCashCosmeticsChecker {
     private static void readEqpStringData(String eqpStringDirectory) throws IOException {
         String line;
         
-        fileReader = new InputStreamReader(new FileInputStream(eqpStringDirectory), StandardCharsets.UTF_8);
+        fileReader = new InputStreamReader(new FileInputStream(eqpStringDirectory), "UTF-8");
         bufferedReader = new BufferedReader(fileReader);
 
         while((line = bufferedReader.readLine()) != null) {
@@ -238,7 +237,7 @@ public class MapleCashCosmeticsChecker {
             Integer npcid = getNpcIdFromFilename(f.getName());
             
             //System.out.println("Parsing " + f.getAbsolutePath());
-            fileReader = new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8);
+            fileReader = new InputStreamReader(new FileInputStream(f), "UTF-8");
             bufferedReader = new BufferedReader(fileReader);
 
             String line;
@@ -311,7 +310,7 @@ public class MapleCashCosmeticsChecker {
     private static List<Integer> loadCosmeticCouponids() throws IOException {
         List<Integer> couponItemids = new LinkedList<>();
         
-        fileReader = new InputStreamReader(new FileInputStream(handbookPath + "/Cash.txt"), StandardCharsets.UTF_8);
+        fileReader = new InputStreamReader(new FileInputStream(handbookPath + "/Cash.txt"), "UTF-8");
         bufferedReader = new BufferedReader(fileReader);
 
         String line;
@@ -462,7 +461,7 @@ public class MapleCashCosmeticsChecker {
     }
     
     private static void loadCosmeticNames(String cosmeticPath) throws IOException {
-        fileReader = new InputStreamReader(new FileInputStream(cosmeticPath), StandardCharsets.UTF_8);
+        fileReader = new InputStreamReader(new FileInputStream(cosmeticPath), "UTF-8");
         bufferedReader = new BufferedReader(fileReader);
 
         String line;
@@ -536,7 +535,7 @@ public class MapleCashCosmeticsChecker {
         String townName = f.getParent().substring(f.getParent().lastIndexOf("\\") + 1);
         String typeCosmetic = f.getName().substring(0, f.getName().indexOf("."));
         
-        fileReader = new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8);
+        fileReader = new InputStreamReader(new FileInputStream(f), "UTF-8");
         bufferedReader = new BufferedReader(fileReader);
 
         String line;
@@ -657,7 +656,7 @@ public class MapleCashCosmeticsChecker {
     private static void reportCosmeticResults() throws IOException {
         System.out.println("Reporting results ...");
         
-        printWriter = new PrintWriter("lib/result.txt", StandardCharsets.UTF_8);
+        printWriter = new PrintWriter("lib/result.txt", "UTF-8");
         
         printReportFileHeader();
         
