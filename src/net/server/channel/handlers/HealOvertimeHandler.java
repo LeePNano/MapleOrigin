@@ -67,8 +67,8 @@ public final class HealOvertimeHandler extends AbstractMaplePacketHandler {
             chr.addMP(healMP);
             abm.spam(1, timestamp);
         }
-        chr.addMP(healMP);
-        abm.spam(1, timestamp);
+       // chr.addMP(healMP);
+       // abm.spam(1, timestamp);
     }
-}
+//}
 
