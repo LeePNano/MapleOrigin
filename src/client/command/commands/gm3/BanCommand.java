@@ -50,7 +50,7 @@ public class BanCommand extends Command {
         }
         String ign = params[0];
         String reason = joinStringFrom(params, 1);
-        MapleCharacter target = c.getChannelServer().getPlayerStorage().getCharacterByName(ign);
+        MapleCharacter target = c.getWorldServer().getPlayerStorage().getCharacterByName(ign);
         if (player.gmLevel() <= target.gmLevel()) {
             return;
         }
