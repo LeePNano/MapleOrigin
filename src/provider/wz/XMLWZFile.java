@@ -21,13 +21,14 @@
 */
 package provider.wz;
 
+import provider.MapleData;
+import provider.MapleDataDirectoryEntry;
+import provider.MapleDataProvider;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import provider.MapleData;
-import provider.MapleDataDirectoryEntry;
-import provider.MapleDataProvider;
 
 public class XMLWZFile implements MapleDataProvider {
     private File root;

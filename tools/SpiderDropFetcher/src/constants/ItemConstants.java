@@ -145,8 +145,7 @@ public final class ItemConstants {
     
     public static boolean isFlagModifier(int scrollId, byte flag) {
         if(scrollId == 2041058 && ((flag & ItemConstants.COLD) == ItemConstants.COLD)) return true;
-        if(scrollId == 2040727 && ((flag & ItemConstants.SPIKES) == ItemConstants.SPIKES)) return true;
-        return false;
+        return scrollId == 2040727 && ((flag & ItemConstants.SPIKES) == ItemConstants.SPIKES);
     }
     
     public static boolean isChaosScroll(int scrollId) {

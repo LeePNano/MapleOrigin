@@ -19,6 +19,7 @@
 */
 package maplemobbookindexer;
 
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -161,7 +162,7 @@ public class MapleMobBookIndexer {
             Class.forName(driver).newInstance();
             con = DriverManager.getConnection(host, username, password);
 
-            fileReader = new InputStreamReader(new FileInputStream(fileName), "UTF-8");
+            fileReader = new InputStreamReader(new FileInputStream(fileName), StandardCharsets.UTF_8);
             bufferedReader = new BufferedReader(fileReader);
 
             PreparedStatement ps = con.prepareStatement("DROP TABLE IF EXISTS monstercardwz;");

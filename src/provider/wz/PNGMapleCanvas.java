@@ -21,17 +21,12 @@
 */
 package provider.wz;
 
-import java.awt.Point;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBuffer;
-import java.awt.image.DataBufferByte;
-import java.awt.image.PixelInterleavedSampleModel;
-import java.awt.image.Raster;
-import java.awt.image.SampleModel;
-import java.awt.image.WritableRaster;
+import provider.MapleCanvas;
+
+import java.awt.*;
+import java.awt.image.*;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
-import provider.MapleCanvas;
 
 public class PNGMapleCanvas implements MapleCanvas {
     private static final int[] ZAHLEN = new int[]{2, 1, 0, 3};
@@ -73,7 +68,7 @@ public class PNGMapleCanvas implements MapleCanvas {
         int maxWriteBuf = 2;
         int maxHeight = 3;
         byte[] writeBuf = new byte[maxWriteBuf];
-        @SuppressWarnings ("unused")
+        @SuppressWarnings("unused")
         byte[] rowPointers = new byte[maxHeight];
         switch (getFormat()) {
             case 1:

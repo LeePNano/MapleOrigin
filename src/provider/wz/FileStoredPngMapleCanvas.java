@@ -21,11 +21,12 @@
 */
 package provider.wz;
 
+import provider.MapleCanvas;
+
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import javax.imageio.ImageIO;
-import provider.MapleCanvas;
 
 public class FileStoredPngMapleCanvas implements MapleCanvas {
     private File file;

@@ -1,25 +1,25 @@
 // Event-instantiation variables
 var isPq = true;
-var minPlayers, maxPlayers;     // Range of party members for this event instance.
-var minLevel, maxLevel;         // Level range of eligible team members for this event instance.
-var entryMap;                   // Initial map, where players all moved into at the event startup.
-var exitMap;                    // Upon failing to complete the event, players may be moved to this map.
-var recruitMap;                 // Map where players must be before staring this event.
-var clearMap;                   // Upon event clearing, players may be moved to this map.
+var minPlayers, maxPlayers; // Range of party members for this event instance.
+var minLevel, maxLevel; // Level range of eligible team members for this event instance.
+var entryMap; // Initial map, where players all moved into at the event startup.
+var exitMap; // Upon failing to complete the event, players may be moved to this map.
+var recruitMap; // Map where players must be before staring this event.
+var clearMap; // Upon event clearing, players may be moved to this map.
 
-var minMapId;                   // Event takes place inside these map id interval. Players found out is instantly dropped from the event.
+var minMapId; // Event takes place inside these map id interval. Players found out is instantly dropped from the event.
 var maxMapId;
 
-var eventTime;                  // Max time allotted for the event, in minutes.
+var eventTime; // Max time allotted for the event, in minutes.
 
-var lobbyRange = [0, 0];        // Range of concurrent lobbies (min range is 0, max range is 7).
+var lobbyRange = [0, 0]; // Range of concurrent lobbies (min range is 0, max range is 7).
 
 function init() {
     // After loading, ChannelServer
 }
 
 function setLobbyRange() {
-        return lobbyRange;
+    return lobbyRange;
 }
 
 function setEventRequirements() {
@@ -81,7 +81,7 @@ function scheduledTimeout(eim) {
 function timeOut(eim) {
     if (eim.getPlayerCount() > 0) {
         var pIter = eim.getPlayers().iterator();
-        while (pIter.hasNext()){
+        while (pIter.hasNext()) {
             var player = pIter.next();
             player.dropMessage(6, "You have run out of time to complete this event!");
             playerExit(eim, player);

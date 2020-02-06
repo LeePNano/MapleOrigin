@@ -23,25 +23,22 @@ package server.maps;
 
 import client.MapleClient;
 import config.YamlConfig;
-
-import java.awt.Rectangle;
-import java.util.List;
-
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.locks.Lock;
+import net.server.audit.locks.MonitoredLockType;
 import net.server.audit.locks.factory.MonitoredReentrantLockFactory;
-
+import net.server.services.task.channel.OverallService;
+import net.server.services.type.ChannelServices;
 import scripting.reactor.ReactorScriptManager;
 import server.TimerManager;
+import server.partyquest.GuardianSpawnPoint;
 import tools.MaplePacketCreator;
 import tools.Pair;
-import net.server.audit.locks.MonitoredLockType;
-import net.server.services.type.ChannelServices;
-import net.server.services.task.channel.OverallService;
-import server.partyquest.GuardianSpawnPoint;
+
+import java.awt.*;
+import java.util.List;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.locks.Lock;
 
 /**
- *
  * @author Lerk
  * @author Ronan
  */
@@ -71,12 +68,12 @@ public class MapleReactor extends AbstractMapleMapObject {
         this.alive = true;
     }
 
-    public void setShouldCollect(boolean collect) {
-        this.shouldCollect = collect;
-    }
-
     public boolean getShouldCollect() {
         return shouldCollect;
+    }
+
+    public void setShouldCollect(boolean collect) {
+        this.shouldCollect = collect;
     }
 
     public void lockReactor() {
@@ -86,7 +83,7 @@ public class MapleReactor extends AbstractMapleMapObject {
     public void unlockReactor() {
         reactorLock.unlock();
     }
-    
+
     public void hitLockReactor() {
         hitLock.lock();
         reactorLock.lock();
@@ -97,20 +94,20 @@ public class MapleReactor extends AbstractMapleMapObject {
         hitLock.unlock();
     }
 
-    public void setState(byte state) {
-        this.state = state;
-    }
-
     public byte getState() {
         return state;
     }
 
-    public void setEventState(byte substate) {
-        this.evstate = substate;
+    public void setState(byte state) {
+        this.state = state;
     }
 
     public byte getEventState() {
         return evstate;
+    }
+
+    public void setEventState(byte substate) {
+        this.evstate = substate;
     }
 
     public MapleReactorStats getStats() {
@@ -121,12 +118,12 @@ public class MapleReactor extends AbstractMapleMapObject {
         return rid;
     }
 
-    public void setDelay(int delay) {
-        this.delay = delay;
-    }
-
     public int getDelay() {
         return delay;
+    }
+
+    public void setDelay(int delay) {
+        this.delay = delay;
     }
 
     @Override
@@ -142,12 +139,12 @@ public class MapleReactor extends AbstractMapleMapObject {
         return attackHit;
     }
 
-    public void setMap(MapleMap map) {
-        this.map = map;
-    }
-
     public MapleMap getMap() {
         return map;
+    }
+
+    public void setMap(MapleMap map) {
+        this.map = map;
     }
 
     public Pair<Integer, Integer> getReactItem(byte index) {
@@ -158,12 +155,12 @@ public class MapleReactor extends AbstractMapleMapObject {
         return alive;
     }
 
-    public boolean isActive() {
-        return alive && stats.getType(state) != -1;
-    }
-
     public void setAlive(boolean alive) {
         this.alive = alive;
+    }
+
+    public boolean isActive() {
+        return alive && stats.getType(state) != -1;
     }
 
     @Override
@@ -332,11 +329,12 @@ public class MapleReactor extends AbstractMapleMapObject {
             e.printStackTrace();
         }
     }
-    
+
     public boolean destroy() {
         if (reactorLock.tryLock()) {
             try {
                 boolean alive = this.isAlive();
+                // reactor neither alive nor in delayed respawn, remove map object allowed
                 if (alive) {
                     this.setAlive(false);
                     this.cancelReactorTimeout();
@@ -344,20 +342,16 @@ public class MapleReactor extends AbstractMapleMapObject {
                     if (this.getDelay() > 0) {
                         this.delayedRespawn();
                     }
-                } else if (this.inDelayedRespawn()) {
-                    return false;
-                } else {
-                    return true;    // reactor neither alive nor in delayed respawn, remove map object allowed
-                }
+                } else return !this.inDelayedRespawn();
             } finally {
                 reactorLock.unlock();
             }
         }
-        
+
         map.broadcastMessage(MaplePacketCreator.destroyReactor(this));
         return false;
     }
-    
+
     private void respawn() {
         this.lockReactor();
         try {
@@ -366,10 +360,10 @@ public class MapleReactor extends AbstractMapleMapObject {
         } finally {
             this.unlockReactor();
         }
-        
+
         map.broadcastMessage(this.makeSpawnData());
     }
-    
+
     public void delayedRespawn() {
         Runnable r = new Runnable() {
             @Override
@@ -378,16 +372,16 @@ public class MapleReactor extends AbstractMapleMapObject {
                 respawn();
             }
         };
-        
+
         delayedRespawnRun = r;
-        
+
         OverallService service = (OverallService) map.getChannelServer().getServiceAccess(ChannelServices.OVERALL);
         service.registerOverallAction(map.getId(), r, this.getDelay());
     }
-    
+
     public boolean forceDelayedRespawn() {
         Runnable r = delayedRespawnRun;
-        
+
         if (r != null) {
             OverallService service = (OverallService) map.getChannelServer().getServiceAccess(ChannelServices.OVERALL);
             service.forceRunOverallAction(map.getId(), r);
@@ -396,7 +390,7 @@ public class MapleReactor extends AbstractMapleMapObject {
             return false;
         }
     }
-    
+
     public boolean inDelayedRespawn() {
         return delayedRespawnRun != null;
     }
@@ -421,11 +415,11 @@ public class MapleReactor extends AbstractMapleMapObject {
         this.guardian = guardian;
     }
 
-    public final void setFacingDirection(final byte facingDirection) {
-        this.facingDirection = facingDirection;
-    }
-
     public final byte getFacingDirection() {
         return facingDirection;
+    }
+
+    public final void setFacingDirection(final byte facingDirection) {
+        this.facingDirection = facingDirection;
     }
 }

@@ -29,14 +29,13 @@ import tools.MaplePacketCreator;
 import tools.data.input.SeekableLittleEndianAccessor;
 
 /**
- *
  * @author kevintjuh93; modified by Ronan
  */
 public class UseGachaExpHandler extends AbstractMaplePacketHandler {
-    
+
     @Override
     public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-        
+
         if (c.tryacquireClient()) {
             try {
                 if (c.getPlayer().getGachaExp() <= 0) {
@@ -47,7 +46,7 @@ public class UseGachaExpHandler extends AbstractMaplePacketHandler {
                 c.releaseClient();
             }
         }
-        
+
         c.announce(MaplePacketCreator.enableActions());
     }
 }

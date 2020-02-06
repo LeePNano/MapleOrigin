@@ -21,81 +21,126 @@
  */
 package net.server.channel.handlers;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map.Entry;
-
+import client.*;
+import client.inventory.*;
+import client.keybind.MapleKeyBinding;
 import config.YamlConfig;
+import constants.game.GameConstants;
+import constants.game.ScriptableNPCConstants;
 import net.AbstractMaplePacketHandler;
 import net.server.PlayerBuffValueHolder;
 import net.server.Server;
 import net.server.channel.Channel;
 import net.server.channel.CharacterIdChannelPair;
+import net.server.coordinator.session.MapleSessionCoordinator;
+import net.server.coordinator.world.MapleEventRecallCoordinator;
 import net.server.guild.MapleAlliance;
 import net.server.guild.MapleGuild;
 import net.server.world.MaplePartyCharacter;
 import net.server.world.PartyOperation;
 import net.server.world.World;
+import org.apache.mina.core.session.IoSession;
+import scripting.event.EventInstanceManager;
+import server.life.MobSkill;
 import tools.DatabaseConnection;
 import tools.FilePrinter;
 import tools.MaplePacketCreator;
 import tools.Pair;
 import tools.data.input.SeekableLittleEndianAccessor;
-import client.BuddyList;
-import client.BuddylistEntry;
-import client.CharacterNameAndId;
-import client.MapleCharacter;
-import client.MapleClient;
-import client.MapleDisease;
-import client.MapleFamily;
-import client.MapleFamilyEntry;
-import client.keybind.MapleKeyBinding;
-import client.MapleMount;
-import client.SkillFactory;
-import client.inventory.Equip;
-import client.inventory.Item;
-import client.inventory.MapleInventory;
-import client.inventory.MapleInventoryType;
-import client.inventory.MaplePet;
-import constants.game.GameConstants;
-import constants.game.ScriptableNPCConstants;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import net.server.coordinator.world.MapleEventRecallCoordinator;
-import net.server.coordinator.session.MapleSessionCoordinator;
-import org.apache.mina.core.session.IoSession;
-import server.life.MobSkill;
-import scripting.event.EventInstanceManager;
 import tools.packets.Wedding;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.*;
+import java.util.Map.Entry;
 
 public final class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
 
     private static Set<Integer> attemptingLoginAccounts = new HashSet<>();
-    
+
+    private static void showDueyNotification(MapleClient c, MapleCharacter player) {
+        Connection con = null;
+        PreparedStatement ps = null;
+        PreparedStatement pss = null;
+        ResultSet rs = null;
+        try {
+            con = DatabaseConnection.getConnection();
+            ps = con.prepareStatement("SELECT Type FROM dueypackages WHERE ReceiverId = ? AND Checked = 1 ORDER BY Type DESC");
+            ps.setInt(1, player.getId());
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                try {
+                    Connection con2 = DatabaseConnection.getConnection();
+                    pss = con2.prepareStatement("UPDATE dueypackages SET Checked = 0 WHERE ReceiverId = ?");
+                    pss.setInt(1, player.getId());
+                    pss.executeUpdate();
+                    pss.close();
+                    con2.close();
+
+                    c.announce(MaplePacketCreator.sendDueyParcelNotification(rs.getInt("Type") == 1));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pss != null) {
+                    pss.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    private static List<Pair<Long, PlayerBuffValueHolder>> getLocalStartTimes(List<PlayerBuffValueHolder> lpbvl) {
+        List<Pair<Long, PlayerBuffValueHolder>> timedBuffs = new ArrayList<>();
+        long curtime = currentServerTime();
+
+        for (PlayerBuffValueHolder pb : lpbvl) {
+            timedBuffs.add(new Pair<>(curtime - pb.usedTime, pb));
+        }
+
+        Collections.sort(timedBuffs, new Comparator<Pair<Long, PlayerBuffValueHolder>>() {
+            @Override
+            public int compare(Pair<Long, PlayerBuffValueHolder> p1, Pair<Long, PlayerBuffValueHolder> p2) {
+                return p1.getLeft().compareTo(p2.getLeft());
+            }
+        });
+
+        return timedBuffs;
+    }
+
     private boolean tryAcquireAccount(int accId) {
         synchronized (attemptingLoginAccounts) {
             if (attemptingLoginAccounts.contains(accId)) {
                 return false;
             }
-            
+
             attemptingLoginAccounts.add(accId);
             return true;
         }
     }
-    
+
     private void releaseAccount(int accId) {
         synchronized (attemptingLoginAccounts) {
             attemptingLoginAccounts.remove(accId);
         }
     }
-    
+
     @Override
     public final boolean validateState(MapleClient c) {
         return !c.isLoggedIn();
@@ -105,21 +150,21 @@ public final class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
     public final void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
         final int cid = slea.readInt();
         final Server server = Server.getInstance();
-        
+
         if (c.tryacquireClient()) { // thanks MedicOP for assisting on concurrency protection here
             try {
                 World wserv = server.getWorld(c.getWorld());
-                if(wserv == null) {
+                if (wserv == null) {
                     c.disconnect(true, false);
                     return;
                 }
 
                 Channel cserv = wserv.getChannel(c.getChannel());
-                if(cserv == null) {
+                if (cserv == null) {
                     c.setChannel(1);
                     cserv = wserv.getChannel(c.getChannel());
 
-                    if(cserv == null) {
+                    if (cserv == null) {
                         c.disconnect(true, false);
                         return;
                     }
@@ -127,7 +172,7 @@ public final class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
 
                 MapleCharacter player = wserv.getPlayerStorage().getCharacterById(cid);
                 IoSession session = c.getSession();
-                
+
                 String remoteHwid;
                 if (player == null) {
                     remoteHwid = MapleSessionCoordinator.getInstance().pickLoginSessionHwid(session);
@@ -138,17 +183,17 @@ public final class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
                 } else {
                     remoteHwid = player.getClient().getHWID();
                 }
-                
+
                 int hwidLen = remoteHwid.length();
                 session.setAttribute(MapleClient.CLIENT_HWID, remoteHwid);
                 session.setAttribute(MapleClient.CLIENT_NIBBLEHWID, remoteHwid.substring(hwidLen - 8, hwidLen));
                 c.setHWID(remoteHwid);
-                
+
                 if (!server.validateCharacteridInTransition(c, cid)) {
                     c.disconnect(true, false);
                     return;
                 }
-                
+
                 boolean newcomer = false;
                 if (player == null) {
                     try {
@@ -157,7 +202,7 @@ public final class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
-                    
+
                     if (player == null) { //If you are still getting null here then please just uninstall the game >.>, we dont need you fucking with the logs
                         c.disconnect(true, false);
                         return;
@@ -165,7 +210,7 @@ public final class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
                 }
                 c.setPlayer(player);
                 c.setAccID(player.getAccountID());
-                
+
                 boolean allowLogin = true;
 
                 /*  is this check really necessary?
@@ -183,7 +228,7 @@ public final class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
                     }
                 }
                 */
-                
+
                 int accId = c.getAccID();
                 if (tryAcquireAccount(accId)) { // Sync this to prevent wrong login state for double loggedin handling
                     try {
@@ -210,7 +255,7 @@ public final class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
                     c.announce(MaplePacketCreator.getAfterLoginError(10));
                     return;
                 }
-                
+
                 if (!newcomer) {
                     c.setLanguage(player.getClient().getLanguage());
                     c.setCharacterSlots((byte) player.getClient().getCharacterSlots());
@@ -234,7 +279,7 @@ public final class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
 
                 c.announce(MaplePacketCreator.getCharInfo(player));
                 if (!player.isHidden()) {
-                    if(player.isGM() && YamlConfig.config.server.USE_AUTOHIDE_GM) {
+                    if (player.isGM() && YamlConfig.config.server.USE_AUTOHIDE_GM) {
                         player.toggleHide(true);
                     }
                 }
@@ -253,7 +298,7 @@ public final class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
                 player.visitMap(player.getMap());
 
                 BuddyList bl = player.getBuddylist();
-                int buddyIds[] = bl.getBuddyIds();
+                int[] buddyIds = bl.getBuddyIds();
                 wserv.loggedOn(player.getName(), player.getId(), c.getChannel(), buddyIds);
                 for (CharacterIdChannelPair onlineBuddy : wserv.multiBuddyFind(player.getId(), buddyIds)) {
                     BuddylistEntry ble = bl.get(onlineBuddy.getCharacterId());
@@ -265,12 +310,12 @@ public final class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
                 c.announce(MaplePacketCreator.loadFamily(player));
                 if (player.getFamilyId() > 0) {
                     MapleFamily f = wserv.getFamily(player.getFamilyId());
-                    if(f != null) {
+                    if (f != null) {
                         MapleFamilyEntry familyEntry = f.getEntryByID(player.getId());
-                        if(familyEntry != null) {
+                        if (familyEntry != null) {
                             familyEntry.setCharacter(player);
                             player.setFamilyEntry(familyEntry);
-                            
+
                             c.announce(MaplePacketCreator.getFamilyInfo(familyEntry));
                             familyEntry.announceToSenior(MaplePacketCreator.sendFamilyLoginNotice(player.getName(), true), true);
                         } else {
@@ -334,7 +379,7 @@ public final class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
                 MapleInventory eqpInv = player.getInventory(MapleInventoryType.EQUIPPED);
                 eqpInv.lockInventory();
                 try {
-                    for(Item it : eqpInv.list()) {
+                    for (Item it : eqpInv.list()) {
                         player.equippedItem((Equip) it);
                     }
                 } finally {
@@ -355,12 +400,12 @@ public final class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
                 player.checkBerserk(player.isHidden());
 
                 if (newcomer) {
-                    for(MaplePet pet : player.getPets()) {
-                        if(pet != null) {
+                    for (MaplePet pet : player.getPets()) {
+                        if (pet != null) {
                             wserv.registerPetHunger(player, player.getPetIndex(pet));
                         }
                     }
-                    
+
                     MapleMount mount = player.getMount();   // thanks Ari for noticing a scenario where Silver Mane quest couldn't be started
                     if (mount.getItemId() != 0) {
                         player.announce(MaplePacketCreator.updateMount(player.getId(), mount, false));
@@ -373,22 +418,22 @@ public final class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
                         player.announce(MaplePacketCreator.earnTitleMessage("You can vote now! Vote and earn a vote point!"));
                     }
                     */
-                    if (player.isGM()){
+                    if (player.isGM()) {
                         Server.getInstance().broadcastGMMessage(c.getWorld(), MaplePacketCreator.earnTitleMessage((player.gmLevel() < 6 ? "GM " : "Admin ") + player.getName() + " has logged in"));
                     }
 
-                    if(diseases != null) {
-                        for(Entry<MapleDisease, Pair<Long, MobSkill>> e : diseases.entrySet()) {
+                    if (diseases != null) {
+                        for (Entry<MapleDisease, Pair<Long, MobSkill>> e : diseases.entrySet()) {
                             final List<Pair<MapleDisease, Integer>> debuff = Collections.singletonList(new Pair<>(e.getKey(), Integer.valueOf(e.getValue().getRight().getX())));
                             c.announce(MaplePacketCreator.giveDebuff(debuff, e.getValue().getRight()));
                         }
                     }
                 } else {
-                    if(player.isRidingBattleship()) {
+                    if (player.isRidingBattleship()) {
                         player.announceBattleshipHp();
                     }
                 }
-                
+
                 player.buffExpireTask();
                 player.diseaseExpireTask();
                 player.skillCooldownTask();
@@ -404,17 +449,17 @@ public final class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
                 if (player.getMap().getHPDec() > 0) player.resetHpDecreaseTask();
 
                 player.resetPlayerRates();
-                if(YamlConfig.config.server.USE_ADD_RATES_BY_LEVEL == true) player.setPlayerRates();
+                if (YamlConfig.config.server.USE_ADD_RATES_BY_LEVEL == true) player.setPlayerRates();
                 player.setWorldRates();
                 player.updateCouponRates();
 
                 player.receivePartyMemberHP();
 
-                if(player.getPartnerId() > 0) {
+                if (player.getPartnerId() > 0) {
                     int partnerId = player.getPartnerId();
                     final MapleCharacter partner = wserv.getPlayerStorage().getCharacterById(partnerId);
 
-                    if(partner != null && !partner.isAwayFromWorld()) {
+                    if (partner != null && !partner.isAwayFromWorld()) {
                         player.announce(Wedding.OnNotifyWeddingPartnerTransfer(partnerId, partner.getMapId()));
                         partner.announce(Wedding.OnNotifyWeddingPartnerTransfer(player.getId(), player.getMapId()));
                     }
@@ -426,13 +471,13 @@ public final class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
                         eim.registerPlayer(player);
                     }
                 }
-                
+
                 if (YamlConfig.config.server.USE_NPCS_SCRIPTABLE) {
                     c.announce(MaplePacketCreator.setNPCScriptable(ScriptableNPCConstants.SCRIPTABLE_NPCS));
                 }
-                
-                if(newcomer) player.setLoginTime(System.currentTimeMillis());
-            } catch(Exception e) {
+
+                if (newcomer) player.setLoginTime(System.currentTimeMillis());
+            } catch (Exception e) {
                 e.printStackTrace();
             } finally {
                 c.releaseClient();
@@ -440,69 +485,5 @@ public final class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
         } else {
             c.announce(MaplePacketCreator.getAfterLoginError(10));
         }
-    }
-    
-    private static void showDueyNotification(MapleClient c, MapleCharacter player) {
-        Connection con = null;
-        PreparedStatement ps = null;
-        PreparedStatement pss = null;
-        ResultSet rs = null;
-        try {
-            con = DatabaseConnection.getConnection();
-            ps = con.prepareStatement("SELECT Type FROM dueypackages WHERE ReceiverId = ? AND Checked = 1 ORDER BY Type DESC");
-            ps.setInt(1, player.getId());
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                try {
-                    Connection con2 = DatabaseConnection.getConnection();
-                    pss = con2.prepareStatement("UPDATE dueypackages SET Checked = 0 WHERE ReceiverId = ?");
-                    pss.setInt(1, player.getId());
-                    pss.executeUpdate();
-                    pss.close();
-                    con2.close();
-                    
-                    c.announce(MaplePacketCreator.sendDueyParcelNotification(rs.getInt("Type") == 1));
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-                if (pss != null) {
-                    pss.close();
-                }
-                if (ps != null) {
-                    ps.close();
-                }
-                if (con != null) {
-                    con.close();
-                }
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-        }
-    }
-    
-    private static List<Pair<Long, PlayerBuffValueHolder>> getLocalStartTimes(List<PlayerBuffValueHolder> lpbvl) {
-        List<Pair<Long, PlayerBuffValueHolder>> timedBuffs = new ArrayList<>();
-        long curtime = currentServerTime();
-        
-        for(PlayerBuffValueHolder pb : lpbvl) {
-            timedBuffs.add(new Pair<>(curtime - pb.usedTime, pb));
-        }
-        
-        Collections.sort(timedBuffs, new Comparator<Pair<Long, PlayerBuffValueHolder>>() {
-            @Override
-            public int compare(Pair<Long, PlayerBuffValueHolder> p1, Pair<Long, PlayerBuffValueHolder> p2) {
-                return p1.getLeft().compareTo(p2.getLeft());
-            }
-        });
-        
-        return timedBuffs;
     }
 }

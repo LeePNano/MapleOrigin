@@ -25,6 +25,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -143,7 +144,7 @@ public class MapleCashVegaChecker {
     private static void readItemDescriptionFile(File f) {
         System.out.print("Reading String.wz... ");
         try {
-            fileReader = new InputStreamReader(new FileInputStream(f), "UTF-8");
+            fileReader = new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8);
             bufferedReader = new BufferedReader(fileReader);
 
             String line;
@@ -162,7 +163,7 @@ public class MapleCashVegaChecker {
     private static void readVegaDescriptionFile(File f) {
         System.out.println("Reading Etc.wz...");
         try {
-            fileReader = new InputStreamReader(new FileInputStream(f), "UTF-8");
+            fileReader = new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8);
             bufferedReader = new BufferedReader(fileReader);
 
             String line;
@@ -187,7 +188,7 @@ public class MapleCashVegaChecker {
         System.out.println("Reporting results ...");
         
         try {
-            printWriter = new PrintWriter("lib/result.txt", "UTF-8");
+            printWriter = new PrintWriter("lib/result.txt", StandardCharsets.UTF_8);
         
             printReportFileHeader();
 

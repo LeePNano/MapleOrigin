@@ -21,39 +21,26 @@
  */
 package scripting.event;
 
-import java.util.concurrent.ConcurrentHashMap;
+import jdk.nashorn.api.scripting.NashornScriptEngine;
+import net.server.channel.Channel;
+import scripting.AbstractScriptManager;
+
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import jdk.nashorn.api.scripting.NashornScriptEngine;
-
-import net.server.channel.Channel;
-import scripting.AbstractScriptManager;
-
 /**
- *
  * @author Matze
  */
 public class EventScriptManager extends AbstractScriptManager {
 
-    private class EventEntry {
-
-        public EventEntry(NashornScriptEngine iv, EventManager em) {
-            this.iv = iv;
-            this.em = em;
-        }
-        public NashornScriptEngine iv;
-        public EventManager em;
-    }
-    
     private static EventEntry fallback;
     private Map<String, EventEntry> events = new ConcurrentHashMap<>();
     private boolean active = false;
-    
     public EventScriptManager(Channel cserv, String[] scripts) {
         super();
         for (String script : scripts) {
@@ -62,7 +49,7 @@ public class EventScriptManager extends AbstractScriptManager {
                 events.put(script, new EventEntry(iv, new EventManager(cserv, iv, script)));
             }
         }
-        
+
         init();
         fallback = events.remove("0_EXAMPLE");
     }
@@ -74,11 +61,11 @@ public class EventScriptManager extends AbstractScriptManager {
         }
         return entry.em;
     }
-    
+
     public boolean isActive() {
         return active;
     }
-    
+
     public final void init() {
         for (EventEntry entry : events.values()) {
             try {
@@ -89,7 +76,7 @@ public class EventScriptManager extends AbstractScriptManager {
                 System.out.println("Error on script: " + entry.em.getName());
             }
         }
-        
+
         active = events.size() > 1; // bootup loads only 1 script
     }
 
@@ -119,18 +106,28 @@ public class EventScriptManager extends AbstractScriptManager {
             entry.em.cancel();
         }
     }
-    
+
     public void dispose() {
         if (events.isEmpty()) {
             return;
         }
-        
+
         Set<EventEntry> eventEntries = new HashSet<>(events.values());
         events.clear();
-        
+
         active = false;
         for (EventEntry entry : eventEntries) {
             entry.em.cancel();
+        }
+    }
+
+    private class EventEntry {
+
+        public NashornScriptEngine iv;
+        public EventManager em;
+        public EventEntry(NashornScriptEngine iv, EventManager em) {
+            this.iv = iv;
+            this.em = em;
         }
     }
 }

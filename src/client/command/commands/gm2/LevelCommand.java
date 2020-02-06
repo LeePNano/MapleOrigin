@@ -23,9 +23,9 @@
 */
 package client.command.commands.gm2;
 
-import client.command.Command;
-import client.MapleClient;
 import client.MapleCharacter;
+import client.MapleClient;
+import client.command.Command;
 import config.YamlConfig;
 
 public class LevelCommand extends Command {
@@ -36,7 +36,7 @@ public class LevelCommand extends Command {
     @Override
     public void execute(MapleClient c, String[] params) {
         MapleCharacter player = c.getPlayer();
-        if (params.length != 2 ) {
+        if (params.length != 2) {
             player.yellowMessage("Syntax: !level <newlevel>");
             return;
         } else {

@@ -21,15 +21,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package server.maps;
 
-import client.MapleClient;
 import client.MapleCharacter;
+import client.MapleClient;
 import constants.game.GameConstants;
-import java.awt.Point;
-import scripting.portal.PortalScriptManager;
-import tools.MaplePacketCreator;
 import net.server.audit.locks.MonitoredLockType;
 import net.server.audit.locks.MonitoredReentrantLock;
 import net.server.audit.locks.factory.MonitoredReentrantLockFactory;
+import scripting.portal.PortalScriptManager;
+import tools.MaplePacketCreator;
+
+import java.awt.*;
 
 public class MapleGenericPortal implements MaplePortal {
 
@@ -43,7 +44,7 @@ public class MapleGenericPortal implements MaplePortal {
     private String scriptName;
     private boolean portalState;
     private MonitoredReentrantLock scriptLock = null;
-    
+
     public MapleGenericPortal(int type) {
         this.type = type;
     }
@@ -62,9 +63,17 @@ public class MapleGenericPortal implements MaplePortal {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     @Override
     public Point getPosition() {
         return position;
+    }
+
+    public void setPosition(Point position) {
+        this.position = position;
     }
 
     @Override
@@ -72,9 +81,8 @@ public class MapleGenericPortal implements MaplePortal {
         return target;
     }
 
-    @Override
-    public void setPortalStatus(boolean newStatus) {
-        this.status = newStatus;
+    public void setTarget(String target) {
+        this.target = target;
     }
 
     @Override
@@ -83,8 +91,17 @@ public class MapleGenericPortal implements MaplePortal {
     }
 
     @Override
+    public void setPortalStatus(boolean newStatus) {
+        this.status = newStatus;
+    }
+
+    @Override
     public int getTargetMapId() {
         return targetmap;
+    }
+
+    public void setTargetMapId(int targetmapid) {
+        this.targetmap = targetmapid;
     }
 
     @Override
@@ -97,28 +114,12 @@ public class MapleGenericPortal implements MaplePortal {
         return scriptName;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setPosition(Point position) {
-        this.position = position;
-    }
-
-    public void setTarget(String target) {
-        this.target = target;
-    }
-
-    public void setTargetMapId(int targetmapid) {
-        this.targetmap = targetmapid;
-    }
-
     @Override
     public void setScriptName(String scriptName) {
         this.scriptName = scriptName;
-        
-        if(scriptName != null) {
-            if(scriptLock == null) {
+
+        if (scriptName != null) {
+            if (scriptLock == null) {
                 scriptLock = MonitoredReentrantLockFactory.createLock(MonitoredLockType.PORTAL, true);
             }
         } else {
@@ -137,7 +138,7 @@ public class MapleGenericPortal implements MaplePortal {
                 } finally {
                     scriptLock.unlock();
                 }
-            } catch(NullPointerException npe) {
+            } catch (NullPointerException npe) {
                 npe.printStackTrace();
             }
         } else if (getTargetMapId() != 999999999) {
@@ -160,12 +161,12 @@ public class MapleGenericPortal implements MaplePortal {
     }
 
     @Override
-    public void setPortalState(boolean state) {
-        this.portalState = state;
+    public boolean getPortalState() {
+        return portalState;
     }
 
     @Override
-    public boolean getPortalState() {
-        return portalState;
+    public void setPortalState(boolean state) {
+        this.portalState = state;
     }
 }

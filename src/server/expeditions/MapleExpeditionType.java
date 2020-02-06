@@ -25,9 +25,8 @@ package server.expeditions;
 import config.YamlConfig;
 
 /**
-*
-* @author Alan (SharpAceX)
-*/
+ * @author Alan (SharpAceX)
+ */
 
 public enum MapleExpeditionType {
 
@@ -45,14 +44,14 @@ public enum MapleExpeditionType {
     PINKBEAN(6, 30, 120, 255, 5),
     CWKPQ(6, 30, 90, 255, 5),   // CWKPQ min-level 90, found thanks to Cato
     PAPULATUS(1, 6, 115, 255, 5);
-    
+
     private int minSize;
     private int maxSize;
     private int minLevel;
     private int maxLevel;
     private int registrationTime;
-        
-    private MapleExpeditionType(int minSize, int maxSize, int minLevel, int maxLevel, int minutes) {
+
+    MapleExpeditionType(int minSize, int maxSize, int minLevel, int maxLevel, int minutes) {
         this.minSize = minSize;
         this.maxSize = maxSize;
         this.minLevel = minLevel;
@@ -61,22 +60,22 @@ public enum MapleExpeditionType {
     }
 
     public int getMinSize() {
-    	return !YamlConfig.config.server.USE_ENABLE_SOLO_EXPEDITIONS ? minSize : 1;
+        return !YamlConfig.config.server.USE_ENABLE_SOLO_EXPEDITIONS ? minSize : 1;
     }
-    
+
     public int getMaxSize() {
         return maxSize;
     }
-    
+
     public int getMinLevel() {
-    	return minLevel;
+        return minLevel;
     }
-    
+
     public int getMaxLevel() {
-    	return maxLevel;
+        return maxLevel;
     }
-    
-    public int getRegistrationTime(){
-    	return registrationTime;
+
+    public int getRegistrationTime() {
+        return registrationTime;
     }
 }

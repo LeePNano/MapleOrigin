@@ -1,7 +1,6 @@
 package constants.inventory;
 
 /**
- *
  * @author The Spookster
  */
 public enum EquipSlot {
@@ -33,12 +32,25 @@ public enum EquipSlot {
     private String name;
     private int[] allowed;
 
-    private EquipSlot() {
+    EquipSlot() {
     }
 
-    private EquipSlot(String wz, int... in) {
+    EquipSlot(String wz, int... in) {
         name = wz;
         allowed = in;
+    }
+
+    public static EquipSlot getFromTextSlot(String slot) {
+        if (!slot.isEmpty()) {
+            for (EquipSlot c : values()) {
+                if (c.getName() != null) {
+                    if (c.getName().equals(slot)) {
+                        return c;
+                    }
+                }
+            }
+        }
+        return PET_EQUIP;
     }
 
     public String getName() {
@@ -57,18 +69,5 @@ public enum EquipSlot {
             }
         }
         return cash && slot < 0;
-    }
-
-    public static EquipSlot getFromTextSlot(String slot) {
-        if (!slot.isEmpty()) {
-            for (EquipSlot c : values()) {
-                if (c.getName() != null) {
-                    if (c.getName().equals(slot)) {
-                        return c;
-                    }
-                }
-            }
-        }
-        return PET_EQUIP;
     }
 }

@@ -23,10 +23,10 @@
 */
 package client.command.commands.gm3;
 
+import client.MapleCharacter;
+import client.MapleClient;
 import client.command.Command;
 import client.command.commands.gm2.DcCommand;
-import client.MapleClient;
-import client.MapleCharacter;
 import net.server.Server;
 import server.TimerManager;
 import tools.DatabaseConnection;

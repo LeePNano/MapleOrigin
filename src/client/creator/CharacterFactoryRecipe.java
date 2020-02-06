@@ -24,15 +24,15 @@ import client.Skill;
 import client.inventory.Item;
 import client.inventory.MapleInventoryType;
 import config.YamlConfig;
-import java.util.concurrent.atomic.AtomicInteger;
+import tools.Pair;
+
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import tools.Pair;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- *
  * @author RonanLana
  */
 public class CharacterFactoryRecipe {
@@ -43,10 +43,10 @@ public class CharacterFactoryRecipe {
     private int ap = 0, sp = 0;
     private int meso = 0;
     private List<Pair<Skill, Integer>> skills = new LinkedList<>();
-    
+
     private List<Pair<Item, MapleInventoryType>> itemsWithType = new LinkedList<>();
     private Map<MapleInventoryType, AtomicInteger> runningTypePosition = new LinkedHashMap<>();
-    
+
     public CharacterFactoryRecipe(MapleJob job, int level, int map, int top, int bottom, int shoes, int weapon) {
         this.job = job;
         this.level = level;
@@ -55,7 +55,7 @@ public class CharacterFactoryRecipe {
         this.bottom = bottom;
         this.shoes = shoes;
         this.weapon = weapon;
-        
+
         if (!YamlConfig.config.server.USE_STARTING_AP_4) {
             if (YamlConfig.config.server.USE_AUTOASSIGN_STARTERS_AP) {
                 str = 12;
@@ -65,129 +65,129 @@ public class CharacterFactoryRecipe {
             }
         }
     }
-    
-    public void setStr(int v) {
-        str = v;
-    }
-    
-    public void setDex(int v) {
-        dex = v;
-    }
-    
-    public void setInt(int v) {
-        int_ = v;
-    }
-    
-    public void setLuk(int v) {
-        luk = v;
-    }
-    
-    public void setMaxHp(int v) {
-        maxHp = v;
-    }
-    
-    public void setMaxMp(int v) {
-        maxMp = v;
-    }
-    
-    public void setRemainingAp(int v) {
-        ap = v;
-    }
-    
-    public void setRemainingSp(int v) {
-        sp = v;
-    }
-    
-    public void setMeso(int v) {
-        meso = v;
-    }
-    
+
     public void addStartingSkillLevel(Skill skill, int level) {
         skills.add(new Pair<>(skill, level));
     }
-    
+
     public void addStartingEquipment(Item eqpItem) {
         itemsWithType.add(new Pair<>(eqpItem, MapleInventoryType.EQUIP));
     }
-    
+
     public void addStartingItem(int itemid, int quantity, MapleInventoryType itemType) {
         AtomicInteger p = runningTypePosition.get(itemType);
-        if(p == null) {
+        if (p == null) {
             p = new AtomicInteger(0);
             runningTypePosition.put(itemType, p);
         }
-        
+
         itemsWithType.add(new Pair<>(new Item(itemid, (short) p.getAndIncrement(), (short) quantity), itemType));
     }
-    
+
     public MapleJob getJob() {
         return job;
     }
-    
+
     public int getLevel() {
         return level;
     }
-    
+
     public int getMap() {
         return map;
     }
-    
+
     public int getTop() {
         return top;
     }
-    
+
     public int getBottom() {
         return bottom;
     }
-    
+
     public int getShoes() {
         return shoes;
     }
-    
+
     public int getWeapon() {
         return weapon;
     }
-    
+
     public int getStr() {
         return str;
     }
-    
+
+    public void setStr(int v) {
+        str = v;
+    }
+
     public int getDex() {
         return dex;
     }
-    
+
+    public void setDex(int v) {
+        dex = v;
+    }
+
     public int getInt() {
         return int_;
     }
-    
+
+    public void setInt(int v) {
+        int_ = v;
+    }
+
     public int getLuk() {
         return luk;
     }
-    
+
+    public void setLuk(int v) {
+        luk = v;
+    }
+
     public int getMaxHp() {
         return maxHp;
     }
-    
+
+    public void setMaxHp(int v) {
+        maxHp = v;
+    }
+
     public int getMaxMp() {
         return maxMp;
     }
-    
+
+    public void setMaxMp(int v) {
+        maxMp = v;
+    }
+
     public int getRemainingAp() {
         return ap;
     }
-    
+
+    public void setRemainingAp(int v) {
+        ap = v;
+    }
+
     public int getRemainingSp() {
         return sp;
     }
-    
+
+    public void setRemainingSp(int v) {
+        sp = v;
+    }
+
     public int getMeso() {
         return meso;
     }
-    
+
+    public void setMeso(int v) {
+        meso = v;
+    }
+
     public List<Pair<Skill, Integer>> getStartingSkillLevel() {
         return skills;
     }
-    
+
     public List<Pair<Item, MapleInventoryType>> getStartingItems() {
         return itemsWithType;
     }

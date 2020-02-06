@@ -22,6 +22,7 @@ package maplearrowfetcher;
 import life.MapleLifeFactory;
 import life.MapleMonsterStats;
 
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -183,7 +184,7 @@ public class MapleArrowFetcher {
                 if(!existingEntries.isEmpty()) {
                     List<int[]> entryValues = getArrowEntryValues(existingEntries);
                     
-                    printWriter = new PrintWriter(newFile, "UTF-8");
+                    printWriter = new PrintWriter(newFile, StandardCharsets.UTF_8);
                     printSqlHeader();
                     
                     for(int[] arrowEntry : entryValues) {
