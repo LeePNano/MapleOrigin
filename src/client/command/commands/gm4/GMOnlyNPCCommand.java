@@ -16,8 +16,9 @@ public class GMOnlyNPCCommand extends Command {
         if (params.length == 2) {
             try {
                 int npcid = Integer.parseInt(params[0]);
+                int index = NPCScriptManager.getInstance().disabledNPCs.indexOf(npcid);
                 if (params[1].toLowerCase().equals("true")) {
-                    if (NPCScriptManager.getInstance().gmOnlyNPCs.contains(npcid)) {
+                    if (index != -1) {
                         player.yellowMessage("NPC " + npcid + " already GM only");
                         return;
                     }
@@ -25,8 +26,8 @@ public class GMOnlyNPCCommand extends Command {
                     player.yellowMessage("NPC " + npcid + " is GM only");
                     return;
                 } else if (params[1].toLowerCase().equals("false")) {
-                    if (NPCScriptManager.getInstance().gmOnlyNPCs.contains(npcid)) {
-                        NPCScriptManager.getInstance().gmOnlyNPCs.remove(npcid);
+                    if (index != -1) {
+                        NPCScriptManager.getInstance().gmOnlyNPCs.remove(index);
                         player.yellowMessage("NPC " + npcid + " made public");
                         return;
                     }

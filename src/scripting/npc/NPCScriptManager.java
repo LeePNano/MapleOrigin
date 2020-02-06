@@ -93,25 +93,28 @@ public class NPCScriptManager extends AbstractScriptManager {
 
     public void start(String filename, MapleClient c, int npc, List<MaplePartyCharacter> chrs) {
         try {
-            NPCConversationManager cm = new NPCConversationManager(c, npc, chrs, true);
-            cm.dispose();
-            if (cms.containsKey(c)) {
-                return;
-            }
-            cms.put(c, cm);
-            NashornScriptEngine iv = getScriptEngine("npc/" + filename + ".js", c);
-
-            if (iv == null) {
-                c.getPlayer().dropMessage(1, "NPC " + npc + " is uncoded.");
+            if (!disabledNPCs.contains(getCM(c).getNpc())
+                    && !(gmOnlyNPCs.contains(getCM(c).getNpc()) && c.getPlayer().gmLevel() < 1)) {
+                NPCConversationManager cm = new NPCConversationManager(c, npc, chrs, true);
                 cm.dispose();
-                return;
-            }
-            iv.put("cm", cm);
-            scripts.put(c, iv);
-            try {
-                iv.invokeFunction("start", chrs);
-            } catch (final NoSuchMethodException nsme) {
-                nsme.printStackTrace();
+                if (cms.containsKey(c)) {
+                    return;
+                }
+                cms.put(c, cm);
+                NashornScriptEngine iv = getScriptEngine("npc/" + filename + ".js", c);
+
+                if (iv == null) {
+                    c.getPlayer().dropMessage(1, "NPC " + npc + " is uncoded.");
+                    cm.dispose();
+                    return;
+                }
+                iv.put("cm", cm);
+                scripts.put(c, iv);
+                try {
+                    iv.invokeFunction("start", chrs);
+                } catch (final NoSuchMethodException nsme) {
+                    nsme.printStackTrace();
+                }
             }
 
         } catch (final UndeclaredThrowableException ute) {
@@ -180,9 +183,7 @@ public class NPCScriptManager extends AbstractScriptManager {
 
     public void action(MapleClient c, byte mode, byte type, int selection) {
         NashornScriptEngine iv = scripts.get(c);
-        if (iv != null
-                && !disabledNPCs.contains(getCM(c).getNpc())
-                && !(gmOnlyNPCs.contains(getCM(c).getNpc()) && c.getPlayer().gmLevel() < 1)) {
+        if (iv != null) {
             try {
                 c.setClickedNPC();
                 iv.invokeFunction("action", mode, type, selection);
