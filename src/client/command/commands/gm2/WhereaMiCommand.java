@@ -66,27 +66,27 @@ public class WhereaMiCommand extends Command {
         
         player.yellowMessage("Map ID: " + player.getMap().getId());
         
-        player.yellowMessage("Players on this map:");
+        player.yellowMessage(chars.size() + " Players on this map:");
         for (MapleCharacter chr : chars) {
             player.dropMessage(5, ">> " + chr.getName() + " - " + chr.getId() + " - Oid: " + chr.getObjectId());
         }
         
         if (!playernpcs.isEmpty()) {
-            player.yellowMessage("PlayerNPCs on this map:");
+            player.yellowMessage(playernpcs.size() + " PlayerNPCs on this map:");
             for (MaplePlayerNPC pnpc : playernpcs) {
                 player.dropMessage(5, ">> " + pnpc.getName() + " - Scriptid: " + pnpc.getScriptId() + " - Oid: " + pnpc.getObjectId());
             }
         }
         
         if (!npcs.isEmpty()) {
-            player.yellowMessage("NPCs on this map:");
+            player.yellowMessage(npcs.size() + " NPCs on this map:");
             for (MapleNPC npc : npcs) {
                 player.dropMessage(5, ">> " + npc.getName() + " - " + npc.getId() + " - Oid: " + npc.getObjectId());
             }
         }
         
         if (!mobs.isEmpty()) {
-            player.yellowMessage("Monsters on this map:");
+            player.yellowMessage(mobs.size() + " Monsters on this map:");
             for (MapleMonster mob : mobs) {
                 if (mob.isAlive()) {
                     player.dropMessage(5, ">> " + mob.getName() + " - " + mob.getId() + " - Oid: " + mob.getObjectId());
