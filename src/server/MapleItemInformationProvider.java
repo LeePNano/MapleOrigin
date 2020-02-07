@@ -362,7 +362,48 @@ public class MapleItemInformationProvider {
         return ret;
     }
 
+    private static short getExtraSlotMaxFromPlayer(MapleCharacter c, int itemId) {
+        short ret = 0;
+
+        // thanks GMChuck for detecting player sensitive data being cached into getSlotMax
+        if (ItemConstants.isThrowingStar(itemId)) {
+            if(c.getJob().isA(MapleJob.NIGHTWALKER1)) {
+                ret += c.getSkillLevel(SkillFactory.getSkill(NightWalker.CLAW_MASTERY)) * 10;
+            } else {
+                ret += c.getSkillLevel(SkillFactory.getSkill(Assassin.CLAW_MASTERY)) * 10;
+            }
+        } else if (ItemConstants.isBullet(itemId)) {
+            ret += c.getSkillLevel(SkillFactory.getSkill(Gunslinger.GUN_MASTERY)) * 10;
+        }
+
+        return ret;
+    }
+
     public short getSlotMax(MapleClient c, int itemId) {
+        Short slotMax = slotMaxCache.get(itemId);
+        if (slotMax != null) {
+            return (short)(slotMax + getExtraSlotMaxFromPlayer(c, itemId));
+        }
+        short ret = 0;
+        MapleData item = getItemData(itemId);
+        if (item != null) {
+            MapleData smEntry = item.getChildByPath("info/slotMax");
+            if (smEntry == null) {
+                if (ItemConstants.getInventoryType(itemId).getType() == MapleInventoryType.EQUIP.getType()) {
+                    ret = 1;
+                } else {
+                    ret = 100;
+                }
+            } else {
+                ret = (short) MapleDataTool.getInt(smEntry);
+            }
+        }
+
+        slotMaxCache.put(itemId, ret);
+        return (short)(ret + getExtraSlotMaxFromPlayer(c, itemId));
+    }
+
+    public short getSlotMax(MapleCharacter c, int itemId) {
         Short slotMax = slotMaxCache.get(itemId);
         if (slotMax != null) {
             return (short)(slotMax + getExtraSlotMaxFromPlayer(c, itemId));

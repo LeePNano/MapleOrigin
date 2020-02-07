@@ -80,6 +80,18 @@ public class MapleInventoryManipulator {
             inv.unlockInventory();
         }
     }
+
+    public static boolean addToTargetById(MapleCharacter chr, int itemId, short quantity, String owner, int petid, short flag, long expiration) {
+        MapleInventoryType type = ItemConstants.getInventoryType(itemId);
+
+        MapleInventory inv = chr.getInventory(type);
+        inv.lockInventory();
+        try {
+            return addByIdInternal(chr, type, inv, itemId, quantity, owner, petid, flag, expiration);
+        } finally {
+            inv.unlockInventory();
+        }
+    }
     
     private static boolean addByIdInternal(MapleClient c, MapleCharacter chr, MapleInventoryType type, MapleInventory inv, int itemId, short quantity, String owner, int petid, short flag, long expiration) {
         MapleItemInformationProvider ii = MapleItemInformationProvider.getInstance();
@@ -156,6 +168,88 @@ public class MapleInventoryManipulator {
                 return false;
             }
             c.announce(MaplePacketCreator.modifyInventory(true, Collections.singletonList(new ModifyInventory(0, nEquip))));
+            if(MapleInventoryManipulator.isSandboxItem(nEquip)) chr.setHasSandboxItem();
+        } else {
+            throw new RuntimeException("Trying to create equip with non-one quantity");
+        }
+        return true;
+    }
+
+    private static boolean addByIdInternal(MapleCharacter chr, MapleInventoryType type, MapleInventory inv, int itemId, short quantity, String owner, int petid, short flag, long expiration) {
+        MapleItemInformationProvider ii = MapleItemInformationProvider.getInstance();
+        if (!type.equals(MapleInventoryType.EQUIP)) {
+            short slotMax = ii.getSlotMax(chr, itemId);
+            List<Item> existing = inv.listById(itemId);
+            if (!ItemConstants.isRechargeable(itemId) && petid == -1) {
+                if (existing.size() > 0) { // first update all existing slots to slotMax
+                    Iterator<Item> i = existing.iterator();
+                    while (quantity > 0) {
+                        if (i.hasNext()) {
+                            Item eItem = (Item) i.next();
+                            short oldQ = eItem.getQuantity();
+                            if (oldQ < slotMax && ((eItem.getOwner().equals(owner) || owner == null) && eItem.getFlag() == flag)) {
+                                short newQ = (short) Math.min(oldQ + quantity, slotMax);
+                                quantity -= (newQ - oldQ);
+                                eItem.setQuantity(newQ);
+                                eItem.setExpiration(expiration);
+                                chr.announce(MaplePacketCreator.modifyInventory(true, Collections.singletonList(new ModifyInventory(1, eItem))));
+                            }
+                        } else {
+                            break;
+                        }
+                    }
+                }
+                boolean sandboxItem = (flag & ItemConstants.SANDBOX) == ItemConstants.SANDBOX;
+                while (quantity > 0) {
+                    short newQ = (short) Math.min(quantity, slotMax);
+                    if (newQ != 0) {
+                        quantity -= newQ;
+                        Item nItem = new Item(itemId, (short) 0, newQ, petid);
+                        nItem.setFlag(flag);
+                        nItem.setExpiration(expiration);
+                        short newSlot = inv.addItem(nItem);
+                        if (newSlot == -1) {
+                            chr.announce(MaplePacketCreator.getInventoryFull());
+                            chr.announce(MaplePacketCreator.getShowInventoryFull());
+                            return false;
+                        }
+                        if (owner != null) {
+                            nItem.setOwner(owner);
+                        }
+                        chr.announce(MaplePacketCreator.modifyInventory(true, Collections.singletonList(new ModifyInventory(0, nItem))));
+                        if(sandboxItem) chr.setHasSandboxItem();
+                    } else {
+                        chr.announce(MaplePacketCreator.enableActions());
+                        return false;
+                    }
+                }
+            } else {
+                Item nItem = new Item(itemId, (short) 0, quantity, petid);
+                nItem.setFlag(flag);
+                nItem.setExpiration(expiration);
+                short newSlot = inv.addItem(nItem);
+                if (newSlot == -1) {
+                    chr.announce(MaplePacketCreator.getInventoryFull());
+                    chr.announce(MaplePacketCreator.getShowInventoryFull());
+                    return false;
+                }
+                chr.announce(MaplePacketCreator.modifyInventory(true, Collections.singletonList(new ModifyInventory(0, nItem))));
+                if(MapleInventoryManipulator.isSandboxItem(nItem)) chr.setHasSandboxItem();
+            }
+        } else if (quantity == 1) {
+            Item nEquip = ii.getEquipById(itemId);
+            nEquip.setFlag(flag);
+            nEquip.setExpiration(expiration);
+            if (owner != null) {
+                nEquip.setOwner(owner);
+            }
+            short newSlot = inv.addItem(nEquip);
+            if (newSlot == -1) {
+                chr.announce(MaplePacketCreator.getInventoryFull());
+                chr.announce(MaplePacketCreator.getShowInventoryFull());
+                return false;
+            }
+            chr.announce(MaplePacketCreator.modifyInventory(true, Collections.singletonList(new ModifyInventory(0, nEquip))));
             if(MapleInventoryManipulator.isSandboxItem(nEquip)) chr.setHasSandboxItem();
         } else {
             throw new RuntimeException("Trying to create equip with non-one quantity");
