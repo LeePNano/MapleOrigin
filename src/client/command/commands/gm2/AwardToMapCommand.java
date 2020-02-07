@@ -48,8 +48,8 @@ public class AwardToMapCommand extends Command {
                         long days = Math.max(1, Integer.parseInt(params[1]));
                         long expiration = System.currentTimeMillis() + (days * 24 * 60 * 60 * 1000);
                         int petid = MaplePet.createPet(itemId);
-
-                        MapleInventoryManipulator.addById(c, itemId, quantity, p.getName(), petid, expiration);
+                      
+                        MapleInventoryManipulator.addToTargetById(p, itemId, quantity, null, petid, (byte)0, expiration);
                         p.yellowMessage("Received " + quantity + " of " + ii.getName(itemId) + " from " + player.getName());
                         return;
                     }
