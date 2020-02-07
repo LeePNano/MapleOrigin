@@ -62,7 +62,7 @@ function action(mode, type, selection){
         else if (status == 1)
             cm.sendYesNo("Okay! Now, you'll be transformed into a much more powerful pirate through me. Before doing that, though, please make sure your SP has been thoroughly used, You'll need to use up at least all of SP's gained until level 70 to make the 3rd job advancement. Oh, and since you have already chosen your path of the occupation by the 2nd job adv., you won't have to choose again for the 3rd job adv. Do you want to do it right now?");
         else if (status == 2) {
-            /*if (cm.getPlayer().getRemainingSp() > 0)
+           /* if (cm.getPlayer().getRemainingSp() > 0)
                 if (cm.getPlayer().getRemainingSp() > (cm.getLevel() - 70) * 3) {
                     cm.sendNext("Please, use all your SP before continuing.");
                     cm.dispose();
@@ -85,15 +85,15 @@ function action(mode, type, selection){
         else if (status == 1){
             if (cm.haveItem(4031057)){
                 cm.gainItem(4031057, -1);
-                //cm.getPlayer().setPartyQuestItemObtained("JBQ");
+                cm.getPlayer().setPartyQuestItemObtained("JBQ");
             }
             cm.sendNextPrev("Here's the 2nd half of the test. This test will determine whether you are smart enough to take the next step towards greatness. There is a dark, snow-covered area called the Holy Ground at the snowfield in Ossyria, where even the monsters can't reach. On the center of the area lies a huge stone called the Holy Stone. You'll need to offer a special item as the sacrifice, then the Holy Stone will test your wisdom right there on the spot.");
         } else if (status == 2)
             cm.sendNextPrev("You'll need to answer each and every question given to you with honesty and conviction. If you correctly answer all the questions, then the Holy Stone will formally accept you and hand you #b#t4031058##k. Bring back the necklace, and I will help you to the next step forward. Good luck.");
-    } else if (cm.haveItem(4031058, 1) && selection == 0) {
+    } else if (cm.getPlayer().gotPartyQuestItem("JB3") && selection == 0) {
         cm.sendNext("Go, talk with #b#p1090000##k and bring me #b#t4031057##k.");
         cm.dispose();
-    } else if (cm.haveItem(4031058, 1) && selection == 0) {
+    } else if (cm.getPlayer().gotPartyQuestItem("JBQ") && selection == 0) {
         cm.sendNext("Go, talk with #b#p2030006##k and bring me #b#t4031058##k.");
         cm.dispose();
     } else {
