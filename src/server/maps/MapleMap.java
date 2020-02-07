@@ -1435,7 +1435,8 @@ public class MapleMap {
             if (removeKilledMonsterObject(monster)) {
                 try {
                     if (monster.getStats().getLevel() >= chr.getLevel() + 50 && !chr.isGM()) {
-                        AutobanFactory.GENERAL.alert(chr, " for killing a " + monster.getName() + " which is over 30 levels higher.");
+                        // Is there any reason for this
+                        //AutobanFactory.GENERAL.alert(chr, " for killing a " + monster.getName() + " which is over 30 levels higher.");
                     }
 
                     /*if (chr.getQuest(MapleQuest.getInstance(29400)).getStatus().equals(MapleQuestStatus.Status.STARTED)) {
