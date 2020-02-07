@@ -64,8 +64,8 @@ function action(mode, type, selection) {
                                         cm.teachSkill(1121001, 0, 10, -1);
 										cm.teachSkill(1121002, 0, 10, -1);
                                         cm.teachSkill(1120003, 0, 10, -1);
-                                        cm.teachSkill(1121004, 0, 10, -1);
-										cm.teachSkill(1121005, 0, 10, -1);
+                                        cm.teachSkill(1120004, 0, 10, -1);
+										cm.teachSkill(1120005, 0, 10, -1);
 										cm.teachSkill(1121006, 0, 10, -1);
 										cm.teachSkill(1121008, 0, 10, -1);
 										cm.teachSkill(1121010, 0, 10, -1);
@@ -74,11 +74,11 @@ function action(mode, type, selection) {
                                         cm.teachSkill(1220002, 0, 10, -1);
                                         cm.teachSkill(1221003, 0, 10, -1);
 										cm.teachSkill(1221004, 0, 10, -1);
-										cm.teachSkill(1221005, 0, 10, -1);
-										cm.teachSkill(1221006, 0, 10, -1);
+										cm.teachSkill(1220005, 0, 10, -1);
+										cm.teachSkill(1220006, 0, 10, -1);
 										cm.teachSkill(1221007, 0, 10, -1);
 										cm.teachSkill(1221009, 0, 10, -1);
-										cm.teachSkill(1221010, 0, 10, -1);
+										cm.teachSkill(1220010, 0, 10, -1);
 										cm.teachSkill(1221011, 0, 10, -1);
                                 } else if(cm.getJobId() == 132) {
                                         cm.teachSkill(1321001, 0, 10, -1);
