@@ -17,7 +17,7 @@ var items = [1022082,
 /*Starts at 58, Bowman Empress Gear*/          2290125, 1102277, 1052316, 1072487, 1082297,
 /*Starts at 63, Thief Empress Gear */          1003175, 1102278, 1052317, 1072488, 1082298,
 /*Starts at 68, Pirate Empress Gear*/          1003176, 1102279, 1052318, 1072489, 1082299,
-/*Starts at 73, Mage Empress Gear*/            1003173, 1102276, 1052315, 1072486, 1082296,
+/*Starts at 73, Mage Empress Gear*/            1003173, 1102276, 1052315,
 /*Starts at 78, VIP Weapoons */                1302147, 1312062, 1322090, 1332120, 1332125, 1372078, 1382099, 1402090, 1412062, 1422063, 1432081, 1442111, 1452106, 1462091, 1472117, 1482079, 1492079,
 /*Starts at 95, 60% Scrolls */                 2040914, 2040919, 2044301, 2044401, 2044501, 2044601, 2044701, 2044801, 2044901, 2044201, 2044101, 2044001, 2043001, 2043101, 2043201, 2043801, 2043701, 2043301];
 var leaf = [4000313];
@@ -38,7 +38,7 @@ function action (m,t,s) {
         if (s == 0) {
             cm.sendSimple("Fun Fact: Mitochondria is not actually the powerhouse of the cell #b\r\n\#L34# #v2049100# Chaos Scroll #b\r\n\#L36# #v2049003#Clean Slate 20% #b\r\n\#L95# #v2040914#Shield for W.Att #b\r\n\#L96# #v2040919#Shield for M.Att #b\r\n\#L97# #v2044301#Spear Att x3 #b\r\n\#L98# #v2044401#Polearm Att x3#b\r\n\#L99# #v2044501#Bow Att x3 #b\r\n\#L100# #v2044701#Xbow Att x3 #b\r\n\#L101# #v2044701#Claw Att x3 #b\r\n\#L102# #v2044801#Knuckle Att x3 #b\r\n\#L103# #v2044901#Gun Att x3 #b\r\n\#L104# #v2044201#2H BW Att x3 #b\r\n\#L105# #v2044101#2H Axe Att x3 #b\r\n\#L106# #v2044001#2H Sword Att x3 #b\r\n\#L107# #v2043001#1H Sword Att x3 #b\r\n\#L108# #v2043101#1H Axe Att x3 #b\r\n\#L109# #v2043201# 1H BW Att x3 #b\r\n\#L110# #v2043801#Staff M.Att x3 #b\r\n\#L111# #v2043701#Wand M.Att x3 #b\r\n\#L112# #v2043301#Dagger Att x3  ");
         } else if (s == 1){
-                        cm.sendSimple("Fun Fact: Munz Likes Bunz #b\r\n\#L1# #v1082223#Stormcaster Gloves#b\r\n\#L2# #v1082230#Glitter Gloves#b\r\n\#L3# #v1032048#Crystal Leaf Earrings#b\r\n\#L4# #v1002675#Antellion Mitter#b\r\n\#L5# #v1002676#Infinity Circlet #b\r\n\#L6# #v1072344#Facestompers#b\r\n\#L7# #v1402045#Tigers Fang #b\r\n\#L8# #v1472064#Neva #b\r\n\#L9# #v1422028#Dragon Flame #b\r\n\#L10# #v2070016#Crystal Ilbis #b\r\n\#L11# #v1102206#Blackfist Cloak #b\r\n\#L12# #v1092052#Black Phoenix Shield #b\r\n\#L13# #v1102145#Sirius Cloak #b\r\n\#L14# #v1442057#Purple Surfboard #b\r\n\#L15# #v2330005#Eternal Bullet #b\r\n\#L16# #v1102206#Blackfist Cloack");
+                        cm.sendSimple("Fun Fact: Munz Likes Bunz #b\r\n\#L1# #v1082223#Stormcaster Gloves#b\r\n\#L2# #v1082230#Glitter Gloves#b\r\n\#L3# #v1032048#Crystal Leaf Earrings#b\r\n\#L4# #v1002675#Antellion Mitter#b\r\n\#L5# #v1002676#Infinity Circlet #b\r\n\#L6# #v1072344#Facestompers#b\r\n\#L7# #v1402045#Tigers Fang #b\r\n\#L8# #v1472064#Neva #b\r\n\#L9# #v1422028#Dragon Flame #b\r\n\#L10# #v2070016#Crystal Ilbis #b\r\n\#L11# #v1102206#Blackfist Cloak #b\r\n\#L12# #v1092052#Black Phoenix Shield #b\r\n\#L13# #v1102145#Sirius Cloak #b\r\n\#L14# #v1442057#Purple Surfboard #b\r\n\#L15# #v2330005#Eternal Bullet");
         } else if (s == 2){
             cm.sendSimple("Fun Fact: For 1m free nx #bCLICK HERE #b\r\n\#L78# #v1302147# VIP Sword 1H Sword #b\r\n\#L79# #v1312062# VIP 1H Axe #b\r\n\#L80# #v1322090# VIP 1H Blunt Weapon #b\r\n\#L81# #v1332120# VIP Dagger (LUK) #b\r\n\#L82# #v1332125# VIP Dagger (STR) #b\r\n\#L83# #v1372078# VIP Wand #b\r\n\#L84# #v1382099# VIP Staff #b\r\n\#L85# #v1402090# VIP 2H Sword #b\r\n\#L86# #v1412062# VIP Axe #b\r\n\#L87# #v1422063# VIP 2H Blunt Weapon #b\r\n\#L88# #v1432081# VIP Spear #b\r\n\#L89# #v1442111# VIP Polearm #b\r\n\#L90# #v1452106# VIP Bow #b\r\n\#L91# #v1462091# VIP Crossbow #b\r\n\#L92# #v1472117# VIP Claw #b\r\n\#L93# #v1482079# VIP Knuckle #b\r\n\#L94# #v1492079# VIP Gun");
         }
@@ -72,27 +72,39 @@ function action (m,t,s) {
                    // cm.getPlayer().setRewardPoints(currentRewardPoints - points[s]);
 				   //cm.gainItem(leaf, - points[s]);
                     if (items[s] == 2049100 || items[s] == 2340000 || items[s] == 2049003) {
-                        if(cm.haveItem(leaf, 1)) {
-                            cm.gainItem(leaf, -1);
-                            cm.gainItem(items[s], 1);
+                        if(!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.USE).isFull(2)) {
+                            if(cm.haveItem(leaf, 1)) {
+                                cm.gainItem(leaf, -1);
+                                cm.gainItem(items[s], 1);
+                            } else {
+                                cm.sendOk("Sorry, you don't have enough leafs!");
+                            }
                         } else {
-                            cm.sendOk("Sorry, you don't have enough leafs!");
+                            cm.sendOk("Please make sure you have at least 3 slots empty in your inventory");
                         }
                     }
                     else if(items[s] == 2044301 || items[s] == 2044401 || items[s] == 2044501 || items[s] == 2044601 || items[s] == 2044701 || items[s] == 2044801 || items[s] == 2044901 || items[s] == 2044201 || items[s] == 2044101 || items[s] == 2044001 || items[s] == 2043001 || items[s] == 2043101 || items[s] == 2043201 || items[s] == 2043801 || items[s] == 2043701 || items[s] == 2043301 || items[s] == 2040914 || items[s] == 2040919){
-                        if(cm.haveItem(leaf, 1)) {
-                            cm.gainItem(leaf, -1);
-                            cm.gainItem(items[s], 3);
+                        if(!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.USE).isFull(2)) {
+                            if(cm.haveItem(leaf, 1)) {
+                                cm.gainItem(leaf, -1);
+                                cm.gainItem(items[s], 3);
+                            } else {
+                                cm.sendOk("Sorry, you don't have enough leafs!");
+                            }
                         } else {
-                            cm.sendOk("Sorry, you don't have enough leafs!");
+                            cm.sendOk("Please make sure you have at least 3 slots empty in your inventory");
                         }
                     }
 					else if(items[s] == 2290084 || items[s] == 2290085 || items[s] == 2290010 || items[s] == 2290011 || items[s] == 2290022 || items[s] == 2290023 || items[s] == 2290032 || items[s] == 2290033 || items[s] == 2290030 || items[s] == 2290031 || items[s] == 2290050 || items[s] == 2290051 || items[s] == 2290090 || items[s] == 2290091 || items[s] == 2290074 || items[s] == 2290075 || items[s] == 2290136 || items[s] == 2290137 || items[s] == 2290012 || items[s] == 2290013 || items[s] == 2290096 || items[s] == 2290125){
-                        if(cm.haveItem(leaf, 15)) {
-                            cm.gainItem(leaf, -15);
-                            cm.gainItem(items[s], 1);
+                        if(!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.USE).isFull(2)) {
+                            if(cm.haveItem(leaf, 15)) {
+                                cm.gainItem(leaf, -15);
+                                cm.gainItem(items[s], 1);
+                            } else {
+                                cm.sendOk("Sorry, you don't have enough leafs!");
+                            }
                         } else {
-                            cm.sendOk("Sorry, you don't have enough leafs!");
+                            cm.sendOk("Please make sure you have at least 3 slots empty in your inventory");
                         }
                     }
                     else if(items[s] == 1302147 || items[s] == 1312062 || items[s] == 1322090 || items[s] == 1332120 || items[s] == 1332125 || items[s] == 1372078 || items[s] == 1382099 || items[s] == 1402090 || items[s] == 1412062 || items[s] == 1422063 || items[s] == 1432081 || items[s] == 1442111 || items[s] == 1452106 || items[s] == 1462091 || items[s] == 1472117 || items[s] == 1482079 || items[s] == 1492079){
@@ -103,7 +115,7 @@ function action (m,t,s) {
                             cm.sendOk("Sorry, you don't have enough leafs!");
                         }
                     }
-					else if(items[s] == 1082223 || items[s] == 1082230 || items[s] == 1032048 || items[s] == 1002675 || items[s] == 1002676 || items[s] == 1072344 || items[s] == 1402045 || items[s] == 1472064 || items[s] == 1422028 || items[s] == 2070016 || items[s] == 1102165 || items[s] == 1092052 || items[s] == 1102145 || items[s] == 1442057 || items[s] == 2070018 || items[s] == 1002553){
+					else if(items[s] == 1082223 || items[s] == 1082230 || items[s] == 1032048 || items[s] == 1002675 || items[s] == 1002676 || items[s] == 1072344 || items[s] == 1402045 || items[s] == 1472064 || items[s] == 1422028 || items[s] == 2070016 || items[s] == 1102206 || items[s] == 1092052 || items[s] == 1102145 || items[s] == 1442057 || items[s] == 2070018 || items[s] == 1002553){
                         if(cm.haveItem(leaf, 3)) {
                             cm.gainItem(leaf, -3);
                             cm.gainItem(items[s], 1);

@@ -39,6 +39,13 @@ import server.MapleItemInformationProvider.ScriptedItem;
 import tools.FilePrinter;
 import tools.MaplePacketCreator;
 
+import javax.script.ScriptException;
+import java.lang.reflect.UndeclaredThrowableException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  *
  * @author Matze
@@ -46,13 +53,14 @@ import tools.MaplePacketCreator;
 public class NPCScriptManager extends AbstractScriptManager {
 
     private static NPCScriptManager instance = new NPCScriptManager();
+    private Map<MapleClient, NPCConversationManager> cms = new HashMap<>();
+    private Map<MapleClient, NashornScriptEngine> scripts = new HashMap<>();
+    public List<Integer> disabledNPCs = new ArrayList<>();
+    public List<Integer> gmOnlyNPCs = new ArrayList<>();
 
     public static NPCScriptManager getInstance() {
         return instance;
     }
-
-    private Map<MapleClient, NPCConversationManager> cms = new HashMap<>();
-    private Map<MapleClient, NashornScriptEngine> scripts = new HashMap<>();
 
     public boolean isNpcScriptAvailable(MapleClient c, String fileName) {
         NashornScriptEngine iv = null;
@@ -85,25 +93,28 @@ public class NPCScriptManager extends AbstractScriptManager {
 
     public void start(String filename, MapleClient c, int npc, List<MaplePartyCharacter> chrs) {
         try {
-            NPCConversationManager cm = new NPCConversationManager(c, npc, chrs, true);
-            cm.dispose();
-            if (cms.containsKey(c)) {
-                return;
-            }
-            cms.put(c, cm);
-            NashornScriptEngine iv = getScriptEngine("npc/" + filename + ".js", c);
-
-            if (iv == null) {
-                c.getPlayer().dropMessage(1, "NPC " + npc + " is uncoded.");
+            if (!disabledNPCs.contains(npc)
+                    && !(gmOnlyNPCs.contains(npc) && c.getPlayer().gmLevel() < 1)) {
+                NPCConversationManager cm = new NPCConversationManager(c, npc, chrs, true);
                 cm.dispose();
-                return;
-            }
-            iv.put("cm", cm);
-            scripts.put(c, iv);
-            try {
-                iv.invokeFunction("start", chrs);
-            } catch (final NoSuchMethodException nsme) {
-                nsme.printStackTrace();
+                if (cms.containsKey(c)) {
+                    return;
+                }
+                cms.put(c, cm);
+                NashornScriptEngine iv = getScriptEngine("npc/" + filename + ".js", c);
+
+                if (iv == null) {
+                    c.getPlayer().dropMessage(1, "NPC " + npc + " is uncoded.");
+                    cm.dispose();
+                    return;
+                }
+                iv.put("cm", cm);
+                scripts.put(c, iv);
+                try {
+                    iv.invokeFunction("start", chrs);
+                } catch (final NoSuchMethodException nsme) {
+                    nsme.printStackTrace();
+                }
             }
 
         } catch (final UndeclaredThrowableException ute) {
@@ -121,7 +132,9 @@ public class NPCScriptManager extends AbstractScriptManager {
             if (cms.containsKey(c)) {
                 dispose(c);
             }
-            if (c.canClickNPC()) {
+            if (c.canClickNPC()
+                    && !disabledNPCs.contains(npc)
+                    && !(gmOnlyNPCs.contains(npc) && c.getPlayer().gmLevel() < 1)) {
                 cms.put(c, cm);
                 NashornScriptEngine iv = null;
                 if (!itemScript) {

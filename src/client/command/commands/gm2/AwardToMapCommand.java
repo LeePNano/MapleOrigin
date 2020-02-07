@@ -13,7 +13,7 @@ import java.util.List;
 
 public class AwardToMapCommand extends Command {
     {
-        setDescription("");
+        setDescription("Give an item/currency to everyone currently on your map");
     }
 
     @Override
@@ -48,7 +48,7 @@ public class AwardToMapCommand extends Command {
                         long days = Math.max(1, Integer.parseInt(params[1]));
                         long expiration = System.currentTimeMillis() + (days * 24 * 60 * 60 * 1000);
                         int petid = MaplePet.createPet(itemId);
-                        
+                      
                         MapleInventoryManipulator.addToTargetById(p, itemId, quantity, null, petid, (byte)0, expiration);
                         p.yellowMessage("Received " + quantity + " of " + ii.getName(itemId) + " from " + player.getName());
                         return;
@@ -61,7 +61,7 @@ public class AwardToMapCommand extends Command {
                     }
 
                     MapleInventoryManipulator.addById(c, itemId, quantity, p.getName(), -1, flag, -1);
-                    p.yellowMessage("Received " + quantity + " of " + ii.getName(itemId) " from " + player.getName());
+                    p.yellowMessage("Received " + quantity + " of " + ii.getName(itemId) + " from " + player.getName());
                     break;
                 case "ms":
                     long mesos = 0L;
