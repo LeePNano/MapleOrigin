@@ -78,6 +78,8 @@ function action(mode, type, selection) {
                                                 cm.teachSkill(3121006 , 0, 10, -1);
                                         if(cm.getPlayer().getSkillLevel(3121004) == 0)
                                                 cm.teachSkill(3121004 , 0, 10, -1);
+											if(cm.getPlayer().getSkillLevel(3121008) == 0)
+                                                cm.teachSkill(3121008 , 0, 10, -1);
                                 } else if(cm.getJobId() == 322) {
                                         if(cm.getPlayer().getSkillLevel(3221007) == 0)
                                                 cm.teachSkill(3221007 , 0, 10, -1);

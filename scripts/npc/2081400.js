@@ -80,7 +80,9 @@ function action(mode, type, selection) {
                                 } else if(cm.getJobId() == 422) {
                                         if(cm.getPlayer().getSkillLevel(4221004) == 0)
                                                 cm.teachSkill(4221004 , 0, 10, -1);
-                                        if(cm.getPlayer().getSkillLevel(4221001) == 0)
+                                        if(cm.getPlayer().getSkillLevel(4221006) == 0)
+                                                cm.teachSkill(4221006 , 0, 10, -1);
+											if(cm.getPlayer().getSkillLevel(4221001) == 0)
                                                 cm.teachSkill(4221001 , 0, 10, -1);
                                 }
                                 cm.sendOk("It is done. Leave me now.");
