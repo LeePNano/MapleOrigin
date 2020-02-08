@@ -1,44 +1,20 @@
-Skip to content
-Search or jump to…
-
-Pull requests
-Issues
-Marketplace
-Explore
- 
-@bostonmak 
-bostonmak
-/
-ProjectNano2
-3
-00
- Code Issues 55 Pull requests 1 Actions Projects 3 Wiki Security Insights Settings
-ProjectNano2/scripts/npc/9270047.js
-@minimucho1 minimucho1 JR | Add boss limit feature for Showaboss and Scarlion
-064f395 on Jul 13, 2018
-@minimucho1@lightryuzaki
-211 lines (194 sloc)  9.41 KB
-  
-Code navigation is available!
-Navigate your code with ease. Click on function and method calls to jump to their definitions or references in the same repository. Learn more
-
- Code navigation is available for this repository but data for this commit does not exist.
-
-Learn more or give us feedback
 /*
 	This file is part of the OdinMS Maple Story Server
     Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc> 
                        Matthias Butz <matze@odinms.de>
                        Jan Christian Meyer <vimes@odinms.de>
+
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License version 3
     as published by the Free Software Foundation. You may not use, modify
     or distribute this program under any other version of the
     GNU Affero General Public License.
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU Affero General Public License for more details.
+
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
@@ -233,15 +209,3 @@ function action(mode, type, selection) {
         }
     }
 }
-© 2020 GitHub, Inc.
-Terms
-Privacy
-Security
-Status
-Help
-Contact GitHub
-Pricing
-API
-Training
-Blog
-About
