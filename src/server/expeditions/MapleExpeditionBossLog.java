@@ -45,6 +45,7 @@ public class MapleExpeditionBossLog {
         PINKBEAN(1, 1, false),
         SCARGA(1, 1, false),
         PAPULATUS(2, 1, false);
+        //EMPRESS(1, 1, false);
         
         private int entries;
         private int timeLength;
