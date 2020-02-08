@@ -124,6 +124,8 @@ function action(mode, type, selection) {
                                                 cm.teachSkill(2321006, 0, 10,-1); // res
 											if (cm.getPlayer().getSkillLevel(2321004) < 1)
                                                 cm.teachSkill(2321004, 0, 10,-1); // res
+											if (cm.getPlayer().getSkillLevel(2321007) < 1)
+                                                cm.teachSkill(2321007, 0, 10,-1); // res
 											
 											
                                 }
