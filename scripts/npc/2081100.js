@@ -71,7 +71,7 @@ function action(mode, type, selection) {
 										cm.teachSkill(1121010, 0, 10, -1);
                                 } else if(cm.getJobId() == 122) {
                                         cm.teachSkill(1221001, 0, 10, -1);
-                                        cm.teachSkill(1220002, 0, 10, -1);
+                                        cm.teachSkill(1221002, 0, 10, -1);
                                         cm.teachSkill(1221003, 0, 10, -1);
 										cm.teachSkill(1221004, 0, 10, -1);
 										cm.teachSkill(1220005, 0, 10, -1);
