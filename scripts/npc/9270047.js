@@ -20,7 +20,7 @@
 */
 /*Aldol
  *
- *@author SharpAceX (Alan)
+ *@author Alan (SharpAceX)
  *@author Ronan
  */
 importPackage(Packages.server.expeditions);
@@ -29,6 +29,7 @@ importPackage(Packages.scripting.event);
 
 var status = 0;
 var expedition;
+var expedMembers;
 var player;
 var em;
 var exped = MapleExpeditionType.SCARGA;
@@ -58,40 +59,25 @@ function action(mode, type, selection) {
         }
 
         if (status == 0) {
-            if (player.getLevel() < exped.getMinLevel() && player.getLevel() > exped.getMaxLevel()) { //Don't fit requirement
+            if (player.getLevel() < exped.getMinLevel() || player.getLevel() > exped.getMaxLevel()) { //Don't fit requirement, thanks Conrad
                 cm.sendOk("You do not meet the criteria to battle " + expedBoss + "!");
                 cm.dispose();
             } else if (expedition == null) { //Start an expedition
-                var entryCheck = cm.playerHasEntriesLeftForScarlion(player);
-                if (entryCheck === 1) {
-                    cm.sendOk("Sorry, I can't let you in. You have run out of entries for today.");
-                    cm.dispose();
-                    return;
-                } else if (entryCheck > 1) {
-                    cm.sendOk("That's strange... I can't access your boss entries. If the problem persists, contact my bosses, the GMs.");
-                    cm.dispose();
-                    return;
-                }
                 cm.sendSimple("#e#b<Expedition: " + expedName + ">\r\n#k#n" + em.getProperty("party") + "\r\n\r\nWould you like to assemble a team to take on #r" + expedBoss + "#k?\r\n#b#L1#Lets get this going!#l\r\n\#L2#No, I think I'll wait a bit...#l");
                 status = 1;
             } else if (expedition.isLeader(player)) { //If you're the leader, manage the exped
-                cm.sendSimple(list);
-                status = 2;
+                if (expedition.isInProgress()) {
+                    cm.sendOk("Your expedition is already in progress, for those who remain battling lets pray for those brave souls.");
+                    cm.dispose();
+                } else {
+                    cm.sendSimple(list);
+                    status = 2;
+                }
             } else if (expedition.isRegistering()) { //If the expedition is registering
                 if (expedition.contains(player)) { //If you're in it but it hasn't started, be patient
-                    cm.sendOk("You have already registered for the expedition. Please wait for #r" + expedition.getLeader().getName() + "#k to begin the expedition.");
+                    cm.sendOk("You have already registered for the expedition. Please wait for #r" + expedition.getLeader().getName() + "#k to begin it.");
                     cm.dispose();
                 } else { //If you aren't in it, you're going to get added
-                    var entryCheck = cm.playerHasEntriesLeftForScarlion(player);
-                    if (entryCheck === 1) {
-                        cm.sendOk("Sorry, I can't let you in. You have run out of entries for today.");
-                        cm.dispose();
-                        return;
-                    } else if (entryCheck > 1) {
-                        cm.sendOk("That's strange... I can't access your boss entries. If the problem persists, contact my bosses, the GMs.");
-                        cm.dispose();
-                        return;
-                    }
                     cm.sendOk(expedition.addMember(cm.getPlayer()));
                     cm.dispose();
                 }
@@ -125,8 +111,15 @@ function action(mode, type, selection) {
                     return;
                 }
                 
-                cm.createExpedition(exped);
-                cm.sendOk("The #r" + expedBoss + " Expedition#k has been created.\r\n\r\nTalk to me again to view the current team, or start the fight!");
+                var res = cm.createExpedition(exped);
+                if (res == 0) {
+                    cm.sendOk("The #r" + expedBoss + " Expedition#k has been created.\r\n\r\nTalk to me again to view the current team, or start the fight!");
+                } else if (res > 0) {
+                    cm.sendOk("Sorry, you've already reached the quota of attempts for this expedition! Try again another day...");
+                } else {
+                    cm.sendOk("An unexpected error has occurred when starting the expedition, please try again later.");
+                }
+                
                 cm.dispose();
                 return;
             } else if (selection == 2) {
@@ -141,7 +134,8 @@ function action(mode, type, selection) {
                     cm.dispose();
                     return;
                 }
-                var size = expedition.getMembers().size();
+                expedMembers = expedition.getMemberList();
+                var size = expedMembers.size();
                 if (size == 1) {
                     cm.sendOk("You are the only member of the expedition.");
                     cm.dispose();
@@ -150,22 +144,15 @@ function action(mode, type, selection) {
                 var text = "The following members make up your expedition (Click on them to expel them):\r\n";
                 text += "\r\n\t\t1." + expedition.getLeader().getName();
                 for (var i = 1; i < size; i++) {
-                    text += "\r\n#b#L" + (i + 1) + "#" + (i + 1) + ". " + expedition.getMembers().get(i).getName() + "#l\n";
+                    text += "\r\n#b#L" + (i + 1) + "#" + (i + 1) + ". " + expedMembers.get(i).getValue() + "#l\n";
                 }
                 cm.sendSimple(text);
                 status = 6;
             } else if (selection == 2) {
                 var min = exped.getMinSize();
-                var size = expedition.getMembers().size();
+                var size = expedition.getMemberList().size();
                 if (size < min) {
                     cm.sendOk("You need at least " + min + " players registered in your expedition.");
-                    cm.dispose();
-                    return;
-                }
-
-                var decrementCheck = cm.decrementScarlionEntriesForParty(expedition.getMembers());
-                if (decrementCheck > 0) {
-                    cm.sendOk("An error occurred. Please contact a GM.");
                     cm.dispose();
                     return;
                 }
@@ -198,9 +185,9 @@ function action(mode, type, selection) {
             return;
         } else if (status == 6) {
             if (selection > 0) {
-                var banned = expedition.getMembers().get(selection - 1);
+                var banned = expedMembers.get(selection - 1);
                 expedition.ban(banned);
-                cm.sendOk("You have banned " + banned.getName() + " from the expedition.");
+                cm.sendOk("You have banned " + banned.getValue() + " from the expedition.");
                 cm.dispose();
             } else {
                 cm.sendSimple(list);
