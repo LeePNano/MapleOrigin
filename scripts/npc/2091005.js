@@ -30,7 +30,7 @@ importPackage(Packages.constants.game);
 
 var disabled = false;
 var belts = Array(1132000, 1132001, 1132002, 1132003, 1132004, 1082394, 1082393, 1082392);
-var belt_level = Array(25, 35, 45, 60, 75);
+var belt_level = Array(25, 35, 45, 60, 75, 120, 120, 120);
 var belt_on_inventory;
 var belt_points;
 
@@ -45,7 +45,7 @@ function start() {
         return;
     }
     
-    belt_points = YamlConfig.config.server.USE_FAST_DOJO_UPGRADE ? Array(10, 90, 200, 460, 850, 1500, 2000, 2500) : Array(200, 1800, 4000, 9200, 17000, 1500, 2000, 2500);
+    belt_points = YamlConfig.config.server.USE_FAST_DOJO_UPGRADE ? Array(10, 90, 200, 460, 850, 15000, 15750, 17000) : Array(200, 1800, 4000, 9200, 17000, 1500, 2000, 2500);
     
     belt_on_inventory = new Array();
     for (var i = 0; i < belts.length; i++) {
