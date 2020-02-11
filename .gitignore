@@ -142,3 +142,6 @@
 /out
 *.onetoc2
 *.iml
+*.bin
+*.lock
+*.properties
