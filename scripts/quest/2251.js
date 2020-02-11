@@ -22,10 +22,11 @@ function end(mode, type, selection) {
             status--;
         
         if (status == 0) {
-            if(!qm.haveItem(4032399) < 20)) {
+            if(!qm.haveItem(4032399, 20)) {
                 qm.sendOk("Please bring me 20 #b#t4032399##k...  #i4032399#");
             }
-            else {
+            else if (qm.haveItem(4032399, 20))
+			{
                 qm.gainItem(4032399, -20);
                 qm.sendOk("Oh, you brought 20 #b#t4032399##k! Thank you.");
                 qm.gainExp(8000);
