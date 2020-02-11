@@ -1,6 +1,6 @@
 //kaotic Tower level requirement
 function enter(pi) {
-    var level = (10 * (pi.getPlayer().getMapId() - 90000)) + 20;
+    var level = (1000 * (pi.getPlayer().getMapId() - 90000)) + 20;
     if (pi.getPlayer().getLevel() >= level) {
         pi.warp(pi.getPlayer().getMapId() + 1);
         return true;
