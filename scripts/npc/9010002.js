@@ -29,7 +29,7 @@ function action(mode, type, selection) {
         else
             status--;
         if (status == 0) {
-            cm.sendSimple("Hello#b #h ##k, you currently have #b#c4000038# #v4000038#.#k \r\nWhat would you like to do?\r\n#k#L1# Buy 5,000 NX for 5mil#l\r\n\#L2# Buy 1 random chair for 5 Trophies#l\r\n\#L3# Trade 1 Trophy for 2 random Maple Weapons #l\r\n#L4#Trade 1 Trophy for a 10 day Hired Merchant#l\r\n#L5#Trade 50 Trophies for a #v4001168# #l#l\r\n#L6#Trade 50 Trophies for one #v4001017# #l#l\r\n#L7#Trade 10 Trophies for one #v1472063# for use in the Happyville raid! #l\r\n#L8#Trade  #v4000492# for one #v1002419# #l");
+            cm.sendSimple("Hello#b #h ##k, you currently have #b#c4000038# #v4000038#.#k \r\nWhat would you like to do?\r\n#k#L1# Buy 5,000 NX for 5mil#l\r\n\#L2# Buy 1 random chair for 5 Trophies#l\r\n\#L3# Trade 1 Trophy for 2 random Maple Weapons #l\r\n#L4#Trade 1 Trophy for a 10 day Hired Merchant#l\r\n#L5#Trade 50 Trophies for a #v4001168# #l#l\r\n#L6#Trade 50 Trophies for one #v4001017# #l#l\r\n#L7#Trade 10 Trophies for one #v1472063# for use in the Happyville raid! #l\r\n#L8#Trade  #v4000492# for one #v1002419# #l\r\n#L9#Trade  10 #v5072000# for one #v5076000# #l");
         } else if (status == 1) {
             if (selection == 1) {
                 if(cm.getMeso() >= 5000000) {
@@ -125,6 +125,23 @@ else if (selection == 5) {
 					}
                  } else {
                     cm.sendOk("Sorry, you don't have a Certificate of Great Tester! Contact Light or Evol via discord to verify tester status.");
+				}
+                cm.dispose();
+            }
+			else if (selection == 9) {
+                if(cm.haveItem(5072000, 10)) {
+					var itemsmega = 5076000;
+					if(!cm.getPlayer().getInventory(Packages.client.inventory.MapleInventoryType.EQUIP).isFull(2)){
+						//cm.gainItem(itemsmega, 1);
+						cm.gainItem(5072000, -10);
+						cm.gainItem(itemsmega, 1);
+						cm.sendOk("Here is your Item Smega! Enjoy!");
+						cm.logLeaf("1 Smega");
+					} else {
+						cm.sendOk("Please make sure you have enough space to hold these items!");
+					}
+                 } else {
+                    cm.sendOk("Sorry, you don't have a enough megaphones.");
 				}
                 cm.dispose();
             }

@@ -45,7 +45,7 @@ function start() {
         return;
     }
     
-    belt_points = YamlConfig.config.server.USE_FAST_DOJO_UPGRADE ? Array(10, 90, 200, 460, 850, 15000, 15750, 17000) : Array(200, 1800, 4000, 9200, 17000, 1500, 2000, 2500);
+    belt_points = YamlConfig.config.server.USE_FAST_DOJO_UPGRADE ? Array(10, 90, 200, 460, 850, 8000, 10000, 12500) : Array(200, 1800, 4000, 9200, 17000, 1500, 2000, 2500);
     
     belt_on_inventory = new Array();
     for (var i = 0; i < belts.length; i++) {
