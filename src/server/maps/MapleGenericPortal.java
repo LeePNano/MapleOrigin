@@ -38,14 +38,16 @@ public class MapleGenericPortal implements MaplePortal {
     private Point position;
     private int targetmap;
     private int type;
-    private boolean status = true;
+    private boolean status = true;          // Used to enable/disable portals through PQs, etc
     private int id;
     private String scriptName;
-    private boolean portalState;
+    private boolean portalState = true;     // Used to enable/disable portals through GM commands
     private MonitoredReentrantLock scriptLock = null;
     
     public MapleGenericPortal(int type) {
         this.type = type;
+        this.status = true;
+        this.portalState = true;
     }
 
     @Override
@@ -129,6 +131,11 @@ public class MapleGenericPortal implements MaplePortal {
     @Override
     public void enterPortal(MapleClient c) {
         boolean changed = false;
+        MapleCharacter chr = c.getPlayer();
+        if (!getPortalState()) {
+            chr.dropMessage(6, "This portal is currently disabled.");
+            return;
+        }
         if (getScriptName() != null) {
             try {
                 scriptLock.lock();
@@ -141,7 +148,6 @@ public class MapleGenericPortal implements MaplePortal {
                 npe.printStackTrace();
             }
         } else if (getTargetMapId() != 999999999) {
-            MapleCharacter chr = c.getPlayer();
             if (!(chr.getChalkboard() != null && GameConstants.isFreeMarketRoom(getTargetMapId()))) {
                 MapleMap to = chr.getEventInstance() == null ? c.getChannelServer().getMapFactory().getMap(getTargetMapId()) : chr.getEventInstance().getMapInstance(getTargetMapId());
                 MaplePortal pto = to.getPortal(getTarget());

@@ -26,6 +26,8 @@ package client.command.commands.gm3;
 import client.command.Command;
 import client.MapleClient;
 import client.MapleCharacter;
+import net.server.channel.Channel;
+import server.maps.MaplePortal;
 
 public class OpenPortalCommand extends Command {
     {
@@ -36,9 +38,19 @@ public class OpenPortalCommand extends Command {
     public void execute(MapleClient c, String[] params) {
         MapleCharacter player = c.getPlayer();
         if (params.length < 1) {
-            player.yellowMessage("Syntax: !openportal <portalid>");
+            player.yellowMessage("Syntax: !openportal <portalname>");
             return;
         }
-        player.getMap().getPortal(params[0]).setPortalState(true);
+        int mapid = player.getMapId();
+        for (Channel channel : player.getWorldServer().getChannels()) {
+            MaplePortal portal = channel.getMapFactory().getMap(mapid).getPortal(params[0]);
+            if (portal != null) {
+                portal.setPortalState(true);
+                player.dropMessage(6, "Channel " + channel.getId() + " Portal: " + portal.getId() + " '" + portal.getName() + "' Type: " + portal.getType() +
+                        " --> toMap: " + portal.getTargetMapId() + " scriptname: '" + portal.getScriptName() + "' state: " + (portal.getPortalState() ? "true" : "false") + ".");
+            } else {
+                player.dropMessage(6, "Portal not found in channel " + channel.getId());
+            }
+        }
     }
 }
