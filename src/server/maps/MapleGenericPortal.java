@@ -148,7 +148,6 @@ public class MapleGenericPortal implements MaplePortal {
                 npe.printStackTrace();
             }
         } else if (getTargetMapId() != 999999999) {
-            chr.dropMessage(6, "Entering portal " + getName() + " to " + getTargetMapId() + " state " + getPortalState());
             if (!(chr.getChalkboard() != null && GameConstants.isFreeMarketRoom(getTargetMapId()))) {
                 MapleMap to = chr.getEventInstance() == null ? c.getChannelServer().getMapFactory().getMap(getTargetMapId()) : chr.getEventInstance().getMapInstance(getTargetMapId());
                 MaplePortal pto = to.getPortal(getTarget());
