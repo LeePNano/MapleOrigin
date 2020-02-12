@@ -344,6 +344,7 @@ public class CommandsExecutor {
         addCommand("timerall", 3, TimerAllCommand.class);
         addCommand("warpmap", 3, WarpMapCommand.class);
         addCommand("warparea", 3, WarpAreaCommand.class);
+	addCommand("say", 3, SayCommand.class);
 
         commandsNameDesc.add(levelCommandsCursor);
     }
