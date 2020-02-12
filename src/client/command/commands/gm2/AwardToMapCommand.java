@@ -60,7 +60,7 @@ public class AwardToMapCommand extends Command {
                         flag |= ItemConstants.UNTRADEABLE;
                     }
 
-                    MapleInventoryManipulator.addById(c, itemId, quantity, p.getName(), -1, flag, -1);
+                    MapleInventoryManipulator.addToTargetById(p, itemId, quantity, player.getName(), -1, flag, -1);
                     p.yellowMessage("Received " + quantity + " of " + ii.getName(itemId) + " from " + player.getName());
                     break;
                 case "ms":

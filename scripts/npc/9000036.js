@@ -95,7 +95,7 @@ function action(mode, type, selection) {
             
         }else if (selection == 3) { //ring refine
             var selStr = "Here are my available Rings!#b";
-            items = [1112407, 1112408, 1112401, 1112413, 1112414, 1112405, 1112402, 1112585, 1112586, 1112663];
+            items = [1112407, 1112408, 1112401, 1112413, 1112414, 1112405, 1112402, 1112585, 1112586]; //, 1112663 wabr when fixed
             
             for (var i = 0; i < items.length; i++)
                 selStr += "\r\n#L" + i + "##t" + items[i] + "##b";
