@@ -38,7 +38,7 @@ public class OpenPortalCommand extends Command {
     public void execute(MapleClient c, String[] params) {
         MapleCharacter player = c.getPlayer();
         if (params.length < 1) {
-            player.yellowMessage("Syntax: !openportal <portalid>");
+            player.yellowMessage("Syntax: !openportal <portalname>");
             return;
         }
         int mapid = player.getMapId();
