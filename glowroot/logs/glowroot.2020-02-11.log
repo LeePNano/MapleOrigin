@@ -1,0 +1,6 @@
+2020-02-11 23:28:00.277 INFO  org.glowroot - Glowroot version: 0.13.5, built 2019-07-23 01:30:08 +0000
+2020-02-11 23:28:00.279 INFO  org.glowroot - Java version: 1.8.0_242
+2020-02-11 23:28:00.279 INFO  org.glowroot - Java args: -Xmx2048m -javaagent:glowroot\glowroot.jar
+2020-02-11 23:28:03.154 INFO  org.glowroot - creating glowroot schema...
+2020-02-11 23:28:03.299 INFO  org.glowroot - glowroot schema created
+2020-02-11 23:28:04.505 INFO  org.glowroot - UI listening on 127.0.0.1:4000 (to access the UI from remote machines, change the bind address to 0.0.0.0, either in the Glowroot UI under Configuration > Web or directly in the admin.json file, and then restart JVM to take effect)
