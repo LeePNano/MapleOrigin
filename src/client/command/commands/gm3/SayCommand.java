@@ -26,7 +26,7 @@ import client.MapleCharacter;
 import net.server.Server;
 import tools.MaplePacketCreator;
 
-public class NoticeCommand extends Command {
+public class SayCommand extends Command {
     {
         setDescription("");
     }
